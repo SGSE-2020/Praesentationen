@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+
+<html>
+    <title> Softwarequalität und technische Schulden </title>
+  <head>
+    <style type="text/css">
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubunut:Mono:400,700,400italic);
+
+      body { font-family: 'Droid Serif';}
+      h1 h2 h3 {          
+          font-family: 'Yanone Kaffeesatz';
+          font-weight: normal;
+        
+      }
+      .remark-code, .remark-inline-code {font-family: 'Ubuntu Mono';}
+    </style>
+  </head>
+  <body>
+     <textarea id="source">
+    class: center, middle
+      #Software Qualität        
+      
+      Technische Schulden und wie man sie bewältigt
+    </br></br></br></br></br></br></br>     </br></br></br></br></br></br></br>
+       André Matutat
+
+    ---
+
+        # Fahrplan
+          - evlt snippit aus TF2 Code zeigen mit den kommentar wie doof das ist
+          - weitere beispiele für die verbreitung und auswirkung von technischen schulden suchen
+    ---
+
+        #Motivation
+      - Good Practice ist theoreitsch bekannt  
+        - Dokumentieren, Kommentieren, Testen, Refactoren etc. 
+
+      - **ABER**
+        - "Wir haben keine Zeit"
+        - "Mach ich später"
+        - "Das ist jetzt nicht so wichtig"
+        - "Ist das wirklich nötig?""
+
+      - Schaden durch qualitativ schlechte Software ca. **$59.5 Milliarden**  jährlich
+      - Schaden lässt sich durch bewusstes handeln und managen deutlich verringern
+   
+
+        
+    ---
+
+        # Was ist gute Software?
+      <img src="./img/iso25010.png" width="700" height="300" />
+
+    ---
+       
+        # Technische Schulden
+      >"In software‐intensive systems, technical debt is a design or implementation construct that is expedient in the short term but sets up a
+      technical context that can make a future change more costly or impossible. Technical debt is a contingent liability whose impact is
+      limited to internal system qualities, primarily maintainability and evolvability"
+      
+
+
+      **Oder anders:**
+
+      - Sind die Konsequenzen aus (technisch) schlechter Umsetzung. 
+      - Sind der entandene Mehraufwand
+    ---
+      ## Eigenschaften von Schulden
+        
+      - unsichtbar
+
+      - haben negativen Einfluss auf das Geschäft
+
+      - MÜSSEN zurückgezahlt werden
+
+      - meistens in man-hour gemessen
+
+
+    ---
+    class: center, middle
+    <img src="./img/schuldenverlauf.png" width="700" height="500" />
+
+    ---
+
+      # Arten von Schulden 
+       
+      - Implementationschulden
+
+      - Architekturschulden
+
+      - Testschulden
+
+      - Dokumentationsschulden
+              
+    ---
+      ## Bsp: Implementationsschuld
+
+      -tbd (vermutlich etwas in richtung Code Smells)
+    ---
+      ## Bsp: Architekturschuld
+      -tbd (Beispiel falsch umgesetztes MVC Muster)
+
+    ---
+
+
+    ### Folgen von technischen Schulden
+
+      - Software wird unübersichtlich und ineffizient
+
+      - Modifizierungen sind deutlich aufwendiger als nötig
+
+      - Geringe Testabdeckung sorgt bei Änderungen für mehr Fehler
+
+      - Entwickler bekommen "Angst" den Quellcode anzufassen
+
+      - Zinses Zins Effekt bis die Software unwartbar und unwirtschaftlich wird
+
+      - Fördern schlechte Einstellung 
+    ---
+
+    # Was kosten Schulden
+    - Schwer abzuschätzen
+    
+    - Kosten um Schulden zu bezahlen lassen sich grob schätzen
+      - ähnlich wie die Kosten eines neuen Features
+
+    - Kosten schulden zu behalten lassen sich schwer abzuschätzen
+      - SCRUM Teams können schätzen wie viel kleiner ihr Backlog wird wenn die Schulden bezahlt werden
+
+    - Es gibt einige (teils sehr komplexe) Ansätze um technische Schulden ökonomisch zu bewerten
+
+
+    ---
+
+        # Wie enstehen technische Schulden
+
+      - **nicht immer liegt es am Entwickler**
+    ---
+
+    <img src="./img/kreislauf.png" width="700" height="500" />
+
+    ---
+
+    ### Weite gründe
+
+    - Technologische Limitationen
+    - Legacy Code    
+    - Veränderungen in Technologien
+    - Projektreife
+    - Schlechte Codepflege
+    - **unklare oder sich ständig ändernde Anforderungen**
+    - kein Wissen über best practices
+    - Aufschieben von Aufgaben
+    - Machen von schlechten Annahmen
+    - Unerfahrenheit
+    - **Unprofessionalität**
+    - **Schlechte Teamleitung**
+    - **Kein Durchsetzungsvermögen gegenüber Kunden/Manager**
+    - Wisse wie Code "sicher" geändert werden kann 
+    - Schlechte Kommunikation zwischen Entwickler und Management
+    - **Ändern der Prioritäten**
+    - Fehlende Vision/Plan/Strategie
+    - Unklare Ziele und Prioritäten
+    - **Versuch jeden Kunden zufrieden zu stellen**
+    - Unklare Entscheidungen 
+    ---
+    
+
+
+
+        # Bewusste Schulden
+        - test
+    ---
+
+        # Gute Schulden
+        - test
+        
+    ---
+
+      # Taxonomie 
+      <img src="./img/tax.png" width="700" height="500" />
+    ---
+
+      # CMoTD
+      <img src="./img/cm.png" width="700" height="500" />
+    ---
+
+    # Was jetzt?
+    <img src="./img/schuldenberg.jpg" width="700" height="500" />
+    ---
+
+
+      # Schulden Managen
+      1. Nicht-Informatiker überzeugen
+      2. Vermeiden
+      3. Erkennen
+      4. Kategorisieren 
+      5. Entscheiden
+      6. Bezahlen
+      
+    ---
+      # Chef das ist wichtig!
+      -test
+    ---
+      # Vorsorge      
+      - test
+    ---
+
+      # How to Review
+      
+      - test
+    ---
+
+      # Schulden erkennen
+      
+      - test
+    ---
+    class: center, middle
+      # SonarQube Live Demo
+      
+    
+    ---
+
+      # Kategorisieren
+      - test
+    ---
+
+      # Bezahlen
+      - test
+    ---
+
+      # Schulden und Legacy
+      - test
+    ---
+
+      # Tldr
+      - test
+    ---
+    class: center, middle
+      # Fragen? 
+      # Anregungen?
+     
+    ---
+    class: center, middle
+      #**DANKE**
+     
+
+    </textarea>
+     <script src="https://remarkjs.com/downloads/remark-latest.min.js">
+    </script>
+    <script>
+       var slideshow = remark.create();
+    </script>
+  </body>
+</html>
