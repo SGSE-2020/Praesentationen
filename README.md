@@ -1,6 +1,6 @@
 # Praesentationen
 
-
+github pages auf https://sgse-2020.github.io/Praesentationen/index.html verfügbar
 
 ### Einpflegen neuer Dateien in github pages
 
