@@ -29,19 +29,25 @@
     ---
 
         # Fahrplan
-          - evlt snippit aus TF2 Code zeigen mit den kommentar wie doof das ist
-          - weitere beispiele für die verbreitung und auswirkung von technischen schulden suchen
+          1. Software Qualität
+          2. Technische Schulden
+          3. Folgen von Schulden
+          4. Ursachen von Schulden
+          5. Unterschiedliche Arten von Schulden
+          6. CMoTD
+          7. Managment von Schulden
+          8. Wie sieht es da draußen aus?  
     ---
 
         #Motivation
-      - Good Practice ist theoreitsch bekannt  
+      - Good Practice ist theoretisch bekannt  
         - Dokumentieren, Kommentieren, Testen, Refactoren etc. 
 
       - **ABER**
         - "Wir haben keine Zeit"
         - "Mach ich später"
         - "Das ist jetzt nicht so wichtig"
-        - "Ist das wirklich nötig?""
+        - "Ist das wirklich nötig?"
 
       - Schaden durch qualitativ schlechte Software ca. **$59.5 Milliarden**  jährlich
       - Schaden lässt sich durch bewusstes handeln und managen deutlich verringern
@@ -64,8 +70,9 @@
 
       **Oder anders:**
 
-      - Sind die Konsequenzen aus (technisch) schlechter Umsetzung. 
-      - Sind der entandene Mehraufwand
+      - sind die Konsequenzen aus (technisch) schlechter Umsetzung
+      - sind der entstandene Mehraufwand 
+    
     ---
       ## Eigenschaften von Schulden
         
@@ -78,7 +85,9 @@
       - meistens in man-hour gemessen
 
 
+
     ---
+   
     class: center, middle
     <img src="./img/schuldenverlauf.png" width="700" height="500" />
 
@@ -92,19 +101,24 @@
 
       - Testschulden
 
-      - Dokumentationsschulden
-              
-    ---
-      ## Bsp: Implementationsschuld
-
-      -tbd (vermutlich etwas in richtung Code Smells)
-    ---
-      ## Bsp: Architekturschuld
-      -tbd (Beispiel falsch umgesetztes MVC Muster)
+      - Dokumentationsschulden             
 
     ---
 
+    # Typische Schulden
 
+    - Dokumentation veraltet
+
+    - Fehlende Infrastruktur (Versionierung, Datensicherung etc.)
+
+    - **Schlechte Testabdeckung**
+
+    - Keine Coding Standards
+
+    - Code Smells
+
+    - Fehlerhafte Definition oder Umsetzung von Architekturen  
+    ---
     ### Folgen von technischen Schulden
 
       - Software wird unübersichtlich und ineffizient
@@ -121,20 +135,20 @@
     ---
 
     # Was kosten Schulden
-    - Schwer abzuschätzen
+    - schwer abzuschätzen
     
     - Kosten um Schulden zu bezahlen lassen sich grob schätzen
       - ähnlich wie die Kosten eines neuen Features
 
     - Kosten schulden zu behalten lassen sich schwer abzuschätzen
-      - SCRUM Teams können schätzen wie viel kleiner ihr Backlog wird wenn die Schulden bezahlt werden
+      - SCRUM Teams können schätzen wie viel kleiner ihr Backlog wird, wenn die Schulden bezahlt werden
 
-    - Es gibt einige (teils sehr komplexe) Ansätze um technische Schulden ökonomisch zu bewerten
+    - es gibt einige (teils sehr komplexe) Ansätze um technische Schulden ökonomisch zu bewerten
 
 
     ---
 
-        # Wie enstehen technische Schulden
+        ### Wie enstehen technische Schulden
 
       - **nicht immer liegt es am Entwickler**
     ---
@@ -143,7 +157,7 @@
 
     ---
 
-    ### Weite gründe
+    ### Weitere Gründe
 
     - Technologische Limitationen
     - Legacy Code    
@@ -158,7 +172,7 @@
     - **Unprofessionalität**
     - **Schlechte Teamleitung**
     - **Kein Durchsetzungsvermögen gegenüber Kunden/Manager**
-    - Wisse wie Code "sicher" geändert werden kann 
+    - **Wissen wie Code "sicher" geändert werden kann** 
     - Schlechte Kommunikation zwischen Entwickler und Management
     - **Ändern der Prioritäten**
     - Fehlende Vision/Plan/Strategie
@@ -167,15 +181,32 @@
     - Unklare Entscheidungen 
     ---
     
+      # Bewusste Schulden      
+        
+        
+      <img src="./img/bewusst.png" width="700" height="300" />
 
+    ---
+    class: center, middle
+    <img src="./img/tf2.png" width="700" height="300" />
 
-
-        # Bewusste Schulden
-        - test
     ---
 
         # Gute Schulden
-        - test
+      - gute Schulden sind **IMMER** bewusste Schulden
+      - Schulden als Investment sehen
+
+      - Prototypen 
+        - Umgang mit neuen Technolgien lernen
+        - komplexität vom "großen" Projekt abschätzen
+        - wird am ende verworfen
+        - kann ruhig "dirty" umgesetzt sein 
+        
+      - Fehler stehen lassen  
+        - wie gefährlich ist der Fehler?
+        - kann er einfach behoben werden?
+        - sind neue Schulden erforderlich? 
+
         
     ---
 
@@ -196,47 +227,238 @@
       1. Nicht-Informatiker überzeugen
       2. Vermeiden
       3. Erkennen
-      4. Kategorisieren 
+      4. Bewerten 
       5. Entscheiden
       6. Bezahlen
       
     ---
-      # Chef das ist wichtig!
-      -test
-    ---
-      # Vorsorge      
-      - test
+    class: center, middle
+    # Chef das ist wichtig!
+
     ---
 
+    class: middle
+    *Manager*: I need feature X. How much time do you think it will take you?  
+
+    *Developer*: 1 week.
+
+    *Manager*: Hmm, it needs to go online in two days though, as big event X is in two days  .
+
+    *Developer*: OK, I’ll see what I can do.
+
+    *Manager*: OK 
+
+    *Developer*: OK
+
+    ---
+
+    class: middle
+
+    *Manager*: I need feature X. How much time do you think it will take you?  
+
+    *Developer*: 1 week (*1 day of thinking, 2 days coding and testing, 1 refactoring, 1 days extra testing*)  
+
+    *Manager*: Hmm, it needs to go online in two days though, as big event X is in two days  
+
+    *Developer*: OK, I’ll see what I can do (*I’ll cut down on the thinking and testing*)  
+
+    *Manager*: OK (*I’m a great manager, I just managed to get something done in 2 days which normally takes a week*)  
+
+    *Developer*: OK (*ugh, always the same, we just can’t write decent code here*)
+
+
+    ---
+
+    ## Problem 
+    
+    - der Manager will das Feature möglichst schnell, da es so am meisten Geld einbringt
+
+    - der Manager denkt jetzt, es ist möglich das Feature in 2 Tagen zu entwickeln. In 2 Tagen sieht er, dass es geht.
+    
+    - was heute klappt, klappt auch morgen.
+
+
+
+    ---
+    class: middle
+    *Manager*: I need feature X. How much time do you think it will take you?  
+
+    *Developer*: 1 week  
+
+    *Manager*: Hmm, it needs to go online in two days though, as big event X is in two days  
+
+    *Developer*: It’s impossible to do this feature well in 2 days, it needs a week to be done properly.  
+
+    *Manager*: OK, but we don’t have a week. If it takes a week, there’s no point as we won’t earn as much money from it.  
+
+    *Developer*: What I can do is take a shortcut and do it quickly. That would require me to rearrange some things and I need to go back later to fix it.   
+
+    *Manager*: OK, that sounds reasonable (*great, I’m going to get it done in time*)  
+
+    *Developer*: OK (*great, I will make sure the feature gets implemented soon and then I’ll need to go back to make sure nothing gets left behind that can cause trouble in the future*)
+
+    ---
+    ## Argumente
+
+    - versuchen auf Augenhöhe zu kommunizieren
+
+    - gegenüber "nicht Informatikern" nicht technisch werden
+
+    - auf Kosten beziehen    
+      - evtl. mit Beispielrechnung
+
+    - statt von Schulden von Verschleiß reden
+
+    ---
+      # Vorsorge    
+      
+      - Dokumente pflegen
+
+      - Code Richtlinien aufstellen und einhalten (Stichwort Clean Code)
+        - Paar Programming
+        - Code Reviews 
+
+      - Quellcode regelmäßig refactorn     
+
+      - Tests schreiben und bei bedarf erweitern
+        - TDD
+      
+      - Bewusst aufgenommene Schulden verstehen, diskutieren und dokumentieren
+    
+    ---
       # How to Review
       
-      - test
+      - Automatisieren was geht
+
+      - Jeder Entwickler reviewt sein Code erstmal selbst
+
+      - Review sollte von erfahrenen Entwicklern gemacht werden
+
+      - Zeit investieren 
+
+      - Regelmäßige Reviews von Teilfeature
+
+      - 200-400 Zeilen Code in 60-90min (danach Pause machen)
+
+      - Review Kommentare sind konstruktiv und nicht persönlich verletztend
+
+      - Checklisten erstellen
+
+      - Review Bereich festlegen (z.B Fokus auf Performance)
+
+    ---
+    class: center, middle
+    <img src="./img/zig.jpg" width="700" height="600" />
+    ---
+      # Schulden erkennen
+      - schwierig
+
+        - vorallem bei großen und komplexen Projekten
+
+        - externe Experten können helfen
+
+      - Symptome
+        - eine Klasse/Modul enthält den großteil des Quellcodes
+
+        - niedrige Kohäsion und hohe Kopplung 
+
+        - große Zyklen
+
+        - Architekturmuster werden falsch verwendent (Architekturanalyse)
+
     ---
 
-      # Schulden erkennen
-      
-      - test
-    ---
+
     class: center, middle
       # SonarQube Live Demo
       
     
     ---
+    ### Weitere Tools
 
-      # Kategorisieren
-      - test
+    - JDepend
+     - Java 
+    - NDepend
+     - Net
+    - CDepend
+     - C/C++
+    </br> </br></br></br></br>
+    - Structure 101
+      - Java,  C++
+    - Lattix
+     - Java, Net, C/C++, DB-Systeme
+    - Teamscale
+      - C#, Java
+    - Seerene
+      - Java, C#, C/C++
+    ---
+    <img src="./img/depend.png" width="700" height="600" />
+    ---
+    class: center, middle
+    > Kein System ist perfekt. Es gibt immer etwas zu optimieren. Das bedeutet, dass Teams praktisch unbegrenzt optimieren können. Wenn das Team durch eine Optimierung keine Verbesserung der Produktivität erwartet, die mehr bringt, als die Optimierung an Aufwand kostet, dann sollte die Optimierung unterbleiben.
+
+    ---
+
+      # IFA
+      -  <img src="./img/impact.png" width="25" height="25" /> **I**mpact
+
+        - Wie hoch ist der Einfluss auf Benutzererfahrung und Entwicklungsumgebung?
+
+      - <img src="./img/fix.png" width="25" height="25" /> **F**ixkosten
+
+        - Wie hoch ist der Aufwand den Fehler zu beheben?
+
+      - <img src="./img/virus.png" width="25" height="25" /> **A**nsteckungsgefahr
+
+        - Wie hoch ist die Gefahr, dass sich die Schuld verbreitet (z.B durch Copy Paste)?
+
     ---
 
       # Bezahlen
-      - test
+      - Schulden Priorisieren      
+        - erst Schulden mit großen Einfluss abarbeiten
+      - Schuld angemessen zurückzahlen
+        - keine neuen Schulden machen
+
     ---
 
-      # Schulden und Legacy
-      - test
-    ---
+      # Schulden und Legacy Code
+      - Ab jetzt neustarten 
+        - Schulden richtig managen
+        - Ordentlich arbeiten
 
+      - Legacy Code schritt für schritt isolieren
+
+      - Änderungen am Legacy Code MÜSSEN den Code besser zurücklassen
+   
+    ---
+    ### Technische Schulden in der Realität
+      **An empirical assessment of technical debt practices in industry**
+
+      - **75%** managen ihre Schulden nicht 
+
+      - Startups nehmen viele Schulden als Investment auf
+
+      - Itablierte Unternehmen Managen meist besser als Startups 
+
+      - Die höhe der Schulden werden meist in men-hour to fix angegeben 
+      
+    ---
       # Tldr
-      - test
+      - Technische Schulden
+        - entstehen bei "schlampiger" Umsetzung
+        - lassen sich selten vermeiden
+        - sind nicht nur auf Code beschränkt
+        - können bewusst und unbewusst gemacht werden
+        - vermehren sich
+        - kosten (richtig viel) Geld
+        - lassen sich durch gutes Managment reduzieren   
+
+      **Arbeitet ordentlich sonst fällt es euch auf die Füße.**
+    ---
+
+    <img src="./img/rund.png" width="700" height="600" />
+
     ---
     class: center, middle
       # Fragen? 
