@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+
+<html>
+    <title> Clean Code </title>
+  <head>
+    <style type="text/css">
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubunut:Mono:400,700,400italic);
+
+      body { font-family: 'Droid Serif';}
+      h1 h2 h3 {          
+          font-family: 'Yanone Kaffeesatz';
+          font-weight: normal;
+        
+      }
+      .remark-code, .remark-inline-code {font-family: 'Ubuntu Mono';}
+    </style>
+  </head>
+  <body>
+     <textarea id="source">
+    class: center, middle
+      #Clean Code
+      
+
+    </br></br></br></br></br></br></br>     </br></br></br></br></br></br></br>
+       Mattis Küper
+
+    ---
+
+        # Agenda
+        1. Einleitung
+        2. Dirty Code
+        3. Bad Smells
+        4. Kopplung
+        5. Kohäsion
+        6. Prinzipien
+        7. Praktiken
+        8. Clean Code Developer
+            8.1. Wertesystem
+            8.2. Grade
+            8.3. Tugenden
+            8.4. SOLID
+            8.5. Maßnahmen
+        9. Clean Code Controlling
+        10. Test Driven Developement
+        11. CCD vs TDD
+        12. Vorteile
+        13. Nachteile
+        14. Zusammenfassung
+
+
+    ---
+
+        #Einleitung
+        - Sammlung an Prinzipien und Praktiken
+        - Soll Qualität der Software erhöhen
+        - Basiert auf „Clean Code“ von Robert C. Martin
+
+   
+
+        
+    ---
+
+      # Dirty Code
+
+      - Gegenteil von Clean Code
+
+      - Enthält eine Menge von „Bad Smells“
+
+      - Dirty Code ist nahezu unmöglich zu erweitern, hat schlechte Performanz, ist schwer verständlich
+
+      - Broken Windows Theorie: Schlechter Code verleitet dazu selbst schlechten Code zu produzieren
+
+
+    ---
+       
+      # Bad Smells
+
+      - Konformitätsbrüche
+      - Schlechte Benamung
+      - Toter Code
+      - Magie im Code
+      - Spaghetti-Code
+      - Fehlende Dokumentation
+      - Aufgeblasene Klassen/Methoden
+      - Fehlende Tests
+      - Schlechte Fehlerbehandlung
+      - Workarounds statt Behebung
+      - Halbfertige Refactorings
+      - Zu komplizierte Lösungen
+      - Zu tiefe Verschachtelung
+    
+    ---
+      # Kopplung
+
+      - Beschreibt, wie sehr Kompnenten von einander Abhängig sind
+
+      - Hohe Kopplung = hohe Abhängigkeit
+        - Negativ
+
+        - Änderungen führen zu unerwarteten Fehlern an anderen Stellen
+
+      - Geringe Kopplung = geringe Abhängigkeit
+        - Positiv
+
+        - Komponenten können geändert werden, ohne andere zu beeinflussen
+
+      - Ermöglicht das Testen einzelner Komponenten
+
+    ---
+   
+      #Kohäsion
+
+      - Beschreibt, wie hoch der inhaltliche Zusammenhang einer Komponente ist
+
+      - Schwache Kohäsion = niedrieger Zusammenhang
+         - Negativ
+
+      - Starke Kohäsion = hoher Zusammenhang
+         - Positiv
+
+    ---
+
+      # Prinzipien
+
+     - Grundlegende Gesetzmäßigkeiten für die Strukturierung von Code
+
+     - Code sollte so viele Prinzipien wie möglich umsetzen
+
+     - Angewendete Prinzipien können immer am Code erkannt werden
+
+    ---
+
+      #Praktiken
+
+     - Techniken und Methoden, die ständig zum Einsatz kommen
+
+     - Bedürfen teilweise Werkzeuge, zum Beispiel Git
+
+     - Angewendete Praktiken können nicht am Code erkannt werden
+
+    ---
+    #Clean Code Developer
+
+      - Bewegung, welche anhand des Buches „Clean Code“ Vorgehen entwickelt hat, um Software Clean zu machen
+
+      - Orientiert sich an einem Wertesystem
+
+      - Verwendet verschiedene Grade, um bestimmte Bereiche von Clean Code umzusetzen
+
+      - Definiert Prinzpielle und Praktische Tugenden
+
+      - Fasst wichtigste Maßnahmen im SOLID Prinzip zusammen
+
+    ---
+
+    ## Wertesystem
+
+      - Umfasst vier Punkte
+
+      - Wandelbarkeit
+
+      - Korrektheit
+
+      - Produktionseffizienz
+
+      - Reflexion
+
+      - Jedes Prinzip und jede Praktik verbessert einen oder mehrere dieser Werte
+
+    ---
+    ### Wandelbarkeit /Evolvierbarkeit
+      - Wartung wie bei Maschinen bei Software nicht möglich
+
+      - Kein Verschleiß im traditionellem Sinn
+
+      - Wartung = Änderung, entweder Erweiterung oder Fehlerbehebung
+
+      - Software braucht gute Struktur, um Änderungen leicht zu ermöglichen
+
+      - Geringe Kopplung, starke Kohäsion
+
+    ---
+    ### Korrektheit
+      - Funktionalität verhält sich wie erwartet
+
+      - Ressourcen, wie Speicher und Prozessor, schonend belasten
+
+      - Antwortzeiten liegen in definierten Rahmen
+
+      - Benötigt automatisierte Tests, genaue Anforderungen
+
+      - Führt zu schnelleren Auffinden inkorrekter, also den Aufforderungen widersprechender, Komponenten
+
+    ---
+    ### Produktionseffizienz
+
+      - Entwicklungszeit und somit Preis soll gering gehalten werden
+
+      - Benötigt Automatisierung, gute Struktur, sodass Software leicht erweitert werden kann
+
+      - Schränkt Zeitaufwand für die Umsetzung andere Werte ein, damit nicht zu viel Zeit für gute Wandelbarkeit etc investiert wird
+
+    ---
+    ### Reflexion
+
+      - Führt zu kontinuierlichen Verbesserung
+
+      - Ständig angewendete Techniken reflektieren
+
+      - Probleme finden und bestimmen, wie diese behoben werden sollten
+
+      - Nicht nur Software sondern auch Entwickler werden dadurch kontinuierlich besser
+
+      - Benötigt Code Reviews, Pair Programming, Reflektionsmeetings
+
+
+    ---
+    ##Grade
+      - Entwicklung von Clean Code benötigt viel Zeit, daher Aufteilung in verschiedene Grade mit bestimmten Zielen
+
+      - Entwickler können sich somit auf nur bestimmte Aspekte konzentrieren
+
+      - Grade sind ein Zyklus, nach dem letzten Grad fängt es wieder mit dem ersten an
+
+      - Zur Kennzeichnung des aktuellen Grades in Teams empfehlen sich Armbänder
+
+    ---
+    ###Schwarzer Grad
+
+      - Für Anfänger
+
+      - Signalisiert Interesse an CC
+
+      - Kenntnisse für den nächsten Grad noch nicht erlangt
+
+    ---
+    ### Roter Grad
+
+      - Einstieg in CC
+
+      - Enthält unverzichtbare Elemente
+
+      - Soll fundamentale Haltung zur Softwareentwicklung aufbauen
+
+      - Minimaler Aufwand für Prinzipien und Praktiken nötig
+
+    ---
+    ### Roter Grad
+      <img src="./img/rotergrad.png" width="700" height="300" />
+
+      Quelle: [2]
+    ---
+    ### Orangener Grad
+
+      - Anwendung von fundamentalen Prinzipien
+
+      - Automatisierung von Abläufen
+
+      - Korrektheitsprüfung des gesamten Codes, zum Beispiel durch Integrationstests
+
+    ---
+    ### Orangener Grad
+      <img src="./img/orangenergrad.png" width="700" height="300" />
+
+      Quelle: [2]
+    ---
+    ### Gelber Grad
+
+      - Behandelt automatisierte Tests
+
+      - Jede Komponente einzeln, zum Beispiel durch Unit Tests
+
+      - Prinzipien der objektorientierten Programmierung werden umgesetzt
+
+    ---
+    ### Gelber Grad
+      <img src="./img/gelbergrad.png" width="700" height="300" />
+
+      Quelle: [2]
+    ---
+    ### Grüner Grad
+
+      - Weitere Automatisierung
+
+      - Erstellung von Code automatisieren
+
+      - Soll Abhängigkeiten zu bestimmten Systemen verringern
+
+    ---
+    ### Grüner Grad
+      <img src="./img/gruenergrad.png" width="700" height="300" />
+
+      Quelle: [2]
+    ---
+    ### Blauer Grad
+
+      - Automatisierung von Build und Auslieferung
+
+      - Planung der Architektur
+
+    ---
+    ### Blauer Grad
+      <img src="./img/blauergrad.png" width="700" height="300" />
+
+      Quelle: [2]
+    ---
+    ### Weißer Grad
+      - Führt alle vorherigen Grade zusammen
+
+      - Kann nur durch viel Erfahrung erreicht werden
+
+    ---
+    ## Prinzipielle Tugenden
+      - Schätze Variation (Value Variation)
+
+      - Tue nur das Wichtigste (Do Only What‘s Necessary)
+
+      - Isoliere Aspekte (Isolate Aspects)
+
+      - Minimiere Abhängigkeiten (Minimize Dependencies)
+
+      - Halte Versprechen ein (Honor Pledges)
+
+    ---
+    ### Value Variation
+      - Wirkt Standardisierung und Vereinheitlich entgegen
+
+      - Alternative Lösungen führen manchmal zu besseren Methoden
+
+      - Werte: Evolvierbarkeit und Reflexion
+    ---
+    ### Do Only What‘s Necessary
+      - Nur machen, was nötig ist -> keine Zeitverschwendung für unnötige Komponenten/Funktionalitäten
+
+      - Werte: Produktionseffizienz und Evolvierbarkeit
+
+      - Prinzipien:
+        - Vorsicht vor Optimierungen
+        - You Ain‘t Gonna Need It (YAGNI)
+        - Keep It Simple, Stupid (KISS)
+
+    ---
+    ### Isolate Aspects
+      - Komponenten einzeln betrachten und weiterentwickeln
+
+      - Werte: Evolvierbarkeit
+
+      - Prinzipien:
+        - Don't Repeat Yourself (DRY)
+        - Separation of Concerns (SoC)
+        - Single Level of Abstraction (SLA)
+        - Single Responsibility Principle (SRP)
+        - Interface Segregation Principle (ISP)
+        - Entwurf und Implementation überlappen nicht
+        - Integration Operation Segregation Principle (IOSP)
+
+    ---
+    ### Minimize Dependencies
+      - Ziel ist geringe Kopplung
+
+      - Werte: Evolvierbarkeit
+
+      - Prinzipien:
+        - Dependency Inversion Principle
+        - Information Hiding Principle
+        - Law of Demeter
+        - Open Closed Principle
+        - Tell don't ask
+        - Interface Segregation Principle (ISP)
+        - Integration Operation Segregation Principle (IOSP)
+
+    ---
+    ### Honor Pledges
+      - Auch Minimize Surprises
+
+      - Funktionalität ist wie geplant, keine Überraschungen
+
+      - Werte: Evolvierbarkeit
+
+      - Prinzipien:
+        - Liskov Substitution Principle
+        - Principle of Least Astonishment
+        - Implementation spiegelt Entwurf
+        - Favour Composition over Inheritance (FCoI)
+
+    ---
+    ## Praktische Tugenden
+      - Umarme Unsicherheit (Embrace Uncertainty)
+
+      - Fokussiere (Focus)
+
+      - Wertschätze Qualität (Value Quality)
+
+      - Mach fertig (Get Things Done)
+
+      - Halte Ordnung (Stay Clean)
+
+      - Bleib am Ball (Keep Moving)
+
+    ---
+    ### Embrace Uncertainty
+      - Unsicherheit führt zum sichergehen (testen)
+
+      - Werte: Evolvierbarkeit und Reflexion
+
+      - Praktiken:
+        - Ein Versionskontrollsystem verwenden
+        - Automatisierte Integrationstests
+        - Automatisierte Unit Tests
+        - Mockups
+        - Continous Integration
+        - Inversion of Control Container
+
+    ---
+    ### Focus
+      - Immer auf eine Sache konzentrieren
+
+      - Werte: Produktionseffizienz
+
+      - Praktiken:
+        - Komponentenorientierung
+        - Test first
+        - Limit WIP
+
+    ---
+    ### Value Quality
+      - Verhindert weiterarbeit mit Workarounds oder halbfertigen Implementationen
+
+      - Werte: Produktionseffizienz
+
+      - Praktiken:
+        - Akzeptiere nur hohe Qualität
+        - Automatisierte Unit Tests
+        - Reviews
+
+    ---
+    ### Get Things Done
+      - Erst Neues beginnen, wenn Altes fertiggestellt wurde
+
+      - Werte: Produktionseffizienz
+
+      - Praktiken:
+        - Iterative Entwicklung
+        - Continuous Delivery
+        - Limit WIP
+
+    ---
+    ### Stay Clean
+      - Code einheitlich halten
+
+      - Refaktorisieren statt Workarounds akzeptieren
+
+      - Werte: Korrektheit, Evolvierbarkeit und Produktionseffizienz
+
+      - Praktiken:
+        - Die Pfadfinderregel beachten
+        - Komplexe Refaktorisierungen
+        - Einfache Refaktorisierungsmuster anwenden
+        - Statische Codeanalyse
+        - Code Coverage Analyse
+        - Source Code Konventionen
+
+    ---
+    ### Keep Moving
+      - Jeder kann und sollte sich verbessern
+
+      - Immer mit neuen Entwicklungen vertraut bleiben
+
+      - Werte: Reflexion
+
+      - Praktiken:
+        - Eigene Weiterbildung durch das Lesen neuer Entwicklungen
+        - Teilnahme an Fachveranstaltungen
+        - Erfahrungen weitergeben
+        - Täglich Reflektieren
+        - Root Cause Analysis
+        - Messen von Fehlern
+        - Issue Tracking
+        - Regelmäßige Retrospektiven
+
+    ---
+    ## SOLID
+      - Akronym für die fünf grundlegenden Prinzipien, die bei jeder objektorientierten Software umgesetzt sein sollten
+
+
+      - **S**ingle Responsibility Principle
+
+      - **O**pen Closed Principle
+
+      - **L**iskov Substitution Principle
+
+      - **I**nterface Segregation Principle
+
+      - **D**ependency Inversion Priciple
+
+    ---
+    ### Single Responsibility Principle (SRP)
+      - Jede Klasse hat genau eine Verantwortlichkeit
+
+      - Sorgt für geringere Kopplung
+
+      - Code wird verständlicher
+
+      - Orangener Grad
+
+    ---
+    ### Single Responsibility Principle (SRP)
+      <img src="./img/srp1.png" alt="SRP1" class="center"/>
+
+    ---
+    ### Single Responsibility Principle (SRP)
+      <img src="./img/srp2.png" class="center"/>
+    ---
+    ### Open Closed Principle (OCP)
+      - Klassen sollen offen für Erweiterungen sein, aber geschlossen für Modifikationen
+
+      - Soll verhindern das funktionierende Teile nicht beschädigt werden
+
+      - Kann zum Beispiel durch das Strategy-Pattern umgesetzt werden
+
+      - Grüner Grad
+    ---
+    ### Open Closed Principle (OCP)
+      <img src="./img/ocp1.png" class="center"/>
+    ---
+    ### Open Closed Principle (OCP)
+      <img src="./img/ocp2.png" class="center"/>
+
+      <img src="./img/ocp3.png" class="center"/>
+
+    ---
+    ### Liskov Substitution Principle (LSP)
+      - Subtypen müssen sich so verhalten wie Basistypen
+
+      - Nur Funktionalitäten erweitern, niemals einschränken
+
+      - Gelber Grad
+
+    ---
+    ### Liskov Substitution Principle (LSP)
+      <img src="./img/lsp1.png" class="center"/>
+    ---
+    ### Liskov Substitution Principle (LSP)
+      <img src="./img/lsp2.png" class="center"/>
+    ---
+    ### Interface Segregation Principle (ISP)
+      - Interfaces sollen abgetrennt werden
+
+      - Nur so viele Informationen wie möglich preisgeben
+
+      - Führt zu geringerer Kopplung und stärkerer Kohäsion
+
+      - Gelber Grad
+    ---
+    ### Interface Segregation Principle (ISP)
+      <img src="./img/isp1.png" class="center"/>
+    ---
+    ### Interface Segregation Principle (ISP)
+      <img src="./img/isp2.png" class="center"/>
+    ---
+    ### Dependency Inversion Principle (DIP)
+      - High-Level Klassen sollen nie von Low-Level Klassen abhängig sein, stattdessen beide von Interfaces
+
+      - Interfaces sollen nicht von Details abhängig sein, sondern von anderen Interfaces
+
+      - Gelber Grad
+    ---
+    ### Dependency Inversion Principle (DIP)
+      <img src="./img/dip1.png" class="center"/>
+    ---
+    ### Dependency Inversion Principle (DIP)
+      <img src="./img/dip2.png" class="center"/>
+    ---
+    ## Maßnahmen
+      - Bezeichnung für Prinzipien und Praktiken
+
+      - Jede Maßnahme ist einem Grad zugeordnet und erhöht einen oder mehrere der Werte
+    ---
+    ### Dont‘t Repeat Yourself (DRY)
+      - Code mit Wiederholungen wird WET genannt (We Enjoy Typing)
+
+      - Doppelter Code sollte vermieden werden
+
+      - Damit auch Magic Numbers
+
+      - Roter Grad
+
+    ---
+    ### Keep It Simple, Stupid (KISS)
+      - Immer die einfachste Lösung verwenden
+
+      - Unverständlichkeit macht Arbeit mit mehreren Leuten schwieriger
+
+      - Dazu kann Pair Programming verwendet werden
+
+      - Gilt auch für Datenstrukturen
+
+      - Roter Grad
+
+    ---
+    ### Keep It Simple, Stupid (KISS)
+      <img src="./img/kiss1.png" class="center"/>
+    ---
+    ### Keep It Simple, Stupid (KISS)
+      <img src="./img/kiss2.png" class="center"/>
+    ---
+    ### Die Pfadfinderregel
+      „Hinterlasse einen Ort immer in einem besseren Zustand als du ihn vorgefunden hast“ [1]
+
+      - Stets kleine Verbesserungen führen leicht zum Erfolg
+
+      - Immer nur Prinzipien und Praktiken des aktuellen Grades anwenden
+
+      - Roter Grad
+
+    ---
+    ### Single Level Of Abstraction (SLA)
+      - Funktionen sollen auf einheitlichen Abstraktionsebenen bleiben
+
+      - Erhöht die Leserlichkeit, und erlauben Einblicke so tief, wie nötig
+
+      - Wird erreicht durch das Auslagern von Teilen von Methoden in andere Methoden
+
+      - Orangener Grad
+    ---
+    ### Single Level Of Abstraction (SLA)
+      <img src="./img/sla1.png" class="center"/>
+    ---
+    ### Single Level Of Abstraction (SLA)
+      <img src="./img/sla2.png" class="center"/>
+    ---
+    ### Tell Don‘t Ask (TDA)
+      - Objekte sollen nie Entscheidungen anhand momentaner Zustände andere Objekte treffen
+
+      - Objekte sollen anderen Objekten stattdessen sagen, was zu tun ist
+
+      - Information Hiding wird befolgt
+
+      - Stärkt Kohäsion und verringert Kopplung
+
+      - Grüner Grad
+
+    ---
+    ### Tell Don‘t Ask (TDA)
+      <img src="./img/tda1.png" class="center"/>
+    ---
+    ### Tell Don‘t Ask (TDA)
+      <img src="./img/tda2.png" class="center"/>
+    ---
+    ### Law Of Demeter (LoD)
+      - Beschränkt das Zusammenspiel von Objekten
+
+      - Ein Objekt darf nur folgende Methoden verwenden:
+        - Methoden der eigenen Klasse
+
+        - Methoden der Paramter
+
+        - Methoden assoziierter Klassen
+
+        - Methoden selbst erzeugter Objekte
+
+      - Grüner Grad
+    ---
+    ### Law Of Demeter (LoD)
+      <img src="./img/lod1.png" class="center"/>
+    ---
+    ### Law Of Demeter (LoD)
+      <img src="./img/lod2.png" class="center"/>
+    ---
+    ### You Ain‘t Gonna Need It (YAGNI)
+      - Anforderungen ändern sich ständig
+
+      - Schlechte Lösung: Mache Software flexibel um mögliche Anforderungen umzusetzen -> Viele unbenutzte Features
+
+      - Um YAGNI umzusetzen, müssen folgende Dinge umgesetzt werden:
+        - Nur klare Anforderungen implementieren
+
+        - Kunde muss seine klaren Anforderungen priorisieren
+
+        - Anforderungen werden nach Priorisierung implementiert
+
+        - Codestruktur so aufsetzen, dass ändernde und neue Anfoderungen leicht umgesetzt werden können
+
+      - Betrifft ganze Projekte und Teams
+
+      - Blauer Grad
+
+    ---
+    # Clean Code Controlling
+      - Soll dafür sorgen, Clean Code an Projekten durchzusetzen
+
+      - Drei Grundregeln:
+
+      1. Alle Teilnehmer an einem Projekt verpflichten sich die vereinbarten Prozesse anzuerkennen
+
+      2. Prozessen können jederzeit nach Bedarf angepasst werden
+
+      3. Es muss sich auf ein Verfahren zur Entscheidungsfindung geeinigt werden
+
+    ---
+    ## Legislative
+      1. Festlegen der Methode zur Entscheidungsfindung
+        - Projektleiter entscheidet
+        - Mehrheitsbeschlüsse
+        - Minimieren des durchschnittlichen Widerstands
+          - Vetoabfragen
+          - Thumb-Voting
+
+      2. Festlegen von Regeln und Prozessen
+        - Was ist DONE?
+        - Was ist CLEAN?
+
+      3. Entscheide die Form der Kontrolle
+        - Daily Standups
+        - Regelmäßige Team-Reviews
+        - Pair Programming
+        - Vier Augen Reviews
+    ---
+    ## Exekutive
+      - Vereinbarten Ziele werden mit vereinbarten Methoden umgesetzt
+
+      - Implementationen gelten erst als Fertig, wenn sie von einem Teammitglied reviewed wurden
+    ---
+    ## Judikative
+      - Soll Teammitglieder motivieren sich an die Regeln zu halten und Verstöße bestrafen
+
+      - 1€ Regel: Bei jedem Verstoß muss 1€ in eine Kasse gegeben werden
+
+      - Anerkennung durch guten Code, einhalten der Richtlinien
+    ---
+    # Test Driven Developement
+      - Entwicklung wird durch Tests vorrangetrieben
+
+
+      1. Schreibe erst einen fehlschlagenden Test, bevor neue Funktionalität, die diesen bestehen lassen soll, entwickelt wird
+
+      2. Passe Programmcode nur solange an, bis alle Tests erfolgreich durchlaufen
+
+      3. Räume den Code auf. Keine neuen Verhaltensweisen hinzufügen. Wenn Tests nach Aufräumen fehlschlagen, Fehler finden und beheben
+
+    ---
+    ## CCD und TDD
+      - TDD kann als Teilmenge von CCD betrachtet werden
+
+      - Beide vorgehensweisen führen zu hoher Testabdeckung
+
+      - TDD kann gut auf neue Projekte/Komponenten angewendet werden
+
+      - Kann bei Entwicklungen nach CCD mit einbezogen werden
+    ---
+    # Vorteile und Ziele von Clean Code
+      - Die festgelegten Werte werden erhöht
+        - Evolvierbarkeit
+
+        - Korrektheit
+
+        - Produktionseffizienz
+
+        - Reflexion
+
+      - Code wird verständlicher
+
+      - Code kann leichter erweitert und modifiziert werden
+
+      - Projekte können immer weiterentwickelt werden, niemals wird der Punkt erreicht, an dem von vorne begonnen werden sollte
+
+    ---
+    # Nachteile von Clean Code
+      - Hoher Aufwand
+
+      - Alle Mitarbeiter müssen sich in das Thema einarbeiten
+
+      - Zeitinvestment durch ständige Reviews, Pair Programming
+
+      - Fehlendes Verständnis von Management
+    ---
+    # Kritik an Clean Code
+      - Sehr spezifisch zu OOP, zum Beispiel bei funktionaler Programmierung kann nur eine kleine Teilmenge angewendet werden
+
+      - Prinzipien ähneln sich teilweise sehr stark (Separation of Concerns, Single Responsibility Principle verlangen beide geringere Kopplung)
+
+      - Einteilung in Grade teilweise komisch, schwer messbar, wann ein höherer Grad erreicht werden kann
+
+      - Viele Prinzipien dennoch sehr sinnvoll (DRY, KISS, YAGNI, SRP), sollten während gesammter Entwicklung angewendet werden
+
+      - Pfadfinderregel gute Lösung um konstante Verbesserungen ohne zu hohen Aufwand zu erlangen
+
+    ---
+    # Zusammenfassung Tugenden
+      <img src="./img/zftugenden.png" class="center" width="750" height="320"/>
+    ---
+    # Zusammenfassung Prinzipien und Praktiken
+      <img src="./img/zfprinzip.png" class="center" width="750" height="320"/>
+    ---
+
+    #Quellen
+    - [1] https://clean-code-developer.de/
+    - [2] https://gi.de/fileadmin/RG/Dortmund/user_upload/Clean-Code-Vortrag.pdf
+    - [3] https://de.wikipedia.org/wiki/Clean_Code
+    - [4] https://unclassified.software/files/topics/clean-code/CCD-Poster_A1.pdf
+    - [5] https://www.maibornwolff.de/blog/warum-ich-solid-fuer-ueberbewertet-halte
+    - [6] https://github.com/dev-aritra/clean-code-developer-checklist
+    - [7] https://www.planetgeek.ch/wp-content/uploads/2014/11/Clean-Code-V2.4.pdf
+    - [8] https://www.it-economics.de/blog/2015-05/2015-wie-misst-man-clean-code
+
+    </textarea>
+     <script src="https://remarkjs.com/downloads/remark-latest.min.js">
+    </script>
+    <script>
+       var slideshow = remark.create();
+    </script>
+  </body>
+</html>
