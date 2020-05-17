@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Messaging</title>
+    <meta charset="utf-8">
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body { font-family: 'Droid Serif'; }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+# Messaging
+Philipp Clausing | FH Bielefeld
+---
+
+# Inhalt
+
+- Messaging
+
+- Warum ?
+
+- Pattern
+
+- Protokolle
+
+- Broker
+
+- Weitere Aspekte
+
+- Anbieter
+
+---
+
+# Messaging
+
+- Kommunikation zwischen vielen Systemen
+
+- Nachrichten werden über Broker verteilt
+
+- Viele Protokolle und Pattern
+
+
+
+
+
+.center[![messaginallgemein](./img/messagingallgemein.png)]
+
+---
+
+# Persistenz ?
+
+- Generell werden Nachrichten nicht dauerhaft gespeichert
+
+
+- Zwei verbreitete Ansätze:
+
+    - Nachrichten werden gelöscht wenn sie abgerufen/gelesen wurden
+
+    - Nachrichten habe eine Lebenszeit, nach Überschreitung werden sie gelöscht
+
+---
+
+# Messaging - Terminologie
+
+- Producer
+    - Ein Produzent von Inhalt(Nachrichten)
+
+- Consumer
+    - Ein Service der Nachrichten konsumiert/empfängt
+
+- Queue ("Log" in Kafka)
+
+- Message ("Record" in Kafka)
+
+- Broker
+    - Zentrale Nachrichten Verarbeitung
+
+.center[![consumers](./img/competing-consumers.png)]
+
+---
+
+# Warum ?
+
+- Synchrone Kommunikation = enge Kopplung einzelner Services
+
+- Aufwendige Umsetzung in allen Diensten
+
+- Systeme müssen kommunizieren
+
+Also ?
+
+- Einsatz eines Message Brokers
+
+- Asynchrone Kommunikation
+
+---
+
+# Push / Pull
+
+- Grundlegendes Konzept der Messaging Dienste
+
+- Broker sendet unaufgefordert keine Naxhricht(kein Push)
+
+- Clients senden Messages
+
+- Clients fragen nach neuen Messages
+
+- Am Beispiel RabbitMQ:
+    - Pull vom Client, Broker sendet Nachrichten
+    - Evtl. begrenzt durch "Prefetch Count"
+
+---
+
+# Queues & Topics
+
+- Queues:
+    - Sortiert und mit Zeitstempel
+    - Oft Point-to-Point
+
+.right[![queue](./img/about-service-bus-queue.png)]
+
+- Topic:
+    - Häufig Publish/Subscribe
+    - Verfeinern mit Regeln/Filtern
+
+.right[![topic](./img/about-service-bus-topic.png)]
+
+---
+
+# Pattern – Publish / Subscribe – Point to Point
+
+- Publish / Subscribe
+
+    - Services veröffentlichen Nachrichten(Publish)
+
+    - Services empfangen Nachrichten einer oder mehrerer Kategorien (Subscribe)
+
+.center[![ps](./img/publishSubscribe.gif)]
+
+---
+
+# Pattern – Publish / Subscribe – Point to Point
+
+- Point-to-Point
+
+   - Sender sendet Nachrichten an Queue
+
+   - Empfänger empfängt aus Queue und sendet ein ACK
+
+.center[![pp](./img/pointToPoint.gif)]
+
+---
+
+# Pattern – Publish / Subscribe – Point to Point
+
+- Pub/Sub ist weniger eng gekoppelt
+- Keine Kontrolle über Empfang von Nachrichten
+.center[![pS](./img/pubsubmq.png)]
+
+---
+
+# Pattern – Publish / Subscribe – Point to Point
+
+- Point-to-Point ist nicht Synchrone
+
+- Nicht für sichere Zeitkritische Anwendungsfälle geeignet
+
+.center[![pS](./img/The-point-to-point-messaging-model.png)]
+
+---
+
+# Pattern – Request / Response - RPC
+
+- Ein Client sendet eine Request
+
+- Der andere Client reagiert speziell auf diese Request mit einer Nachricht in eigener Response Queue
+
+.center[![rr](./img/requestresponse.gif)]
+
+---
+
+# Pattern – Request / Response - RPC
+
+- Bei RabbitMQ kann dies mit Routing direkt über das "ReplyTo"-Feld umgesetzt werden
+
+.center[![rr](./img/RequestReply.gif)]
+
+
+---
+
+# Message - Definition
+
+- Messages können Variable Datenformate haben
+
+- Beispiele sind:
+    - XML
+    - JSON
+
+---
+
+# Beispiel
+
+.center[![rr](./img/beispiel.PNG)]
+
+---
+
+# Broker
+
+- Empfängt Nachrichten und leitet diese Weiter
+
+- Sicherstellung (Quality of Service)
+
+- Verbindet einzelne Systeme (Stern)
+
+- Skalierbar
+
+- Eventuell Verarbeitung (Message Format etc.)
+
+![rmq](./img/rabbitmq_logo-320x240.png)
+![kafka](./img/kafka.png)
+
+---
+
+# Protokolle - AMQP
+
+- Nachrichten senden
+
+- Nachrichten empfangen
+
+- Nachrichten bestätigen mit Ack
+
+- Nachrichten ablehnen (NACK) - Nur RabbitMQ
+
+- Nachrichten erneut holen
+
+---
+
+# Protokolle - MQTT
+
+- Gedacht für kleine Sensoren
+
+- Extrem "leichtgewichtig"
+
+- Publish/Subscribe 
+
+---
+
+# Protokolle - STOMP
+
+- HTTP basiert
+
+- Ebenfalls "leichtgewichtig"
+
+- Nachrichten Definition mit Headern (HTTP)
+
+- Ebenfalls TCP 
+
+---
+
+# Protokolle - Weitere
+
+- CoAp
+
+- DDS1
+
+- uvm.
+
+---
+
+# Weitere Aspekte - QoS
+
+- Ankunft und Verarbeitung der Nachrichten nicht immer Gewährleistet
+
+- Prefetch
+
+- ACK
+
+
+- Asynchron / Synchron
+    - Generell kann man sagen das asynchrone Kommunikation bei nicht Zeitkritischen und Nutzerabhängigen Aufagen zu nutzen ist
+
+---
+
+# Weitere Aspekte - Sicherheit / Auth
+
+- Am Beispiel RabbitMQ
+    - Authentifizieren mittels Nutzername/Password, Zertifikatsdatei(X.509)
+  
+- Protokolle TCP basiert
+
+- TLS Support
+
+---
+
+# Anbieter - AWS 
+
+- Amazon MQ
+    - ActiveMQ
+- Amazon SQS
+    - Simple Queue Service
+- Amazon SNS 
+    - Skalierbares Pub/Sub System, Hochzuverlässig
+    
+- Amazon Pinpoint
+    - Message Broker für verschiedene Kommunikationsmethoden (SMS, MPush, Email)
+- Amazon Kinesis Streams
+    - Große Datenmengen und Speicherung dieser, geeignet für Stream Processing
+- AWS IoT Message Broker
+    - Broker (Pub/Sub) für IoT Anwendungen
+---
+
+# Anbieter - Google Cloud
+
+- Firebase Cloud Messaging
+    - Senden und Empfangen von Nachrichten über die Google Cloud
+    - Mehr "Klassischer" Message Broker
+
+---
+
+# Anbieter - Azure
+
+- Event Grid
+    - Für Event-Handling von Azure Diensten
+
+- Event Hubs
+    - "Offener" Message Broker
+    - Beispielhafte Anwendungsfälle: "Anomaly Detection", "Logging", "User Telemetry"
+
+- Service Bus
+    - "Enterprise" Message Broker
+    - Umfangreiche Funktionen sowohl Queues als auch Topics möglich, Regeln und Filter definierbar
+
+---
+
+# Ende 
+
+.center[Vielen Dank!]
+
+.center[Noch Fragen ?]
+    </textarea>
+    <script src="https://remarkjs.com/downloads/remark-latest.min.js">
+    </script>
+    <script>
+      var slideshow = remark.create();
+    </script>
+  </body>
+</html>
