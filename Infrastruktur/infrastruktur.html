@@ -32,7 +32,7 @@ André Kirsch
 1. Cloud Computing
 2. The Twelve-Factor App
 3. Infrastructure as Code
-4. Virtalisierung und Containerisierung
+4. Virtualisierung und Containerisierung
 5. Container Patterns
 6. Docker
 7. Kubernetes
@@ -84,7 +84,7 @@ Die Geschäftsmodelle sind in drei Ebenen unterteilt:
 
 ---
 
-# Cloud Computing Modelle
+# Cloud Modelle
 
 - Public Cloud
     - Öffentlich über das Internet zugängliche Dienste
@@ -105,13 +105,12 @@ Die Geschäftsmodelle sind in drei Ebenen unterteilt:
 
 .center[![Cloud Plattformen](img/cloud_platforms.png)]
 
-|                              | AWS                                                          | GCP                                            | Azure                                                        |
+|                              |                                                              |                                                |                                                              |
 | ---------------------------- | ------------------------------------------------------------ | ---------------------------------------------- | ------------------------------------------------------------ |
 | Kubernetes                   | EKS                           | GKE                  | AKS                              |
 | Datenbanken                  | Amazon RDS, Amazon DynamoDB, ...        | Cloud SQL, Firestore, ... | Azure Cosmos DB, Azure Database for (PostgreSQL, MySQL, MariaDB), ... |
 | Virtuelle Server             | Amazon EC2                                                   | Compute Engine                                 | Virtual Machines                                             |
 | Datenspeicher                | Amazon S3, Amazon EFS, ... | Cloud Storage, Persistent Disk, ...            | Speicherkonten, Disk Storage, ...                            |
-| Faas (Function as a Service) | AWS Lambda                                                   | Cloud Functions                                | Azure Functions                                              |
 
 - Es gibt vieles mehr
 - AWS, GCP und Azure bieten alle eine Übersichtsseite an, auf der man alle Funktionen findet, die angeboten werden
@@ -150,7 +149,7 @@ The Twelve-Factor App ist eine Methode, um SaaS Apps zu erstellen.
 8. Concurrency<br>
       Erweitern der Rechenleistung über das Process Model hinaus
 9. Disposability<br>
-      Maximieren der Robustheit mit schnellem Starten und angemessenes Abschalten
+      Maximieren der Robustheit mit schnellem Starten und angemessenem Abschalten
 10. Dev/Prod Parity<br>
       Development, Staging und Production so ähnlich wie möglich halten
 11. Logs<br>
@@ -181,7 +180,7 @@ class: center, middle
 3. IT Mitarbeiter sollen ihre Zeit für wichtige statt für sich wiederholende Aufgaben nutzen
 4. Benutzer sollen selbstständig ihre Ressourcen, ohne die Hilfe eines IT Mitarbeiters, managen können
 5. Teams sollen sich möglichst schnell von Misserfolgen erholen anstatt anzunehmen, dass Misserfolge vollständig verhindert werden können
-6. Verbesserungen werden kontinuierlich gemach anstatt alles auf einmal zu ändern
+6. Verbesserungen werden kontinuierlich gemacht anstatt alles auf einmal zu ändern
 7. Dass Lösungen zu Problemen funktionieren wird bewiesen durch Implementierungen, Tests und Messungen anstatt sie in Meetings zu diskutieren
 
 ---
@@ -204,7 +203,7 @@ Weitere Tools: Chef, Puppet, Packer, CloudFormation(AWS), Heat
 
 class: center, middle
 
-# Virtalisierung und Containerisierung
+# Virtualisierung und Containerisierung
 
 ---
 
@@ -214,13 +213,13 @@ Die Virtualisierung ist die Abstrahierung von IT-Ressourcen durch das Einfügen 
 
 ![VM Software](img/vm_software.png)
 
-Hyperconverged Infrastructure (HCI): Virtualisierung des Storages, Computing und Networking
+Hyperconverged Infrastructure (HCI): Virtualisierung des Storages, Computing und Networking, Vorkonfiguriertes System
 
 ---
 
 class: center
 
-# Unterschiede zwischen Virtalisierung und Containerisierung
+# Unterschiede zwischen Virtualisierung und Containerisierung
 
 ![Unterschiede zwischen Virtualisierung und Containerisierung](img/comparison_virtualization_containerization_small.png)
 
@@ -234,23 +233,9 @@ class: center
 - Einrichten und Managen von containerisierten Anwendungen
 - Skalieren von containerisierten Anwendungen
 - Berücksichtigen von Ressourcenanforderungen
-- Automatische Lastverteilung
+- Automatisches LoadBalancing
 
 ![Container Environments](img/container_environments.png)
-
----
-
-# Unterschiede zwischen OpenStack und Containerized Environments
-Am Beispiel OpenStack und Kubernetes
-
-OpenStack:
-- Open Source Cloud Tool
-- Software zum Erstellen von Private und Public Clouds
-- Management von virtuellen Maschinen
-
-Kubernetes:
-- Container Management Tool
-- Orchestrierung von Containern
 
 ---
 
@@ -323,15 +308,17 @@ class: center
 
 .left[Koordinierung mehrerer Nodes in einem verteilten System]
 
+![Scatter Gather Pattern](img/scatter_gather_pattern.png)
+
 ---
 
-# Leader Election Pattern
+# Leader election Pattern
 
 Benötigen mehrere Anwendungen auf mehreren Containern einen Leader, wird das Leader election Pattern verwendet.
 
 - Ein Leader election Container läuft parallel zum Main Container (Sidecar Pattern)
 - Die Leader election Container arbeitet zusammen, damit zu jedem Zeitpunkt genau ein Leader existiert
-- Existiert kein Leader, wird von den Leader elecetion Containern ein neuer Leader gewählt
+- Existiert kein Leader, wird von den Leader election Containern ein neuer Leader gewählt
 
 ---
 
@@ -340,7 +327,7 @@ Benötigen mehrere Anwendungen auf mehreren Containern einen Leader, wird das Le
 Aufteilen einer Anfrage in parallel abzuarbeitende Aufgaben
 
 - Ein Root Container erhält eine Client Request
-- Eine Client Request wird auf geteilt in mehrere parallel abzuarbeitende Requests und an mehrere Container gesendet
+- Ein Client Request wird aufgeteilt in mehrere parallel abzuarbeitende Requests und an mehrere Container gesendet
 - Die Antworten der Container werden von einem weiteren Container gebündelt
 
 ![Scatter Gather Pattern](img/scatter_gather_pattern.png)
@@ -504,14 +491,14 @@ services:
 
 - Zwei Services wurden definiert mit den Namen web und redis
 - redis besitzt ein Image aus Docker Hub, web wird vom aktuellen Ordner aus erstellt
-- Beide Services befinden automatisch in einem Netzwerk
+- Beide Services befinden sich automatisch in einem Netzwerk
 - Der Name eines Services ist auch sein Hostname im Netzwerk, mit dem man auf ihn zugreifen kann
 
 ---
 
 # Service Optionen
 
-- Viele Überschneidungen mit den *docker run* Paramtern
+- Viele Überschneidungen mit den *docker run* Parametern
 
 | Parameter   | Beschreibung                                                |
 | ----------- | ----------------------------------------------------------- |
@@ -548,7 +535,7 @@ services:
 
 class: center, middle
 
-### Docker in Aktion
+# Docker in Aktion
 
 ---
 
@@ -562,7 +549,7 @@ class: center, middle
 
 .center[![Kubernetes Cluster](img/kubernetes_cluster.png)]
 
-- Ein Master managet das Kubernetes Cluster
+- Ein Master managt das Kubernetes Cluster
 - Ein Node ist eine VM oder physischer Server, auf dem eine Kubelet Instanz aktiv ist
 - Wenn Anwendungen im Kubernetes Cluster gestartet werden sollen, werden diese vom Master an die Nodes verteilt
 
@@ -634,9 +621,9 @@ Volume Typen:
 # Config Maps
 
 - Eine ConfigMap ermöglicht das Hinzufügen von Konfigurationen zu einer Anwendung
-- Einträge in eine Schlüssel-Wert-Paare oder eine Liste an Schlüssel-Wert-Paaren wie in einer Datei
+- Einträge in Form von Schlüssel-Wert-Paaren oder einer Liste an Schlüssel-Wert-Paaren wie in einer Datei
 
-Es existieren vier Möglichkeiten, um Informationen von einer ConfigMap zu erhalten bzw weiterzugeben:
+Es existieren vier Möglichkeiten, um Informationen von einer ConfigMap zu erhalten bzw. weiterzugeben:
 1. Als Kommandozeilenargumente dem Entrypoint des Containers übergeben
 2. Als Umgebungsvariablen eines Containers
 3. Als Read-Only Volume wie bei einer Config-Datei
@@ -646,13 +633,13 @@ Es existieren vier Möglichkeiten, um Informationen von einer ConfigMap zu erhal
 
 class: center, middle
 
-### Kubernetes in Aktion
+# Kubernetes in Aktion
 
 ---
 
 class: center, middle
 
-## Noch Fragen?
+# Noch Fragen?
 
 ---
 
