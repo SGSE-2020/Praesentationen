@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Practices</title>
+  <meta charset="utf-8">
+  <style>
+    @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+    @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+    @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+    body {
+      font-family: 'Droid Serif';
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: 'Yanone Kaffeesatz';
+      font-weight: normal;
+    }
+
+    .remark-code,
+    .remark-inline-code {
+      font-family: 'Ubuntu Mono';
+    }
+
+    
+    .image img {
+      max-height: 500px;
+      width: 100%;
+      object-fit: contain;
+    }
+  </style>
+</head>
+
+<body>
+  <textarea id="source">
+class: center, middle
+
+# Practices
+
+---
+
+# Inhalt
+
+1. Einleitung
+
+2. Continuous Integration
+
+3. Continuous Delivery
+
+4. Continuous Deployment
+
+5. Plattformen & Tools für CI/CD
+
+6. Deployment strategies
+
+7. DevOps
+
+8. DevSecOps
+
+9. SRE
+
+---
+# Einleitung
+
+- Prozess von der Idee bis zum Betrieb
+
+---
+# Continuous Integration
+
+- Was ist Continuous Integration
+
+- Vorteile
+
+  - Build monitoring
+
+  - Kleinere Code-Merges
+
+---
+# Continuous Integration Workflow
+  
+.image[![sketch](./img/grafik-continuous-integration-gesamtbild-en-1920p.jpg)]
+  
+---
+# Continuous Integration - Build Monitor
+
+.image[![buildmonitor](./img/3_Two_columns_view_with_claim_and_build_failure_analyzer_plugins.png)]
+
+---
+# Continuous Delivery
+
+- Erweitert Continuous Integration
+
+- Release zu jeder Zeit ermöglichen
+
+- Schnellere Entwicklungszyklen
+
+.image[![sketch](./img/what-is-continuous-delivery.jpg)]
+
+---
+# Continuous Deployment
+
+- Erweitert Continuous Delivery
+
+- Führt ein automatisiertes Deployment durch
+
+  - Containerization stellt das Verhalten des Builds sicher
+
+- Vorteilhaft bei Microservices in einer automatisch gemanagten Umgebung
+
+- Hohe Einstiegshürde
+
+---
+# Continuous Deployment - Zyklus
+
+.image[![ContinuousDeployment](./img/cd-diagram@2x.png)]
+
+---
+# Plattformen & Tools für CI/CD
+
+- Für jeden ist etwas dabei
+
+- Jenkins
+
+- GitHub Actions
+
+- CircleCI
+
+- LiveDemo zu GitHub Actions & CircleCI
+
+
+---
+# Jenkins
+
+- Automatisierungs Server
+
+- Hoch flexibel
+
+- Konfiguration
+
+  - Server
+
+  - Repository
+
+- Viele Plugins
+
+---
+# Jenkins UI
+
+.image[![sketch](./img/Jenkins_Home.png)]
+
+---
+# Jenkins - Pipeline #1
+```groovy
+#!/usr/bin/env groovy
+pipeline {
+    agent any
+
+    tools {
+        maven 'Maven-3.6.0'
+    }
+
+    stages  {
+        stage('Clone') {
+            steps{
+                checkout scm
+            }
+        }
+        stage('Build') {
+            steps {
+                sh 'mvn -B -DskipTests clean package'
+            }
+        }
+```
+---
+# Jenkins - Pipeline #2
+```groovy
+        stage('Test') {
+            steps {
+                sh 'mvn test'
+            }
+            post {
+                always {
+                    junit 'target/surefire-reports/*.xml'
+                }
+            }
+        }
+        stage('Deliver') {          
+            when {
+                branch 'master'
+            }
+            steps {
+                sh 'mvn deploy' 
+            }
+        }
+    }
+}
+```
+
+---
+# GitHub Actions
+
+- In GitHub intigriert
+
+- Im kleinen Umfang kostenlos
+
+- GitHub Package Storage enthalten
+
+---
+# GitHub Actions - Pipeline #1
+```yaml
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ master ]
+  release:
+    types: [published]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+```
+---
+# GitHub Actions - Pipeline #2
+```yaml
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Login to DockerHub Registry
+        run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+
+      - name: Build the tagged Docker image
+        run: docker build . --file Dockerfile --tag dasbene/continuousx:$GITHUB_SHA
+      - name: Push the tagged Docker image
+        run: docker push dasbene/continuousx:$GITHUB_SHA
+
+      - name: Build the latest Docker image
+        run: docker build . --file Dockerfile --tag dasbene/continuousx:latest
+      - name: Push the latest Docker image
+        run: docker push dasbene/continuousx:latest
+```
+
+---
+# CircleCI
+
+- Einfach zu bedienen
+
+- Gute GitHub Integration
+
+.image[![sketch](./img/kamann_continuous-delivery_7.png)]
+
+---
+# CircleCI - Pipeline
+```yaml
+version: 2.1
+orbs:
+  node: circleci/node@1.1.6
+jobs:
+  build-and-test:
+    executor:
+      name: node/default
+    steps:
+      - checkout
+      - node/with-cache:
+          steps:
+            - run: npm install
+            - run: npm test
+workflows:
+    build-and-test:
+      jobs:
+        - build-and-test
+```
+
+---
+# Sonstige Plattformen
+
+- [TravisCI](https://travis-ci.org/)
+
+- AWS Code Build & CodePipeline
+
+- Google Cloud Build
+
+- Azure Pipelines
+
+- GitLab
+
+- Docker Hub
+
+---
+class: center, middle
+
+# Live Demo
+
+---
+# Deployment strategies
+
+- Wie wird der release Build zum laufen gebracht?
+
+- *Continuous Delivery Patterns*
+
+- Strategien
+
+  - Recreate
+
+  - Blue / Green
+
+  - Shadow
+
+  - Canary
+
+  - Ramped / Rolling
+
+  - A/B testing
+
+---
+# Recreate
+
+.image[![Recreate](./img/recreate.svg)]
+
+---
+# Blue / Green
+
+.image[![Recreate](./img/blue_green.svg)]
+
+---
+# Canary
+
+.image[![Recreate](./img/canary.svg)]
+
+---
+# Ramped / Rolling
+
+.image[![Recreate](./img/rolling.svg)]
+
+---
+# Shadow
+
+.image[![Recreate](./img/shadow.svg)]
+
+---
+# A/B testing
+
+.image[![Recreate](./img/abtesting.svg)]
+
+---
+# Weitere deployment strategies
+
+- Feature Flags
+
+- Dark Launching
+
+---
+# DevOps
+
+### Wesentlche Kenngrößen von Development:
+- neue Features
+- behobende Fehler
+
+### Wesentlche Kenngrößen von IT-Operations:
+- Verfügbarkeit
+- Stabilität
+
+### Widerspruch?
+
+---
+# DevOps als Kultur
+
+- Tauziehen zwischen Dev und Ops auflösen
+
+- Pipeline von der Idee bis zum Auswerten der Operations Erfahrungen
+
+- Multidisziplinäre Teams
+
+- Workflow
+
+.image[![DevOpsPipeline](./img/devops_pipeline.svg)]
+
+---
+# DevOps - Zyklus
+
+.image[![DevOpsPipeline](./img/polarion-devops_tcm53-26359.png)]
+
+---
+# DevOps - Ziele
+
+- Schnellere Auslieferung von neuen Funktionen
+
+- Schnellere Auslieferung von Änderungen
+
+- Höhere Qualität der Auslieferungen
+
+- Schnellere Reaktionszeit Fehler zu beheben
+
+---
+# DevOps - Unterstützende Technologien
+
+- Continuous Deployment
+
+- Containerisierung
+
+- Microservices
+
+- Cloud native computing
+
+---
+# DevSecOps
+
+- Variante von *DevOps*
+
+- Fokus auf Sicherheit
+
+- Transparenz des Workflow
+
+---
+# DevSecOps - Anforderungen
+
+Zusätzliche Workflow Anforderungen:
+
+- Test-driven development
+
+- Pair Programming
+
+- Linting
+
+- Vulnerability scanning
+
+- Cloud nativ deployment
+
+---
+# DevSecOps - Vorteile
+
+- Sicherere Software
+
+- Audit der Software
+
+- Compliance
+
+  - Gesundheitswesen
+
+  - Finanzwesen
+
+  - Öffentliche Aufträge
+
+---
+# SRE (Site Reliability Engineering)
+
+- Von Google entwickelt
+
+- seit 2003
+
+- Teams 50/50
+
+  - Software Development
+
+  - System Administration
+
+<br><br>
+> SRE is "what happens when a software engineer is tasked with what used to be called operations."
+>
+> -- <cite>Ben Treynor</cite>
+
+---
+# SRE - Unterschiede zu DevOps
+
+- *Implementierung von DevOps*
+
+---
+# SRE - Säulen
+
+- *Reduce organizational silos*
+
+- *Accept failure as normal*
+
+- *Implement gradual changes*
+
+- *Leverage tooling and automation*
+
+- *Measure everything*
+
+---
+class: center, middle
+# Fragen?
+
+---
+# Quellen
+
+- CI/CD
+  - https://new.siemens.com/global/de/produkte/automatisierung/industrie-software/automatisierungs-software/tia-portal/highlights/continuous-integration.html
+  - https://www.atlassian.com/continuous-delivery/continuous-integration/how-to-get-to-continuous-integration
+  - https://www.atlassian.com/continuous-delivery/continuous-deployment
+  - https://dzone.com/articles/what-is-continuous-delivery-the-benefits-and-best
+  - Jenkins
+    - https://plugins.jenkins.io/build-monitor-plugin/
+    - https://www.jenkins.io/doc/tutorials/build-a-java-app-with-maven/
+  - CircleCI
+    - https://jaxenter.de/der-softwarelieferheld-45524
+
+---
+# Quellen
+- Deployment strategies
+  - https://thenewstack.io/deployment-strategies/
+  - https://dev.to/mostlyjason/intro-to-deployment-strategies-blue-green-canary-and-more-3a3
+  - https://docs.cloudfoundry.org/devguide/deploy-apps/blue-green.html
+  - https://rollout.io/blog/rolling-deployment/
+  - https://medium.com/@Cycligent/pros-and-cons-of-5-popular-continuous-delivery-patterns-e2998af002ff
+  - https://de.wikipedia.org/wiki/Datei:Un-flag-square.png
+  - https://de.wikipedia.org/wiki/Flagge_Deutschlands#/media/Datei:Flag_of_Germany.svg
+- Dev[Sec]Ops
+  - https://www.plm.automation.siemens.com/media/global/de/polarion-devops_tcm53-26359.png
+  - https://www.youtube.com/watch?v=J73MELGF6u0
+  - https://www.youtube.com/watch?v=UbtB4sMaaNM
+- SRE
+  - https://landing.google.com/sre/
+  - https://www.youtube.com/watch?v=uTEL8Ff1Zvk
+  - https://landing.google.com/sre/interview/ben-treynor-sloss/
+
+    </textarea>
+  <script src="https://remarkjs.com/downloads/remark-latest.min.js">
+  </script>
+  <script>
+    var slideshow = remark.create();
+  </script>
+</body>
+
+</html>
