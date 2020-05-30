@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Infrastruktur</title>
+    <meta charset="utf-8">
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body { font-family: 'Droid Serif'; }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+# Infrastruktur
+
+André Kirsch
+
+---
+
+# Inhalt
+
+1. Cloud Computing
+2. The Twelve-Factor App
+3. Infrastructure as Code
+4. Virtualisierung und Containerisierung
+5. Container Patterns
+6. Docker
+7. Kubernetes
+
+---
+
+class: center, middle
+
+# Cloud Computing
+
+---
+
+# Was ist Cloud Computing?
+
+Eine Cloud ist ein Pool mit virtualisierten Rechnerressourcen, die die dynamische Skalierung von Anwendungen durch Erhöhen und Reduzieren von Ressourcen ermöglicht. (Boss et al.)
+
+Cloud Computing stellt eine komponentenbasierte Anwendungsentwicklung dar, bei der Anwendungsfragmente dynamisch abgerufen und in der Cloud eingesetzt werden können. (Skillicorn)
+
+Cloud Computing ist ein Paradigma, das auf bestehende Technologien und Konzepte (z.B. Software-as-a-Service, Verteiltes Rechnen, ...) aufbaut. (Weiss)
+
+---
+
+# Acht primäre Merkmale des Cloud Computing
+
+1. Zentralisierung von IT-Ressourcen
+2. Virtualisierung aller IT-Komponenten (Server, Netzwerke, Desktops)
+3. Automatisierung so vieler Aufgaben wie möglich
+4. Dynamische Verschiebung von Ressourcen
+5. Starke Abhängigkeit vom Internet
+6. Selbstbedienung der Endbenutzer (Endbenutzer können sich selbst ihre IT Ressourcen zuweisen)
+7. Nutzungsabhängiges Bezahlen für verwendete Ressourcen (pay-as-you-go)
+8. Vereinfachung von IT-Anwendungen und -Services
+
+---
+
+# Cloud-basierte Geschäftsmodelle
+
+Die Geschäftsmodelle sind in drei Ebenen unterteilt:
+
+- Infrastructure as a Service (IaaS)
+    - Bereitstellung von IT-Infrastruktur, die an den Ressourcenbedarf angepasst werden kann.
+    - Virtuelle Instanzen mit dazugehörigem Betriebssystem und inkludierter Rechenleistung
+- Platform as a Service (PaaS)
+    - Basis als Entwicklungs- und Applikationsplattform für darauf aufsetzende Anwendungen
+    - Verwaltung der zugrunde liegenden Infrastruktur entfällt
+    - Zielgruppe sind Softwareanbieter und Anwendungsentwickler
+- Software as a Service (SaaS)
+    - Onlinefähige, skalierbare Endbenutzeranwendungen, die lediglich grundlegende unternehmensindividuelle Einstellungen bedürfen
+
+---
+
+# Cloud Modelle
+
+- Public Cloud
+    - Öffentlich über das Internet zugängliche Dienste
+    - (z.B. Webmail-Dienste, Google Docs, ...)
+- Private Cloud
+    - Erlauben nur eine interne Nutzung von IT-Diensten innerhalb eines Unternehmens
+    - Besonderes Augenmerk liegt auf der Sicherheit und dem Datenschutz
+- Hybrid Cloud
+    - Bedienen sich sowohl der Eigenschaften der Private als auch der Public Cloud
+    - Bestimmte Services sind online abrufbar
+    - Datenschutzkritische Prozesse werden ausschließlich innerhalb eines Unternehmens betrieben
+- Community Cloud
+    - Spezialfall, bei dem eine private Cloud von mehreren Unternehmen verwendet wird
+
+---
+
+# Cloud Plattformen und ihre Dienste
+
+.center[![Cloud Plattformen](img/cloud_platforms.png)]
+
+|                              |                                                              |                                                |                                                              |
+| ---------------------------- | ------------------------------------------------------------ | ---------------------------------------------- | ------------------------------------------------------------ |
+| Kubernetes                   | EKS                           | GKE                  | AKS                              |
+| Datenbanken                  | Amazon RDS, Amazon DynamoDB, ...        | Cloud SQL, Firestore, ... | Azure Cosmos DB, Azure Database for (PostgreSQL, MySQL, MariaDB), ... |
+| Virtuelle Server             | Amazon EC2                                                   | Compute Engine                                 | Virtual Machines                                             |
+| Datenspeicher                | Amazon S3, Amazon EFS, ... | Cloud Storage, Persistent Disk, ...            | Speicherkonten, Disk Storage, ...                            |
+
+- Es gibt vieles mehr
+- AWS, GCP und Azure bieten alle eine Übersichtsseite an, auf der man alle Funktionen findet, die angeboten werden
+
+---
+
+class: center, middle
+
+# The Twelve-Factor App
+
+---
+
+# The Twelve-Factor App
+
+The Twelve-Factor App ist eine Methode, um SaaS Apps zu erstellen.
+
+1. Codebase<br>
+      Eine Codebasis, die von einem Versionskontrollsystem verwaltet wird
+2. Dependencies<br>
+      Explizite Angabe und Isolierung von Abhängigkeiten
+3. Config<br>
+      Konfigurationen werden in einem Environment gespeichert
+4. Backing Services<br>
+      Behandlung von unterstützenden Diensten als angegliederte Ressourcen
+5. Build, Release, Run<br>
+      Strenge Trennung von Build- und Run-Schritten
+6. Processes<br>
+      Ausführen der App als eine oder mehrere zustandslose Prozesse
+
+---
+
+# The Twelve-Factor App
+
+7. Port binding<br>
+      Veröffentlichen von Services mithilfe von Port Binding
+8. Concurrency<br>
+      Erweitern der Rechenleistung über das Process Model hinaus
+9. Disposability<br>
+      Maximieren der Robustheit mit schnellem Starten und angemessenem Abschalten
+10. Dev/Prod Parity<br>
+      Development, Staging und Production so ähnlich wie möglich halten
+11. Logs<br>
+      Behandle Logs wie Event Streams
+12. Admin Processes<br>
+      Führe Admin-/Management Aufgaben als One-Off Prozesse(Starten eines Skripts) aus
+
+---
+
+class: center, middle
+
+# Infrastructure as Code
+
+---
+
+# Was ist Infrastructure as Code?
+
+*Infrastructure as Code* ist ein Ansatz zur Automatisierung von Infrastruktur basierend auf Praktiken der Softwareentwicklung.
+
+.center[![Infrastructure as Code](img/infrastructure_as_code.png)]
+
+---
+
+# Ziele von Infrastructure as Code
+
+1. IT Infrastruktur soll Veränderungen erlauben, anstatt ein Hindernis zu sein
+2. Veränderungen am System sollen Routine statt Stress für die Benutzer und IT Mitarbeiter sein
+3. IT Mitarbeiter sollen ihre Zeit für wichtige statt für sich wiederholende Aufgaben nutzen
+4. Benutzer sollen selbstständig ihre Ressourcen, ohne die Hilfe eines IT Mitarbeiters, managen können
+5. Teams sollen sich möglichst schnell von Misserfolgen erholen anstatt anzunehmen, dass Misserfolge vollständig verhindert werden können
+6. Verbesserungen werden kontinuierlich gemacht anstatt alles auf einmal zu ändern
+7. Dass Lösungen zu Problemen funktionieren wird bewiesen durch Implementierungen, Tests und Messungen anstatt sie in Meetings zu diskutieren
+
+---
+
+# Tools
+
+.center[![Infrastructure as Code Software](img/IaS_software.png)]
+
+Weitere Tools: Chef, Puppet, Packer, CloudFormation(AWS), Heat
+
+### Vergleich
+
+1. Configuration Management vs Provisioning
+2. Mutable vs Immutable Infrastructure
+3. Procedural vs Declarative
+4. Master vs Masterless
+5. Agent vs Agentless
+
+.footnote[https://blog.gruntwork.io/why-we-use-terraform-and-not-chef-puppet-ansible-saltstack-or-cloudformation-7989dad2865c]
+
+---
+
+class: center, middle
+
+# Virtualisierung und Containerisierung
+
+---
+
+# Was ist Virtualisierung?
+
+Die Virtualisierung ist die Abstrahierung von IT-Ressourcen durch das Einfügen einer zusätzlichen Ebene zwischen Anwendung und Hardware. Dadurch ist es möglich, Services, Betriebssysteme oder Hardware zu emulieren und virtuell bereitzustellen. Für den Anwender verhält sich das virtuelle Objekt wie ein dediziertes Hard- oder Softwareobjekt. (Stefan Luber/Florian Karlstetter)
+
+![VM Software](img/vm_software.png)
+
+Hyperconverged Infrastructure (HCI): Virtualisierung des Storages, Computing und Networking, Vorkonfiguriertes System
+
+---
+
+class: center
+
+# Unterschiede zwischen Virtualisierung und Containerisierung
+
+![Unterschiede zwischen Virtualisierung und Containerisierung](img/comparison_virtualization_containerization_small.png)
+
+- Container besitzen kein Betriebssystem
+- Container werden durch ein Manifest beschrieben (z.B. dockerfile)
+
+---
+
+# Containerized Environments
+
+- Einrichten und Managen von containerisierten Anwendungen
+- Skalieren von containerisierten Anwendungen
+- Berücksichtigen von Ressourcenanforderungen
+- Automatisches LoadBalancing
+
+![Container Environments](img/container_environments.png)
+
+---
+
+class: center, middle
+
+# Container Patterns
+
+---
+
+# Single Container Management Patterns
+
+Der Container stellt neben seiner Hauptfunktionalität eine Schnittstelle für ein Managementsystem zur Verfügung.
+
+Upwards API:
+- Anwendungsinformationen (Überwachungsmetriken, Komponenteninformationen, ...) zur Verfügung stellen
+- Beispiel: /health
+
+Downwards API:
+- Verwalten des Container-Lebenszyklus
+- Erlaubt die Steuerung durch ein Container Management Tool
+- Beispiel: Sauberes Beenden eines Containers
+
+---
+
+class: center
+
+# Single-Node, Multi Container Application Patterns
+
+.left[Verwenden mehrerer Container innerhalb eines "Nodes".
+Folgt dem Prinzip, dass ein Container maximal eine Aufgabe besitzt.]
+
+![Sidecar Pattern](img/sidecar_pattern.png)
+
+---
+
+# Sidecar Pattern
+
+Erweitern oder Verbessern des Main Containers
+- Verlagern einer zweiten Aufgabe in einen zweiten Container und Teilen von Ressourcen
+
+![Sidecar Pattern](img/sidecar_pattern.png)
+
+---
+
+# Ambassador Pattern
+
+Ambassador Container dienen als Proxy für die Kommunikation des Main Containers mit mehreren anderen Containern.
+
+- Für den Main Container sieht es so aus, als würde er nur mit einem anderen Container sprechen
+- Sinnvoll für Load Balancing, wenn die Aufgaben der versteckten Container aufwendig sind
+
+![Ambassador Pattern](img/ambassador_pattern.png)
+
+---
+
+# Adapter Pattern
+
+Ein Adapter Container standardisiert den Zugriff auf einen Container.
+
+- Vereinheitlicht den Zugriff auf Container von einem zentralen System aus
+- Das zentrale System kann dieselbe Schnittstelle für die Kommunikation mit mehreren Anwendungen verwenden
+
+![Adapter Pattern](img/adapter_pattern.png)
+
+---
+
+class: center
+
+# Multi Node Application Patterns
+
+.left[Koordinierung mehrerer Nodes in einem verteilten System]
+
+![Scatter Gather Pattern](img/scatter_gather_pattern.png)
+
+---
+
+# Leader election Pattern
+
+Benötigen mehrere Anwendungen auf mehreren Containern einen Leader, wird das Leader election Pattern verwendet.
+
+- Ein Leader election Container läuft parallel zum Main Container (Sidecar Pattern)
+- Die Leader election Container arbeitet zusammen, damit zu jedem Zeitpunkt genau ein Leader existiert
+- Existiert kein Leader, wird von den Leader election Containern ein neuer Leader gewählt
+
+---
+
+# Scatter Gather Pattern
+
+Aufteilen einer Anfrage in parallel abzuarbeitende Aufgaben
+
+- Ein Root Container erhält eine Client Request
+- Ein Client Request wird aufgeteilt in mehrere parallel abzuarbeitende Requests und an mehrere Container gesendet
+- Die Antworten der Container werden von einem weiteren Container gebündelt
+
+![Scatter Gather Pattern](img/scatter_gather_pattern.png)
+
+---
+
+class: center, middle
+
+# Docker
+
+---
+
+# Zum Selbst ausprobieren
+
+.center[![Play with docker](img/play_with_docker.png)]
+
+.center[https://labs.play-with-docker.com/]
+
+---
+
+# Zum Selbst ausprobieren
+
+.center[![Play with docker](img/play_with_docker_terminal.png)]
+
+---
+
+# Wie funktioniert Docker?
+
+.center[![Docker Abbildung](img/dockerdaemon.png)]
+
+---
+
+# Docker Hub
+
+- Dockers eigene Container Image Repository
+- Man findet bereits viele direkt verwendbare Container
+- Die bereits vorhandenen Images lassen sich leicht erweitern
+
+.center[![Docker Hub](img/dockerhub.png)]
+
+---
+
+# Container starten mit docker run
+
+Mit *docker run* können Container erstellt und gestartet werden.
+
+```
+docker run hello-world
+```
+-> Simpler Container, der auf der Konsole einen Text ausgibt.
+
+.center[![hello-world Output](img/hello-world_output.png)]
+
+1. Der Docker Client sendet einen Befehl an den Docker Daemon.
+2. Der Docker Daemon lädt das hello-world Image von Docker Hub herunter.
+3. Es wird von dem hello-world Image aus ein Docker Container erstellt und ausgeführt.
+4. Der Docker Daemon sendet die Ausgabe des Container an den Docker Client, welcher diese Ausgabe im Terminal ausgibt.
+
+---
+
+# docker run Eingabeparameter
+
+| Parameterbeispiel | Beschreibung                                                 |
+| ----------------- | ------------------------------------------------------------ |
+| -it               | Starte den Container als interaktive Shell                   |
+| -d                | Löse den Container von der aktuellen Shell                   |
+| --name container1 | Container benennen                                           |
+| -rm               | Entferne den Container, nachdem er beendet wurde             |
+| -p 8080:80        | "Weiterleiten" eines Ports an einen Container                |
+| -e "HOME=/www"    | Setzen von Umgebungsvariablen                                |
+| -v /www:/var/www  | Verzeichnisse des Host System einem Container zur Verfügung stellen |
+
+
+Verwendung von Parametern am Beispiel nginx:
+
+```
+docker run -v ~/www:/usr/share/nginx/html:ro -p 8080:80 nginx
+```
+
+---
+
+# Docker Images erstellen - Das Dockerfile
+
+Beispiel:
+
+```
+FROM ubuntu:18.04
+
+RUN apt-get update && \
+    apt-get install -y nano && \
+    rm -rf /var/lib/apt/lists/*
+
+COPY secret_pw.txt /
+
+ENTRYPOINT ["nano"]
+CMD ["secret_pw.txt"]
+```
+
+### Was passiert hier?
+
+1. Wähle das Basis Image ubuntu:18.04
+2. Ausführen von Befehlen mit RUN
+3. Datei in das Image kopieren
+4. Setzen eines Einstiegspunktes und Übergabe von Parametern
+
+---
+
+# Image erstellen
+
+```
+docker build -t beispiel .
+```
+
+### Was passiert hier?
+
+- Es wird ein Build Context erstellt
+- Alle Dateien und Ordner im aktuellen Verzeichnis werden an den Docker Daemon gesendet
+- Der Docker Daemon erstellt aus dem Dockerfile und den gesendeten Dateien ein Docker Image
+- Mit -t wird dem Docker Image ein Name gegeben
+
+---
+
+# Dockerfile Instruktionen
+
+| Instruktion   | Beschreibung                                                 |
+| ------------- | ------------------------------------------------------------ |
+| FROM xxx      | Angeben des Basis Images                                     |
+| RUN cmd       | Ausführen eines oder mehrerer Befehle                        |
+| EXPOSE port   | Angabe eines verwendeten Ports                               |
+| ENV key value | Angabe von Umgebungsvariablen                                |
+| COPY (& ADD)  | Kopieren von Dateien und Ordnern in das Docker Image         |
+| WORKDIR path  | Angabe des aktuellen Arbeitsverzeichnisses (Equivalent zu RUN cd path) |
+| ENTRYPOINT    | Angabe des Image Main Commands                               |
+| CMD           | Angabe des Image Main Commands oder in Kombination mit ENTRYPOINT Angabe von Parametern |
+
+---
+
+# Docker Compose
+
+Docker Compose ist ein Tool zum Erstellen und Starten von Multi-Container Docker Anwendungen.
+
+- Definition in einer YAML Datei (docker-compose.yml)
+- Starten von Docker Compose mit *docker-compose up*
+
+---
+
+# docker-compose.yml
+
+Beispiel:
+
+```
+version: '3'
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+  redis:
+    image: "redis:alpine"
+```
+
+- Zwei Services wurden definiert mit den Namen web und redis
+- redis besitzt ein Image aus Docker Hub, web wird vom aktuellen Ordner aus erstellt
+- Beide Services befinden sich automatisch in einem Netzwerk
+- Der Name eines Services ist auch sein Hostname im Netzwerk, mit dem man auf ihn zugreifen kann
+
+---
+
+# Service Optionen
+
+- Viele Überschneidungen mit den *docker run* Parametern
+
+| Parameter   | Beschreibung                                                |
+| ----------- | ----------------------------------------------------------- |
+| build .     | Gibt an, dass das Docker Image erstellt werden muss         |
+| image       | Name des Docker Images                                      |
+| depends_on  | Angabe von Services, die vor diesem gestartet werden sollen |
+| environment | Angabe von Umgebungsvariablen                               |
+| ports       | Veröffentlichen von Ports für das Hostsystem                |
+| volumes     | Angeben eines Volumes                                       |
+
+---
+
+# Beispiel docker-compose.yml
+
+```
+version: '3'
+services:
+  web:
+    build: .
+    image: myWebsite
+    ports:
+      - "8080:80"
+    depends_on:
+      - redis
+    environment:
+      - WEBSITE_DIR=/root/www
+    volumes:
+      - "/home/user/myProjectWebsite:/root/www"
+  redis:
+    image: "redis:alpine"
+```
+
+---
+
+class: center, middle
+
+# Docker in Aktion
+
+---
+
+class: center, middle
+
+# Kubernetes
+
+---
+
+# Kubernetes Cluster
+
+.center[![Kubernetes Cluster](img/kubernetes_cluster.png)]
+
+- Ein Master managt das Kubernetes Cluster
+- Ein Node ist eine VM oder physischer Server, auf dem eine Kubelet Instanz aktiv ist
+- Wenn Anwendungen im Kubernetes Cluster gestartet werden sollen, werden diese vom Master an die Nodes verteilt
+
+---
+
+# Deployments in Kubernetes
+
+.center[![Kubernetes Cluster](img/kubernetes_cluster2.png)]
+
+- Mit dem Command Line Tool *kubectl* kann man mit dem Kubernetes Cluster interagieren
+- Mit einem Deployment kann ein Zustand eines Clusters beschrieben werden
+- Ein Deployment Controller kann den Zustand eines Clusters verändern
+
+
+- Fällt ein Pod oder ein ganzer Node aus, wird dieser automatisch ersetzt
+- Ein ausgefallener Pod wird neu erstellt
+- Bei einer ausgefallenen Node werden alle Pods, die darauf liefen, auf anderen Nodes neu gestartet
+
+---
+
+# Pods in Kubernetes
+
+.center[![Kubernetes Pods](img/pods.png)]
+
+- Container gehören immer zu einem Pod, der auf einem Node läuft
+- In einem Pod sind immer nur Container, die zueinander gehören
+- Container in einem Pod können sich Ressourcen teilen und über *localhost* kommunizieren
+- Container in einem Pod laufen immer auf der selben Maschine
+- Ein Node kann mehrere Pods besitzen
+
+Pods werden immer von einem Benutzer erstellt und existieren solange, bis sie explizit gestoppt werden. Sie können zum Beispiel über ein Deployment gestartet werden. Pods können auch eine *Restart Policy* mit den möglichen Werten Always, OnFailure und Never besitzen.
+
+---
+
+# Services
+
+Jeder Pod besitzt eine eigene IP-Adresse und gehört zu einem geschlossenen Netzwerk, das nicht von außen erreichbar ist.
+
+Ein Service kann verwendet werden, um von außerhalb auf Pods zuzugreifen.
+
+- Ein Service definiert ein Set an Pods anhand eines *selector*s
+- Er besitzt eine Policy, die beschreibt, wie auf die Pods zugegriffen werden kann
+- Service Typen:
+      - ClusterIP: Der Service ist nur innerhalb des Clusters erreichbar
+      - NodePort: Der Service wird auf jeder einzelnen Node veröffentlicht
+      - LoadBalancer: Auf jedem Node wird ein *ClusterIP* und *NodePort* Service erstellt, die von einem externen LoadBalancer angesprochen werden
+
+Kubernetes Ingress: LoadBalancer, Kombinieren von mehreren Services<br>
+Beispiel: Eine API bietet mehrere Versionen an, die unter verschiedenen Pfaden erreichbar sind (/v1, /v2)
+
+---
+
+# Volumes
+
+- Ein Volume in Kubernetes kann im Vergleich zu Docker mehr als nur ein Verzeichnis sein
+- Ein Pod kann spezifieren, welche Volumes er benötigt
+- Wenn ein Pod entfernt wird, wird auch dessen Volume entfernt - Die Daten werden aber zwischen Pod Restarts gespeichert
+
+Volume Typen:
+- awsElasticBlockStore (für AWS): Speicherplatz, der über AWS verwaltet wird. Kann nur in Kombination mit EC2 Instanzen verwendet werden
+- gcePersistentDisk (für GCP): Wie awsElasticBlockStore, nur für Google Cloud Platform. Die Nodes, auf denen die Pods mit den Volumes gestartet werden, müssen GCE VMs sein
+- configMap: *configMap* Daten können über diese Methode zu Pods hinzugefügt werden
+- emptyDir: Leeres Verzeichnis, über das Container in einem Pod Informationen austauschen können. Das Verzeichnis wird vollständig gelöscht, wenn der Pod entfernt wird
+- hostPath: Verzeichnis auf dem Host System
+- ...
+
+---
+
+# Config Maps
+
+- Eine ConfigMap ermöglicht das Hinzufügen von Konfigurationen zu einer Anwendung
+- Einträge in Form von Schlüssel-Wert-Paaren oder einer Liste an Schlüssel-Wert-Paaren wie in einer Datei
+
+Es existieren vier Möglichkeiten, um Informationen von einer ConfigMap zu erhalten bzw. weiterzugeben:
+1. Als Kommandozeilenargumente dem Entrypoint des Containers übergeben
+2. Als Umgebungsvariablen eines Containers
+3. Als Read-Only Volume wie bei einer Config-Datei
+4. Ausführen von Code innerhalb eines Pods, der mit der Kubernetes API kommuniziert
+
+---
+
+class: center, middle
+
+# Kubernetes in Aktion
+
+---
+
+class: center, middle
+
+# Noch Fragen?
+
+---
+
+# Quellen I
+
+- https://www.researchgate.net/publication/289532506_Cloud_Computing_An_Aspect_of_Information_System
+- https://link.springer.com/content/pdf/10.1007/BF03340507.pdf
+- https://aws.amazon.com/de/types-of-cloud-computing/
+- https://teamdrive.com/die-verschiedenen-modelle-der-cloud/
+- http://www.webtorials.com/main/resource/papers/webtorials/2009-Cloud-Guide/Cloud-Computing-Guide.pdf
+- https://azure.microsoft.com/de-de/services/
+- https://cloud.google.com/products?hl=de
+- https://aws.amazon.com/de/
+- https://12factor.net/
+- https://books.google.de/books?hl=de&lr=&id=BIhRDAAAQBAJ&oi=fnd&pg=PR2&dq=infrastructure+as+code&ots=yWbn6XZHSl&sig=mkec4gFgCp9wrqMUYnqMuWS83NI#v=onepage&q&f=false
+- https://docs.microsoft.com/en-us/azure/devops/learn/what-is-infrastructure-as-code
+- https://blog.gruntwork.io/why-we-use-terraform-and-not-chef-puppet-ansible-saltstack-or-cloudformation-7989dad2865c
+
+---
+
+# Quellen II
+
+- https://www.cloudcomputing-insider.de/was-ist-virtualisierung-a-756279/
+- https://www.cloud-mag.com/was-ist-openstack/
+- https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=8091086
+- https://www.vmware.com/de/products/hyper-converged-infrastructure.html
+- https://www.computerweekly.com/de/ratgeber/OpenStack-und-Hyperkonvergenz-bilden-Open-Source-Cloud
+- https://superuser.openstack.org/articles/openstack-and-kubernetes-competing-or-complementary/
+- https://medium.com/tech-bits/container-design-patterns-7020b132675
+- https://hackernoon.com/what-is-containerization-83ae53a709a6
+- https://www.cloudcomputing-insider.de/was-ist-kubernetes-k8s-a-832381/
+- https://labs.play-with-docker.com/
+- https://docs.docker.com/develop/develop-images/dockerfile_best-practices/
+- https://docs.docker.com/compose/gettingstarted/
+- https://docs.docker.com/compose/compose-file/
+- https://kubernetes.io/docs/home/
+
+
+
+    </textarea>
+    <script src="https://remarkjs.com/downloads/remark-latest.min.js">
+    </script>
+    <script>
+      var slideshow = remark.create();
+    </script>
+  </body>
+</html>
