@@ -24,67 +24,79 @@ class: center, middle
 # Cloud Computing Pattern
 Tim Steven Meier | FH Bielefeld
 
+---
+
+# Gliederung
+
+1. Availability und Performance
+2. Data Management
+3. Design und Implementation
+4. Messaging
+5. Management und Monitoring
+6. Ausfallsicherheit
+7. Security
 
 ---
 
 class: center, middle
-# Availability und Performanz
+# Availability und Performance
 ---
-# Availability und Performanz
+# Availability und Performance
 
 
-Bei der Availability wird gemessen, wie lange der Server oder System verfügbar ist
+- Bei der Availability wird gemessen, wie lange der Server oder System verfügbar ist
 
-Die Verfügbarkeit kann durch Systemfehler, hoher Nutzeranzahl und Angriffen beeinflusst werden
+- Die Verfügbarkeit kann durch Systemfehler, hoher Nutzeranzahl und Angriffe beeinflusst werden
 
 
-Bei der Performanz eines Systems geht es nicht nur darum, dass das System überhaupt läuft, sondern das es möglichst schnell läuft
+- Bei der Performance eines Systems geht es nicht nur darum, dass das System überhaupt läuft, sondern dass es möglichst schnell läuft
 
-Um eine bessere Performanz zu erreichen kann man versuchen das System zu skalieren und die Anzahl der Server und somit die Rechenleistung zu erhöhen
+- Um eine bessere Performance zu erreichen, kann man versuchen das System zu skalieren und die Anzahl der Server und somit die Rechenleistung zu erhöhen
 ---
 
 ### Deployment Stamps
 - Kontext:
-    - Ein einzelne Instanz eines Servers kann zu Problemen mit der Performanz und Verfügbarkeit führen
+    - Ein einzelne Instanz eines Servers kann zu Problemen mit der Performance und Verfügbarkeit führen
     - Ein Server in Amerika führt dazu, dass Nutzer in anderen Teilen der Welt schlechte Latenz haben
 - Lösung:
     - Das System kopieren und mehrmals deployen
 - Vorteile:
-    - Mehrere Server innerhalb einer Region erhöht die Performanz und Verfügbarkeit
+    - Mehrere Server innerhalb einer Region erhöhen die Performance und Verfügbarkeit
     - Verteilt auf der ganzen Welt verbessert die Latenz von Nutzern der ganzen Welt
 - Probleme und Überlegungen:
-    - Mehr Server erfordern mehr Maintanance und Kosten
+    - Mehr Server erfordern mehr Maintainance und Kosten
     - Routing zu den richtigen Stamps muss eingerichtet werden
 ---
-### Geodes
+### Geoden
 - Kontext:
     - Eine einzelne Serverregion führt dazu, dass Nutzer auf der ganzen Welt schlechte Latenz haben
 - Lösung:
-    - __ge__ographical n**odes**
-    - ein globaler load balancer verteilt die Aufgaben an die einzelnen Geoden
-    - replizierte Datenbanken, die in allen Geoden untereinander konsistent sind 
+    - __Ge__ographical n**oden**
+    - Ein globaler Load Balancer verteilt die Aufgaben an die einzelnen Geoden
+    - Replizierte Datenbanken, die in allen Geoden untereinander konsistent sind 
 - Vorteile:
-    - niedrige Latenz für Nutzer auf der ganzen Welt(Performanz)
-    - Wenn eine Geode abstürzt, dann übernehmen andere dessen Tasks(Availability)
+    - Niedrige Latenz für Nutzer auf der ganzen Welt
+    - Wenn eine Geode abstürzt, dann übernehmen andere dessen Tasks
 - Probleme und Überlegungen:
-    - mehr Server bedeuten mehr Kosten, man muss überlegen in welchen Regionen sich ein Geoden lohnen
-    - vielleicht lohnen sich Deployment Stamps mehr, da eine gemeinsame Datenbank nicht immer erwünscht ist, und die Nutzer häufig nicht global verteilt sind
+    - Mehr Server bedeuten mehr Kosten
+    - Man muss überlegen, in welchen Regionen sich Geoden lohnen
+    - Vielleicht lohnen sich Deployment Stamps mehr, da eine gemeinsame Datenbank nicht immer erwünscht ist und die Nutzer häufig nicht global verteilt sind
 ---
 
 ### Throttling (Drosselung)
 - Kontext:
     - Die Anzahl an Requests an einen Service sind nicht konstant gleich, manchmal werden sie zu groß und der Service wird überlastet
-    - In einem solchen Fall wird der Service in der Regel hochgescaled, aber das benötigt Zeit, da die zusätzlichen Server erst hochfahren müssen
+    - In einem solchen Fall wird der Service in der Regel hochgeskaliert, aber das benötigt Zeit, da die zusätzlichen Server erst hochfahren müssen
 - Lösung:
-    - In dem Zeitfenster zwischen der hohen Anzahl an Anfragen und den zusätzlichen Servern werden die Anfragen gedrosselt
+    - In dem Zeitfenster zwischen der hohen Anzahl an Anfragen und dem Hochfahren zusätzlicher Server werden die Anfragen gedrosselt
     - Mehrere Möglichkeiten:
         - Mit dem Queue Based Load Leveling kann es nicht zu einer Überlastung kommen
-        - einen Teil der Funktionalität abschalten, damit der Rest funktioniert
+        - Einen Teil der Funktionalität abschalten, damit der Rest funktioniert
 - Vorteile:
-    - Der Server stürzt nicht an Überlastung ab(Availability) und funktioniert weiter(Performanz)
+    - Der Server stürzt nicht wegen Überlastung ab und funktioniert weiter
 - Probleme und Überlegungen:
     - Throttling zu implementieren ist nicht schwer, muss allerdings schon bei der Planung des Services beachtet werden
-    - Es muss schnell gehandelt werden um Throttling einzuleiten
+    - Es muss schnell gehandelt werden, um Throttling einzuleiten
 
 ---
 ### Queue-Based Load Leveling
@@ -93,12 +105,12 @@ Um eine bessere Performanz zu erreichen kann man versuchen das System zu skalier
     - Bei Peaks können die Aufgaben nicht schnell genug abgearbeitet werden
 - Lösung:
     - Eine Queue zwischen den Requests und den Services, die diese bearbeiten
-    - die Anzahl an Aufgaben bleibt konsistenter
+    - Die Anzahl an Aufgaben bleibt konsistenter
 - Vorteile:
-    - es sind weniger Services nötig, da nicht eine Anzahl an Services benötigt wird, die mit dem Peak zurecht kommt, sondern mit dem durchschnittlichen Aufkommen
+    - Es sind weniger Services nötig, da nicht eine Anzahl an Services benötigt wird, die mit dem Peak zurecht kommt, sondern mit dem durchschnittlichen Aufkommen
 - Probleme und Überlegungen:
-    - wenn die Queue zu lang wird, es also ein langen Peak an Requests gibt, dann kann man die Anzahl an Services hochscalen
-    - Queues sind eine einweg Kommunikation und es gibt keine Response
+    - Wenn die Queue zu lang wird, es also ein langen Peak an Requests gibt, dann kann man die Anzahl an Services hochscalen
+    - Queues sind eine einseitige Kommunikation und es gibt keine Response
 
 ---
 ### Queue-Based Load Leveling
@@ -106,13 +118,13 @@ Um eine bessere Performanz zu erreichen kann man versuchen das System zu skalier
 ---
 
 class: center, middle
-# Data Managment
+# Data Management
 ---
-# Data Managment
+# Data Management
 
-Damit die Performanz und Verfügbarkeit bei Operationen mit Daten, wie beim Downloaden und uploaden von Datenbank
+- Damit die Performance und Verfügbarkeit bei Operationen mit Daten wie beim Downloaden und Uploaden von Datenbank
 
-Konsistenz der Daten ist wichtig, wenn die Datenbank mehrmals existiert
+- Konsistenz der Daten ist wichtig, wenn die Datenbank mehrmals existiert
 ---
 
 ### Cache-Aside
@@ -127,9 +139,9 @@ Konsistenz der Daten ist wichtig, wenn die Datenbank mehrmals existiert
     - Weniger Requests auf die Datenbank
 - Probleme und Überlegungen:
     - Cache ist nicht immer aktuell
-        - Ablaufdatum des Cache
-            - lang genug um nicht die gleichen Daten mehrmals aus dem Datenspeicher zu lesen
-            - kurz genug um keine veralteten Daten zu haben
+        - Ablaufdatum des Caches
+            - Lang genug um nicht die gleichen Daten mehrmals aus dem Datenspeicher zu lesen
+            - Kurz genug um keine veralteten Daten zu haben
 
 ---
 ### Sharding
@@ -137,24 +149,24 @@ Konsistenz der Daten ist wichtig, wenn die Datenbank mehrmals existiert
 - Kontext:
     - Ein einzelner Server hat nicht unendlich Speicherplatz
     - Die Zugriffsgeschwindigkeit eines einzelnen Servers auf den Datenspeicher ist limitiert
-    - Ein Server ist limitiert mit der Geschwindigkeit des Internets
-    - Daten aus unterschiedlichen Ländern dürfen wegen Gesetzen und sollten aus Latenz und Performanz Gründen nicht auf einem Server gespeichert sein
-    - Den Datenserver zu kopieren reicht nicht aus um mit jeden der Punkte zu beheben
+    - Ein Server ist durch die Geschwindigkeit des Internets limitiert
+    - Daten aus unterschiedlichen Ländern dürfen wegen Gesetzen und sollten aus Latenz und Performance Gründen nicht auf einem Server gespeichert sein
+    - Den Datenserver zu kopieren reicht nicht aus, um jeden der Punkte zu beheben
 - Lösung:
     - Sharding: Aufteilen des Datenspeichers in Shards, welche einen Teil der Daten halten
     - Mehrere Varianten:
-        - eine zentrale Lookuptabelle, welche weiß, in welchem Shard die Daten gespeichert sind
-            - nachschauen wo die Daten steht kostet etwas Zeit
+        - Eine zentrale Lookup-Tabelle, welche weiß, in welchem Shard die Daten gespeichert sind
+            - Nachschauen, wo die Daten stehen, kostet etwas Zeit
         - Aufteilen der Shards nach Zeiten: Shard A enthält nur Daten aus dem Januar 2020, Shard B enthält Daten aus Februar 2020, etc.
-            - einfaches Managment
+            - Einfaches Management
             - Shards sind wahrscheinlich nicht gleich groß und werden unterschiedlich oft benutzt
 ---
 ### Sharding
             
 - Vorteile:
-    - Möglichkeit einen Datenspeicher zu vergößern wenn ein einzelner Server, bzw. mehrere Kopien des Servers nicht mehr ausreichen
+    - Möglichkeit, einen Datenspeicher zu vergößern, wenn ein einzelner Server, bzw. mehrere Kopien des Servers nicht mehr ausreichen
 - Probleme und Überlegungen:
-    - Beim Aufteilen auf Shards muss man aufpassen, dass Daten die zusammengehören oder häufig zusammen gebraucht werden in die gleichen Shards packt
+    - Beim Aufteilen auf Shards muss man aufpassen, dass Daten die zusammengehören oder häufig zusammen gebraucht werden in die gleichen Shards gepackt werden
     - Wenn Queries auf mehrere Shards zugreifen müssen und deswegen langsam sind, kann man das Index Table Pattern verwenden
     - Viele Shards zu managen kann sehr aufwändig werden
     - Datenkonsistenz kann ein Problem werden
@@ -165,59 +177,59 @@ Konsistenz der Daten ist wichtig, wenn die Datenbank mehrmals existiert
 ### Index Table
 
 - Kontext:
-    - Für gewöhnlich haben Datenbanken nur einen Primärkey
-    - Wenn Daten abgefragt werden, werden diese über den Primärkey abgefragt
+    - Für gewöhnlich haben Datenbanken nur einen Primärschlüssel
+    - Wenn Daten abgefragt werden, werden diese über den Primärschlüssel abgefragt
     - Was ist aber, wenn man die Daten häufig über andere Felder abfragen möchte?
 - Lösung:
-    - mehrere Möglichkeiten
+    - Mehrere Möglichkeiten
 
 
 ---
 
 ### Index Table
-- komplette Tabelle kopieren und mit anderem Feld als Primärschlüssel umbauen
+- Komplette Tabelle kopieren und mit anderem Feld als Primärschlüssel umbauen
 - Diese Methode ist bei häufigen Änderungen in den Daten oder großen Datenmengen ungeeignet
 .center[![index_table1](./img/index_table1.PNG)]
 
 ---
 
 ### Index Table
-- neue Tabelle(Index Tabelle) mit dem Primärschlüssel und dem gewünschten Feld, das gewünschte Feld wird in der neuen Tabelle als Primärschlüssel verwendet
-    - weniger Speicher und weniger doppelte Daten
-    - allerdings müssen zwei Queries gemacht weden um die gewünschten Daten zu bekommen
+- Neue Tabelle(Index Tabelle) mit dem Primärschlüssel und dem gewünschten Feld
+- Das gewünschte Feld wird in der neuen Tabelle als Primärschlüssel verwendet
+    - Weniger Speicher und weniger doppelte Daten
+    - Allerdings müssen zwei Queries gemacht werden um die gewünschten Daten zu bekommen
 .rigth[![index_table2](./img/index_table2.PNG)]
 
 ---
 
 ### Index Table
-- eine Mischung aus beiden; Indextabelle mit dem gewünschten Schlüssel als Primärkey, dem originalen Primärkey zum nachschauen von Daten in der Originaltabelle und die am häufigsten verwendet Felder
-    - häufig benutzte Daten können mit einer Query geholt werden
-    - andere Daten können über zwei Queries erreicht werden
+- Eine Mischung aus beidem
+- Indextabelle mit dem gewünschten Schlüssel als Primärschlüssel, dem originalen Primärschlüssel zum Nachschauen von Daten in der Originaltabelle und die am häufigsten verwendeten Felder
+    - Häufig benutzte Daten können mit einer Query geholt werden
+    - Andere Daten können über zwei Queries erreicht werden
 .center[![index_table3](./img/index_table3.PNG)]
-
-
 
 ---
 
 ### Index Table
 - Vorteile:
-    - Erhöhte Performanz beim Zugriff auf Daten über einen anderen als den Primärkey
+    - Erhöhte Performance beim Zugriff auf Daten über einen Anderen als den Primärschlüssel
 - Probleme und Überlegungen:
-    - Mehraufwand durch managen mehrerer Tabellen
-    - mögliche Konsistenzprobleme
-    - erhöhte Speicherkosten
+    - Mehraufwand durch Managen mehrerer Tabellen
+    - Mögliche Konsistenzprobleme
+    - Erhöhte Speicherkosten
 ---
 ### Materialized View
 
 - Kontext:
-    - Komplexe Queries bei der Daten aus verschiedenen Tabellen zusammengebaut werden benötigen viel Zeit
+    - Komplexe Queries, bei der Daten aus verschiedenen Tabellen zusammengebaut werden benötigen viel Zeit
 - Lösung:
     - Eine Materialized View erstellen
-    - Eine Materialized View baut automatisch eine neue Tabelle zusammen, welche für die komplizierte Query optimiert ist
+    - Eine Materialized View baut automatisch eine neue Tabelle zusammen, welche für die komplexe Query optimiert ist
 - Vorteile:
     - Eine Query der Daten ist wesentlich schneller
 - Probleme und Überlegungen:
-    - Die View muss bei Änderungen der Datenbank neu erstellt werden, was bei vielen Änderungen in der Datenbank zu einem Performanz Problem führen kann
+    - Die View muss bei Änderungen der Datenbank neu erstellt werden, was bei vielen Änderungen in der Datenbank zu einem Performance Problem führen kann
         - In diesem Fall kann die View auch zu regelmäßigen Zeiten erstellt werden, hierbei Konsistenz beachten
 
 
@@ -228,20 +240,20 @@ Konsistenz der Daten ist wichtig, wenn die Datenbank mehrmals existiert
 ---
 ### Event Sourcing
 - Kontext:
-    - CRUD(create, read, update, and delete) wird in der Regel benutzt um Daten zu ändern
-    - Wenn zwei Instanzen gleichzeitg auf eine Datei zugreifen und ändern, dann gibt es Konflikte
-    - Mit CRUD wird die Datenbank mit jeder Operation belastet1
+    - CRUD(create, read, update, and delete) wird in der Regel benutzt, um Daten zu ändern
+    - Wenn zwei Instanzen gleichzeitig auf eine Datei zugreifen und diese ändern, dann gibt es Konflikte
+    - Mit CRUD wird die Datenbank mit jeder Operation belastet
 - Lösung:
-    - speichere(append) Events in einem Speicher
-    - wenn man den jetzigen Zustand haben möchte, dann wendet man alle Events auf den Ursprung an.
-    - häufig mit CQRS implementiert
+    - Speichere(append) Events in einem Speicher
+    - Wenn man den aktuellen Zustand haben möchte, dann wendet man alle Events auf den Ursprung an.
+    - Häufig mit CQRS implementiert
 - Vorteile:
-    - durch gespeicherte Events ist Monitoring schon gegeben
-    - weniger oder keine Konflikte in den Daten
+    - Durch gespeicherte Events ist Monitoring schon gegeben
+    - Weniger oder keine Konflikte in den Daten
 - Probleme und Überlegungen:
     - Events sind unveränderlich und in der Vergangenheit passiert
-    - auf Dauer wird die Anzahl an Events immer größer und der jetzige Zustand wird schwerer zu berechnen -> regelmäßige Snapshots
-    - der jetzige Zustand muss immer wieder nue berechnet werden, wodurch es aufwändig ist diesen oft auszugeben
+    - Auf Dauer wird die Anzahl an Events immer größer und der aktuelle Zustand wird schwerer zu berechnen -> regelmäßige Snapshots
+    - Der jetzige Zustand muss immer wieder neu berechnet werden, wodurch es aufwändig ist ,diesen oft auszugeben
     - Rollback ist kaum möglich -> Compensating transaction
 
 
@@ -252,14 +264,14 @@ Konsistenz der Daten ist wichtig, wenn die Datenbank mehrmals existiert
 - Kontext: 
     - Unstimmigkeit zwischen der Lese- und Schreibdarstellung der Daten
     - Konflikte bei gleichzeitigen Aktualisierungen
-    - Rechte kann man nicht nur für lesen verteilen (Sicherheit)
+    - Rechte kann man nicht nur für Lesen verteilen (Sicherheit)
 - Lösung:
     - Read(Query) und Write(Command) durch seperate Interfaces trennen
 - Vorteile:
-    - man kann die Interfaces getrennt skalieren
-    - die Interfaces lassen sich auf ihre Operation feintunen
+    - Man kann die Interfaces getrennt skalieren
+    - Die Interfaces lassen sich auf ihre Operation feintunen
 - Probleme und Überlegungen:
-    - Konsistenz zwischen Read und Write model
+    - Konsistenz zwischen Read und Write Model
     - Komplexere Applikation
 
 
@@ -271,7 +283,7 @@ Konsistenz der Daten ist wichtig, wenn die Datenbank mehrmals existiert
 - Lösung:
     - Ein Speicher für statische Inhalte kann die Requests übernehmen.
 - Vorteile:
-    - Die Kosten eines Speichers sind viel geringer, als die für einen Server
+    - Die Kosten eines Speichers sind viel geringer als die für einen Server
 - Probleme und Überlegungen:
     - Die statischen Daten können von dem Webserver nicht mehr bearbeitet werden
     - Bei wenigen statischen Inhalten lohnt sich das Pattern nicht
@@ -292,14 +304,14 @@ Konsistenz der Daten ist wichtig, wenn die Datenbank mehrmals existiert
     - Client uploadet/downloadet Daten zu einem Datastore
     - Allerdings sind die Daten im Datastore nicht mehr sicher, da jeder Client auf diese zugreifen kann
 - Lösung:
-    - Client fragt Resource beim Webserver an
-    - Server validiert die Anfrage und sendet einen Key und die Adresse der Resource
-    - Client kann mit den Informationen die gewüschte Resource vom Datastore bekommen
+    - Client fragt Ressource beim Webserver an
+    - Server validiert die Anfrage und sendet einen Key und die Adresse der Ressource
+    - Client kann mit den Informationen die gewünschte Ressource vom Datastore bekommen
 - Vorteile:
-    - Performanz und Stabilität des Webservers werden geschont
+    - Performance und Stabilität des Webservers werden geschont
 - Probleme und Überlegungen:
     - Der Key muss verschlüsselt an den Client gesendet werden
-    - Der Key sollte nur einen kurzen Zeitraum funktionieren und nur wenige Rechte(z.b read/write) geben
+    - Der Key sollte nur einen kurzen Zeitraum funktionieren und nur wenige Rechte(z.b Read/Write) geben
     - Die Daten können nicht mehr verändert werden, bevor der Client sie herunterlädt
 
 ---
@@ -309,13 +321,13 @@ Konsistenz der Daten ist wichtig, wenn die Datenbank mehrmals existiert
 ---
 
 class: center, middle
-# Design und Implementation
+# Design und Implementierung
 ---
-# Design und Implementation
+# Design und Implementierung
 
-Gutes Design umfasst Faktoren, wie Wartbarkeit der Software und Wiederverwendbarkeit einzelner Komponenten
+- Gutes Design umfasst Faktoren, wie Wartbarkeit der Software und Wiederverwendbarkeit einzelner Komponenten
 
-Während der Implementierung können diese Muster helfen eine bessere Softwarequalität zu erreichen
+- Während der Implementierung können diese Muster helfen eine bessere Softwarequalität zu erreichen
 
 ---
 ### Backends for Frontends
@@ -337,12 +349,12 @@ Während der Implementierung können diese Muster helfen eine bessere Softwarequ
 ### Anti Corruption Layer
 - Kontext:
     - Bei der Migration eines alten Systems auf ein neues System werden noch alte Teile der API/DB benötigt
-    - Das alte System verwendet jedoch veraltete Technologien und ist nocht mit dem modernen System vereinbar
+    - Das alte System verwendet jedoch veraltete Technologien und ist nicht mit dem modernen System vereinbar
 - Lösung:
     - Eine Schicht, welche das alte System von dem neuen System trennt
     - Das Anti Corruption Layer fungiert als Brücke zwischen den Systemen
 - Vorteile:
-    - Es ist möglich mit dem neuen System auf die alten Daten zuzugreifen
+    - Es ist möglich, mit dem neuen System auf die alten Daten zuzugreifen
 - Probleme und Überlegungen:
     - Höhere Latenz
     - Das Anti Corruption Layer muss erstellt und gewartet werden
@@ -355,7 +367,7 @@ Während der Implementierung können diese Muster helfen eine bessere Softwarequ
 
 ### Strangler
 - Kontext:
-    - Ein System, welches über Jahre erstellt wurde wird schwer zu warten und veraltet
+    - Ein System, welches über Jahre erstellt wurde, wird schwer zu warten und veraltet
     - Das System in einem Stück komplett neu aufzubauen ist eine viel zu große Aufgabe
 - Lösung:
     - Nach und nach Teile des Systems austauschen
@@ -392,31 +404,31 @@ Während der Implementierung können diese Muster helfen eine bessere Softwarequ
 - Kontext:
     - Häufig arbeiten mehrere (gleiche) Instanzen zusammen an den gleichen Aufgaben, zum Beispiel bei komplexen Berechnungen
     - Die Instanzen sind durch Scaling kopiert worden
-    - Wenn die Instanzen an den gleichen Resource arbeiten ist es möglich, dass diese ihre Ergebnisse gegenseitig überschreiben
+    - Wenn die Instanzen an den gleichen Ressource arbeiten, ist es möglich, dass diese ihre Ergebnisse gegenseitig überschreiben
 - Lösung:
     - Eine Instanz wird zum Anführer gewählt, welcher die anderen koordiniert.
     - Der Code der einzelnen Instanzen ist der gleiche und jede Instanz kann zum Leader werden
     - Es gibt mehrere Wahlmöglichkeiten, zum Beispiel wird die Instanz mit der niedrigsten Prozess ID der Anführer
 - Vorteile:
-    - Komplexe Aufgaben können koordiniert effizienter und weniger Fehleranfällig ausgeführt werden
+    - Komplexe Aufgaben können koordiniert effizienter und weniger fehleranfällig ausgeführt werden
 - Probleme und Überlegungen:
-    - Wenn der Anführer eine Fehlfunktion hat, muss dieser durch einen neuen ersetzt weden
-    - Wenn das System durch Scaling wieder kleiner wird, dann muss beachtet werden keinen Leader zu terminieren
+    - Wenn der Anführer eine Fehlfunktion hat, muss dieser durch einen neuen Anführer ersetzt weden
+    - Wenn das System durch Scaling wieder kleiner wird, dann muss beachtet werden, keinen Leader zu terminieren
 
 ---
 
-### Compute Resource Consolidation
+### Compute Ressource Consolidation
 
 - Kontext:
-    - Aufteilen von Aufgaben in mehrere Serverinstanzen kann viel Geld kosten, da nicht jede Instanz permanent laufen müsste
+    - Aufteilen von Aufgaben in mehrere Serverinstanzen kann viel Geld kosten, da nicht jede Instanz permanent laufen muss
 - Lösung:
-    - Versuchen Idle-time der Instanzen zu verringern indem man jeder Instanz mehr Aufgaben gibt.
-    - Dabei kann in eine Instanz ein Task mit viel Arbeitspeicher und wenig CPU Last und ein Task mit viel CPU Last und wenig Arbeitsspeicher
+    - Versuchen Idle-Time der Instanzen zu verringern, indem man jeder Instanz mehr Aufgaben gibt
+    - Tasks, die unterschiedliche Ressourcen verwenden können dabei in eine Instanz gefasst werden
 - Vorteile:
     - Spart Geld
     - Aufgaben innerhalb einer Instanz haben eine schnellere Kommunikationsgeschwindigkeit
 - Probleme und Überlegungen:
-    - Durch hohen Traffic müssen Instanzen gescaled werden; nicht jede Aufgabe ist gleich scalebar und darf somit nicht in der gleichen Instanz laufen
+    - Durch hohen Traffic müssen Instanzen skaliert werden; nicht jede Aufgabe ist gleich skalierbar und darf somit nicht in der gleichen Instanz laufen
     - Wenn eine Aufgabe innerhalb einer Instanz fehlschlägt, können die anderen Aufgaben der gleichen Instanz mitbetroffen sein
     - Die Instanzen werden komplexer und schwerer zu maintainen
 
@@ -427,24 +439,24 @@ class: center, middle
 ---
 # Messaging
 
-Im Cloud Computing gibt es in einem System häufig viele verschiedene Instanzen, die miteinander kommunizieren müssen
+- Im Cloud Computing gibt es in einem System häufig viele verschiedene Instanzen, die miteinander kommunizieren müssen
 
-Eine gute Infrastruktur ist wichtig um diese Dienste effizient zu verbinden
+- Eine gute Infrastruktur ist wichtig, um diese Dienste effizient zu verbinden
 ---
 
 ### Asynchronous Request Reply
 
 - Kontext:
     - Für gewöhnlich bekommt man bei Backend Calls innerhalb kürzester Zeit eine Antwort, wodurch die Requests in der Regel synchron sind
-    - Manche Requests an das Backend dauern zu lange um synchron zu funktionieren
+    - Manche Requests an das Backend dauern zu lange, um synchron zu funktionieren
 - Lösung:
     - HTTP Polling
 - Vorteile:
-    - Alternative zu Verbindungen, welche möglicherweise Stunden laufen müssten
-    - HTTP als einzige Technologie, wodurch es in alten Systemen eingebaut werden kann ohne moderne Technolgien
+    - Alternative zu Verbindungen, die nicht über eine lange Zeit aufrecht erhalten werden können
+    - HTTP als einzige Technologie, wodurch es ohne moderne Technologien in alte Systeme eingebaut werden kann 
 - Probleme und Überlegungen:
-    - Wenn eine Resource nicht nach einem Get Befehl zurückgegeben werden sollte, dann wird ein 404 als Antwort erwartet
-    - Man kann als Statuscode ein 202 zurückgeben, sollte dabei aber den Ort und eine geschätzte Wartezeit mitgeben, damit der Nutzer an die Resource kommen kann
+    - Wenn eine Ressource nicht nach einem Get-Befehl zurückgegeben werden sollte, dann wird ein 404 als Antwort erwartet
+    - Man kann als Statuscode ein 202 zurückgeben, sollte dabei aber den Ort und eine geschätzte Wartezeit mitgeben, damit der Nutzer die Ressource erreichen kann
 ---
 
 ### Asynchronous Request Reply
@@ -453,10 +465,10 @@ Eine gute Infrastruktur ist wichtig um diese Dienste effizient zu verbinden
 ---
 ### Scheduler Agent Supervisor
 - Kontext:
-    - Wenn in einer Applikation mit Remote Services oder Remote Resourcen arbeitet, dann kann es häufig zu Fehlern kommen
-    - viele dieser Fehler sind kurzfristiger Natur und können mit dem Retry pattern erneut versucht werden
-    - wenn das Problem längerfristig besteht, dann kann sich die Applikation nicht erholen und stürzt ab
-    - bei einem Absturz sind einige Schritte vielleicht schon geschehen, welche noch rückgängig gemacht werden müssen
+    - Wenn in einer Applikation mit Remote Services oder Remote Ressourcen gearbeitet wird, dann kann es häufig zu Fehlern kommen
+    - Viele dieser Fehler sind kurzfristiger Natur und können mit dem Retry Pattern erneut versucht werden
+    - Wenn das Problem längerfristig besteht, dann kann sich die Applikation nicht erholen und stürzt ab
+    - Bei einem Absturz sind einige Schritte vielleicht schon geschehen, welche noch rückgängig gemacht werden müssen
 - Lösung:
     - Mehrere Aktoren, die Zugriffe regeln
 
@@ -467,28 +479,25 @@ Eine gute Infrastruktur ist wichtig um diese Dienste effizient zu verbinden
 ### Scheduler Agent Supervisor
 - Vorteile:
     - Fehler werden effektiver behandelt
-    - Wenn ein Aktor ausfällt können neue gestartet werden, wodurch sich das System selbst heilt
+    - Wenn ein Aktor ausfällt, können neue gestartet werden, wodurch sich das System selbst heilt
 - Probleme und Überlegungen:
-    - schwer zu implementieren
-    - viele Tests erforderlich
+    - Schwer zu implementieren
+    - Viele Tests erforderlich
 ---
 
 ### Priority Queue
 - Kontext:
-    - Für gewöhnlich werden Requests nacheinander abgearbeitet, zum Beispiel mit einer first in first out(FIFO) Queue
-    - Wenn es Kunden mit besonderem Status gibt, ist es nötig diesen Priorität zugeben
+    - Für gewöhnlich werden Requests nacheinander abgearbeitet, zum Beispiel mit einer Queue
+    - Wenn es Kunden mit besonderem Status gibt, ist es nötig, diesen Priorität zu geben
 - Lösung:
-
----
-### Priority Queue
-- Man kann in der Queue den einzelnen Requests Prioritäten zuweisen und bei neuen Requests die Queue sortieren
+    - Man kann in der Queue den einzelnen Requests Prioritäten zuweisen und bei neuen Requests die Queue sortieren
 .center[![priority1](./img/priority1.PNG)]
 
 ---
 
 ### Priority Queue
 - Alternativ kann man für jede Priorität eine eigene Queue einrichten.
-    - Jede Queue besitzt eigene Services mit der höchsten Rechenpower bei der Queue mit höchster Priorität
+    - Jede Queue besitzt eigene Services, wobei die Queue mit der höchsten Priorität die höchste Rechenpower erhält
     - Als Variation kann man mehrere Queues haben, bei denen die abarbeitenden Services zuerst die Queue mit der höchsten Priorität bedienen
 .center[![priority2](./img/priority2.PNG)]
 ---
@@ -504,11 +513,11 @@ Eine gute Infrastruktur ist wichtig um diese Dienste effizient zu verbinden
     - Für gewöhnlich steuert ein Orchestrator die Verteilung von Aufgaben an die einzelnen Services
     - Der Orchestrator hat dadurch eine enge Bindung an alle Services und muss umgeschrieben werden, wenn sich die Services ändern
 - Lösung:
-    - Publish Subscriber Pattern
-    - Client Requests werden in eine Queue gepublished
+    - Publisher Subscriber Pattern
+    - Client Requests werden in einer Queue gepublished
     - Die einzelnen Services können subscriben und den Request verarbeiten, bei Erfolg wird das Ergebnis wieder für die anderen Services in der Queue gepublished
 - Vorteile:
-    - Es ist ohne großen Aufwand Services hinzuzufügen, zu ändern oder zu entfernen
+    - Es ist ohne großen Aufwand möglich Services hinzuzufügen, zu ändern oder zu entfernen
     - Der Orchestrator kann kein potenzielles Bottleneck mehr sein
 - Probleme und Überlegungen:
     - Fehlerhandling ist komplizierter, weil es keine zentrale Steuereinheit gibt, welche in diesem Fall eingreift
@@ -524,11 +533,11 @@ Eine gute Infrastruktur ist wichtig um diese Dienste effizient zu verbinden
     - Zu große Dateien verlangsamen den Service
 - Lösung:
     - Inhalt der Message in einen Datenspeicher hochladen und einen Claim Check(Abholschein) verschicken
-    - Services, die die Message verarbeiten können über den Abholschein den Inhalt selber abholen
+    - Services, die die Message verarbeiten, können über den Abholschein den Inhalt selber abholen
     - (nur bei großen Messages)
 - Vorteile:
     - Message Broker wird nicht überlastet
-    - es ist möglich Authentifizierungsregeln einzubringen, sodass die Inhalte im Datenspeicher sicherer sind, als im Message Broker
+    - Es ist möglich Authentifizierungsregeln einzubringen, sodass die Inhalte im Datenspeicher sicherer sind als im Message Broker
 - Probleme und Überlegungen:
     - Datenspeicher wird benutzt und kostet Geld
     - Speichern und Laden von Daten kostet Zeit
@@ -546,14 +555,14 @@ Eine gute Infrastruktur ist wichtig um diese Dienste effizient zu verbinden
     - Der Service kann eventuell nicht mit der Menge an Nutzern mithalten
 - Lösung:
     - Message Queue
-    - Der Nutzer schickt seine Anfrage in eine Queue, mit der alle Nutzer nacheinander bearbeitet werden können
+    - Der Nutzer gibt seine Anfrage in eine Queue, mit der alle Nutzer nacheinander bearbeitet werden können
 - Vorteile:
-    - Der Service wird nicht überlastet, da er immer so viele Requests aus der Queue bearbeiten kann, wie er kann
-    - Die Anzahl an Nutzern, die Requests in die Queue schicken und die Anzahl Services, die die Requests aus der Queue bearbeiten ist beliebig skalierbar
-    - Wenn ein Service fehlschlägt kann der Request zurück in die Queue, sodass ein anderer Service diese übernehmen kann
+    - Der Service wird nicht überlastet, da er immer so viele Requests aus der Queue bearbeiten kann, wie es dem Service möglich ist
+    - Die Anzahl an Nutzern, die Requests in die Queue geben und die Anzahl Services, die die Requests aus der Queue bearbeiten ist beliebig skalierbar
+    - Wenn ein Service fehlschlägt, wird der Request wieder der Queue hinzugefügt, sodass ein anderer Service diese übernehmen kann
 - Probleme und Überlegungen:
     - Requests, die Services zum Absturz bringen müssen entfernt werden
-    - je nach Anzahl an Nutzern kann eine Message Queue zu wenig sein
+    - Je nach Anzahl an Nutzern kann eine Message Queue zu einem Bottleneck werden
 
 
 ---
@@ -565,13 +574,13 @@ Eine gute Infrastruktur ist wichtig um diese Dienste effizient zu verbinden
 ### Sequential Convoy
 - Kontext:
     - Häufig müssen mehrere Messages von einem Nutzer in einem einzelnen System bearbeitet werden
-    - Das übliche Competing Consumers Pattern würde die einzelnen Messages auf unterschiedliche Services verteilen um diese schneller zu verarbeiten, wodruch diese aber fehlschlagen würden, da die Messages zueinander gehören
+    - Das übliche Competing Consumers Pattern würde die einzelnen Messages auf unterschiedliche Services verteilen, um diese schneller zu verarbeiten, wodurch diese aber fehlschlagen würden, da die Messages zueinander gehören
 - Lösung:
-    - Messages, die zueinander gehören mit Kategorien versehen, sodass diese von einem einzelnen Service bearbeitet werden
+    - Messages, die zueinander gehören werden mit Kategorien versehen, sodass diese von einem einzelnen Service bearbeitet werden
 - Vorteile:
-    - Messages die hintereinander bearbeitet werden müssen, werden hintereinander bearbeitet
+    - Messages werden in korrekter Reihenfolge bearbeitet
 - Probleme und Überlegungen:
-    - Wie kategorisiert man die ankommenden Messages
+    - Wie kategorisiert man die ankommenden Messages?
 
 
 
@@ -579,18 +588,18 @@ Eine gute Infrastruktur ist wichtig um diese Dienste effizient zu verbinden
 ### Publisher/Subscriber
 
 - Kontext:
-    - Einzelne Komponenten eines Systems müssen im Falle eines Events anderen Komponenten Bescheid geben
-    - Mit Asynchronen Messages kann man die Informationen verteilen, ohne auf Antworten warten zu müssen, aber nicht jeder Service muss die Nachricht überhaupt hören
+    - Einzelne Komponenten eines Systems müssen im Falle eines Events andere Komponenten informieren
+    - Mit asynchronen Messages kann man die Informationen verteilen, ohne auf Antworten warten zu müssen, wobei diese aber nicht für jeden bestimmt sind
 - Lösung:
     - Services publishen Messages asynchron an einen Channel im Message Broker
     - Der Message Broker verteilt die Messages an die Services, welche den Channel subscribed haben
 - Vorteile:
-    - Da bei asynchonen Messages nicht auf eine Antwort gewartet wird, können die Services schneller wieder an anderen Aufgaben weiterarbeiten
+    - Da bei asynchonen Messages nicht auf eine Antwort gewartet wird, können die Services schneller an anderen Aufgaben weiterarbeiten
     - Monitoring und Logging ist durch die Messages vereinfacht
 - Probleme und Überlegungen:
-    - Für die Sicherheit muss beachtet werden, dass sich nicht jeder jeden Channel subscriben kann
+    - Für die Sicherheit muss beachtet werden, dass nicht jeder jeden Channel subscriben kann
     - Da die Messages asynchron sind, kann man nicht antworten
-    - Messages werden vielleicht zu spät verarbeitet, wodurch diese bereits veraltet sein kann
+    - Messages werden vielleicht zu spät verarbeitet, wodurch diese bereits veraltet sein können
 
 
 ---
@@ -598,18 +607,94 @@ Eine gute Infrastruktur ist wichtig um diese Dienste effizient zu verbinden
 .center[![publisher_subscriber](./img/publisher_subscriber.PNG)]
 ---
 
+class: center, middle
+# Ausfallsicherheit
 ---
+# Ausfallsicherheit
+
+- Bei der Ausfallsicherheit geht es darum, dass im Falle eines Fehlers das System nicht vollständig versagt, sondern es möglich, ist sich von solchen Fehlern zu erholen
+
+- Dabei ist es wichtig, einen Fehler zu erkennen und angemessen zu handeln
 
 ---
+### Retry
+- Kontext:
+    - Services und Datenbanken können überlastet oder kurz disconnected sein, wodurch der Service nicht erreichbar ist
+- Lösung:
+    - Wenn die Verbindung zu einem Service nicht funktioniert, kann man es erneut versuchen
+    - Linear Retry: alle X Sekunden ein weiterer Versuch
+    - Exponential Retry: 1 Sekunde warten, 5sek, 20sek...
+- Vorteile:
+    - Der Service ist nach weiteren Versuchen vielleicht wieder erreichbar
+- Probleme und Überlegungen:
+    - Wenn zu viele Retries an einen überlasteteten Service gesendet werden, benötigt dieser länger, um sich zu erholen
+    - Es ist nie sicher, ob sich der Service tatsächlich erholt, wodurch Retries nicht erfolgreich sind
+
+---
+### Circuit Breaker
+- Kontext:
+    - Ein Fehler eines Services kann länger dauern und wiederholtes Versuchen kostet nur Zeit, führt aber nicht zum Erfolg
+- Lösung:
+    - Der Circuit Breaker ist ein Proxy, der die letzten Failures des Services überwacht
+    - 3 Zustände, welche vom Circuit Breaker gesetzt werden, abhängig von den letzten (Miss-)Erfolgen
+- Vorteile:
+    - Weniger unerfolgreiche Retries
+    - Mehr Chancen für den Service sich zu erholen, bevor er neue Anfragen erhält
+    - Mit geloggten Daten kann man Timeouts neu anpassen, sodass der Server sich besser erholt
+- Probleme und Überlegungen:
+    - Der Circuit Breaker kann ein Problem falsch einschätzen und Anfragen für längere Zeit blockieren, obwohl der Service nur kurz überlastet war
+    - Circuit Breaker sollten nur einen Service überwachen, sodass Anfragen auf intakte Services nicht ebenfalls abgeblockt werden
+
+---
+### Circuit Breaker
+.center[![circuit_breaker](./img/circuit_breaker.PNG)]
+---
+### Compensating Transaction
+- Kontext:
+    - Große Transaktionen dauern lange
+    - Wenn diese am Ende fehlschlagen, dann muss in der Regel jeder Schritt rückgängig gemacht werden
+    - Zurücksetzen auf den Ursprungszustand ist häufig nicht möglich, da die betroffenen Daten bereits anderweitig geändert worden sein könnten
+- Lösung:
+    - Anstatt eines Rollbacks auf den alten Stand versucht man die Aktionen zu kompensieren
+    - Dafür loggt man die Schritte der Transaktion und erstellt Aktionen, die die ursprüglichen Schritte rückgängig machen
+- Vorteile:
+    - Es gehen keine Informationen verloren
+    - Schritte zum Rückgängig machen können auch parallel verlaufen
+- Probleme und Überlegungen:
+    - Man muss überlegen, ob ein Fehler in einer Transaktion direkt rückgängig gemacht werden sollte, oder der fehlgeschlagene Schritt erneut veruscht werden sollte(Retry)
+    - Der Versuch der Kompensation kann auch fehlschlagen, wo dann eventuell ein Mensch eingreifen sollte
+
+---
+
+### Bulkhead
+- Kontext:
+    - Wenn ein Service sehr langsam ist und Requests nicht beantwortet werden, dann erhöht sich die Anzahl an Requests, bis der Server überlastet ist
+- Lösung:
+    - Bulkhead ist ein Begriff aus dem Schiffsbau, wo das Schiff mehrere Trennwände enthält. Wenn das Schiff ein Loch hat, dann flutet nur eine kleine Sektion des Schiffes
+    - Bulkhead Pattern isoliert die einzelnen Services, sodass, wenn ein Service langsam ist oder failt, die anderen Services unbeeinträchtigt weiterarbeiten können
+    - Es werden für jeden Service nur eine maximale Anzahl an Requests angenommen, sodass selbst bei großer Auslastung eines Services die anderen weiterarbeiten können
+---
+
+### Bulkhead
+- Vorteile:
+    - Selbst wenn ein Service fehlschlägt, können andere Services weiterarbeiten
+    - Bei größeren Systemen kann man mehrere Instanzen des gleichen Services benutzen, bei dem jeder Client eine Instanz belegt. Wenn ein Client den Server überlastet, dann betrifft es nur den einen Client, während andere Clients den gleichen Service weiternutzen können
+- Probleme und Überlegungen:
+    - Es ist nicht immer möglich Services aufzuteilen
+    - Es kann schwerer zu managen sein
+
+
+---
+
 
 class: center, middle
 # Management und Monitoring
 ---
 # Management und Monitoring
 
-Cloud Anwendungen sind schwerer zu überwachen, da man nicht die volle Kontrolle über die Hardware und das Betriebssystem hat
+- Cloud Anwendungen sind schwerer zu überwachen, da man nicht die volle Kontrolle über die Hardware und das Betriebssystem hat
 
-Dennoch ist es wichtig zu überprüfen, ob das System verfügbar ist und im vollen Umfang funktioniert
+- Dennoch ist es wichtig zu überprüfen, ob das System verfügbar ist und im vollen Umfang funktioniert
 
 ---
 
@@ -618,7 +703,7 @@ Dennoch ist es wichtig zu überprüfen, ob das System verfügbar ist und im voll
 - Kontext:
     - Es ist wichtig zu überwachen, ob die Applikationen intakt sind und wo das System zu langsam oder gar nicht mehr läuft
 - Lösung:
-    - Ein Monitoring System schickt regelmäßige Requests an alle Services
+    - Ein Monitoring System schickt regelmäßig Requests an alle Services
     - In diesem Request werden Tests ausgeführt, die Antwortzeiten und Response Codes überprüft
 - Vorteile:
     - Es lässt sich überprüfen, ob die Webservices funktionieren(Monitoring)
@@ -630,13 +715,13 @@ Dennoch ist es wichtig zu überprüfen, ob das System verfügbar ist und im voll
 ---
 ### Ambassador
 - Kontext:
-    - legacy Applikations haben nicht immer die Möglichkeit unterschiediche Netzwerkfunktionen zu implementieren
+    - Legacy Applikationen haben nicht immer die Möglichkeit unterschiediche Netzwerkfunktionen zu implementieren
 - Lösung:
     - Ein Proxy Server (Ambassador) mit allen Netzwerkfunktionen des Clients
-    - Der Proxy kann die Retry, Circuit Breaker Pattern verwenden
+    - Der Proxy kann das Retry oder Circuit Breaker Pattern verwenden
     - Proxy kann die Clientapplikation mit Monitoring und Sicherheitsfunktionalitäten erweitern
 - Vorteile:
-    - generischer Proxy Server, welcher für alle möglichen Sprachen und Frameworks die Netzwerkfunktionen übernehmen kann
+    - Generischer Proxy Server, welcher für alle möglichen Sprachen und Frameworks die Netzwerkfunktionen übernehmen kann
 - Probleme und Überlegungen:
     - Der Proxy Server beeinflusst die Latenz des Servers
 
@@ -647,15 +732,15 @@ Dennoch ist es wichtig zu überprüfen, ob das System verfügbar ist und im voll
 ---
 ### Sidecar
 - Kontext:
-    - Applikationen und Services benötigen häufig Funktionen zum Loggen oder verbinden mit dem Netzwerk
-    - Die Funktionen in jedem Service einzeln zu implemntieren ist sehr aufwändig
+    - Applikationen und Services benötigen häufig Funktionen zum Loggen oder Verbinden mit dem Netzwerk
+    - Die Funktionen in jedem Service einzeln zu implementieren ist sehr aufwändig
 - Lösung:
-    - Ein Sidecar erstellen mit den nötigen Funktionen, welches immer an der Seite seiner Primärapplikation bleibt und zusammen mit der Primärapplikation gelöscht wird
+    - Eine Sidecar Instanz mit den nötigen Funktionen erstellen, welche immer an der Seite seiner Primärapplikation bleibt und zusammen mit der Primärapplikation gelöscht wird
 - Vorteile:
     - Sidecar hat seine eigenen technischen Anforderungen und kann unabhängig von der Primärapplikation geupdatet werden
-    - durch die Nähe zur Primärapplikation gibt es (fast) keine zusätzliche Latenz
+    - Durch die Nähe zur Primärapplikation gibt es (fast) keine zusätzliche Latenz
 - Probleme und Überlegungen:
-    - Das Sidecar ist ein Teil von der Applikation und scaled mit, was eventuell nicht benötigt wird
+    - Das Sidecar ist ein Teil der Applikation und skaliert mit, was eventuell nicht benötigt wird
 
 ---
 
@@ -665,14 +750,14 @@ Dennoch ist es wichtig zu überprüfen, ob das System verfügbar ist und im voll
     - Manche Funktionen werden von vielen oder sogar allen Services benötigt
     - Wartung der gleichen Funktionen an vielen verschiedenen Stellen ist aufwändig
 - Lösung:
-    - Authentifizierung, Monitoring, Zertifikate, SSL und mehr in ein gateway
+    - Authentifizierung, Monitoring, Zertifikate, SSL und mehr in einer Gateway Instanz
 - Vorteile:
-    - weniger Aufwand in den einzelnen Services
-    - Auslagern von Sicherheitsfunktionen in ein einzelnes System macht es einfacher und effizienter zu managen
+    - Weniger Aufwand in den einzelnen Services
+    - Durch Auslagern von Sicherheitsfunktionen in eine einzelne Instanz kann das gesamte System einfacher und effizienter gemanaged werden
 - Probleme und Überlegungen:
-    - möglicher Single Point of Failure
-    - möglicher Flaschenhals
-    - Nicht jede Funktion sollte in das Gateway ausgelagert werden, vor allem wenn nur wenige Services die Funktion benötigen
+    - Möglicher Single Point of Failure
+    - Möglicher Bottleneck
+    - Nicht jede Funktion sollte in das Gateway ausgelagert werden, vor allem, wenn nur wenige Services die Funktion benötigen
 
 
 ---
@@ -682,16 +767,16 @@ Dennoch ist es wichtig zu überprüfen, ob das System verfügbar ist und im voll
 
 - Kontext:
     - Für eine Aufgabe des Clients müssen häufig mehrere Services angesprochen werden
-    - mehrfach Requests an unterschiedliche Services zu schicken 
+    - Dadurch werden mehrfach Requests an unterschiedliche Services geschickt
 - Lösung:
-    - statt mehrere Requests an die einzelnen Services nur ein Request an ein Gateway
+    - Statt mehrere Requests an die einzelnen Services wird nur ein Request an ein Gateway geschickt
     - Das Gateway übernimmt die restlichen Requests an die einzelnen Services
 - Vorteile:
     - Senkung des Traffics
     - Senkung der Latenz
 - Probleme und Überlegungen:
-    - möglicher Single Point of Failure
-    - möglicher Flaschenhals
+    - Möglicher Single Point of Failure
+    - Möglicher Bottleneck
 
 ---
 
@@ -708,94 +793,19 @@ Dennoch ist es wichtig zu überprüfen, ob das System verfügbar ist und im voll
     - Anstatt dem Nutzer jeden Endpoint zur Verfügung zu stellen, benutzt man ein Gateway, welches die Requests der Nutzer weiterleitet
 - Vorteile:
     - Die einzelnen angebotenen Services können sich ohne großen Aufwand ändern und sind weiterhin über das Gateway erreichbar
-    - Es ist dabei auch möglich über das Gateway an interne Endpunkte wie VMs zu verbinden
+    - Es ist dabei auch möglich über das Gateway an interne Endpunkte wie VMs verbinden
 - Probleme und Überlegungen:
-    - möglicher Single Point of Failure
-    - möglicher Flaschenhals
+    - Möglicher Single Point of Failure
+    - Möglicher Bottleneck
 
     
 ---
-
-class: center, middle
-# Ausfallsicherheit
----
-# Ausfallsicherheit
-
-Bei der Ausfallsicherheit geht es darum, dass im Falle eines Fehlers das System nicht vollständig versagt, sondern es möglich ist sich von solchen Fehlern zu erholen
-
-Dabei ist es wichtig einen Fehler zu erkennen und angemessen zu handeln
-
----
-### Retry
-- Kontext:
-    - Services und Datenbanken können überlastet sein oder kurz disconnected sein, wodurch der Service nicht erreichbar ist
-- Lösung:
-    - Wenn die Verbindung zu einem Service nicht klappt, kann man es einfach erneut versuchen
-    - Linear Retry: alle X sekunden ein weiterer Versuch
-    - exponential Retry: 1 sekunde warten, 5sek, 20sek...
-- Vorteile:
-    - Der Service ist nach weiteren Versuchen vielleicht wieder erreichbar
-- Probleme und Überlegungen:
-    - Wenn zu viele Retries an einen überlasteteten Service gesendet werden, benötigt dieser länger um sich zu erholen
-    - Es ist nie sicher, ob sich der Service tatsächlich erholt, wodurch Retries nichts erreichen
-
----
-### Circuit Breaker
-- Kontext:
-    - Ein Fehler eines Services kann länger dauern und wiederholtes Versuchen kostet nur Zeit, bringt aber nicht zum Erfolg
-- Lösung:
-    - Der Circuit Breaker ist ein Proxy, der die letzten Failures des Services überwacht
-    - 3 Zustände, welche vom Circuit Breaker gesetzt werden, abhängig von den letzten (Miss-)Erfolgen
-- Vorteile:
-    - weniger sinnlose Retries
-    - mehr Chancen für den Service sich zu erholen, bevor er neue Anfragen bekommt
-    - mit geloggten Daten kann man Timeouts neu anpassen, sodass der Server sich besser erholt
-- Probleme und Überlegungen:
-    - Der Circuit Breaker kann ein Problem falsch einschätzen und Anfragen für längere Zeit blockieren, obwohl der Service nur kurz überlastet war
-    - Circuit Breaker sollten nur einen Service überwachen, sodass Anfragen auf intakte Services nicht ebenfalls abgeblockt werden
-
----
-### Circuit Breaker
-.center[![circuit_breaker](./img/circuit_breaker.PNG)]
----
-### Compensating Transaction
-- Kontext:
-    - Große Transaktionen dauern lange
-    - Wenn diese am Ende fehlschlagen und der alles rückgängig gemacht werden muss, dann kann man nicht einfach wieder den ursprünglichen Zustand annehmen, weil dieser bereits anders sein kann
-- Lösung:
-    - Anstatt eines Rollbacks auf den alten Stand versucht man die Aktionen zu kompensieren
-    - Dafür loggt man die Schritte der Transaktion und erstellt Aktionen, die die ursprüglichen Schritte rückgängig machen
-- Vorteile:
-    - Es gehen keine Informationen verloren
-    - Schritte zum Rückgängig machen können auch parallel verlaufen
-- Probleme und Überlegungen:
-    - Man muss überlegen, ob ein Fehler in einer Transaktion direkt rückgängig gemacht werden sollte, oder der fehlgeschlagene Schritt erneut veruscht werden sollte(Retry)
-    - Der Versuch der Kompensation kann auch fehlschlagen, wo dann eventuell ein Mensch eingreifen sollte
-
----
-
-### Bulkhead
-- Kontext:
-    - Wenn ein Service sehr langsam sind und Requests nicht antworten, dann füllen sich die Anzahl an Requests, bis der Server überlastet ist
-- Lösung:
-    - Bulkhead ist ein Begriff aus dem Schiffsbau, wo das Schiff mehrere Trennwände enthält. Wenn das Schiff ein Loch hat, dann flutet nur eine kleine Sektion des Schiffes
-    - Bulkhead Pattern isoliert die einzelnen Services, sodass wenn ein Service langsam ist oder fails, die anderen Services unbeeinträchtigt weiterarbeiten können
-    - Es werden für jeden Service nur eine maximale Anzahl an Requests angenommen, sodass selbst bei großer Auslastung eines Services die anderen weiterarbeiten können
-- Vorteile:
-    - Selbst wenn ein Service fehlschlägt können andere Services weiterarbeiten
-    - bei größeren Systemen kann man mehrere Instanzen des gleichen Services benutzen, bei dem jeder Client eine Instanz belegt. Wenn ein Client den Server überlastet, dann betrifft es nur den einen Client, während andere Clients den gleichen Service weiternutzen können
-- Probleme und Überlegungen:
-    - Es ist nicht immer möglich Services aufzuteilen
-    - Es kann schwerer zu managen sein
-
-
-
 class: center, middle
 # Security
 ---
 # Security
 
-Bei der Sicherheit geht es darum, dass die Daten vor unbefugten Zurgiffen geschützt werden
+- Bei der Sicherheit geht es darum, dass die Daten vor unbefugten Zugriffen geschützt werden
 ---
 ### Gatekeeper
 
@@ -803,14 +813,14 @@ Bei der Sicherheit geht es darum, dass die Daten vor unbefugten Zurgiffen gesch�
     - Wenn ein Server mit wichtigen Daten arbeitet und einen hohen Standard an Sicherheit haben muss, dann ist es sinnvoll, wenn der Nutzer nicht direkt mit dem Server kommuniziert
 - Lösung:
     - Ein Gatekeeper nimmt Requests entgegen und überprüft diese, bevor er sie weiterschickt.
-    - Der Gatekeeper hat dabei so gut wie keine Rechte für irgendwas
-    - Wenn ein Hacker einen Angriff startet kommt er zwar an den Gatekeeper dran, hat aber dennoch keinen Zugriff auf den Server
+    - Der Gatekeeper hat dabei so gut wie keine Rechte
+    - Wenn ein Hacker einen Angriff startet, kommt er zwar an den Gatekeeper dran, hat aber dennoch keinen Zugriff auf den Server
 - Vorteile:
     - Eine Sicherheitsschicht, welche Angriffe abwehren kann
 - Probleme und Überlegungen:
     - Gatekeeper und Server müssen auf unterschiedlichen VMs laufen
     - Erhöht die Latenz
-    - Kann ein Single Point of Failure werden
+    - Kann zu einem Single Point of Failure werden
 
 ---
 
@@ -823,16 +833,15 @@ Bei der Sicherheit geht es darum, dass die Daten vor unbefugten Zurgiffen gesch�
 ### Federated Identity
 
 - Kontext:
-    - Benutzer mögen es nicht sich für jeden Webservice einen eigenen Account anzulegen
-    - Wenn sie das tun, dann benutzen sie häufig die gleichen Einlogdaten und wenn nicht, dann vergessen sie gelegentlich das Passwort, wodurch die Nutzer unzufrieden werden
+    - Benutzer mögen es nicht, sich für jeden Webservice einen eigenen Account anzulegen
+    - Benutzer verwenden dabei häufig entweder die gleichen Einlogdaten oder vergessen gelegentlich das Passwort, wodurch die Nutzer unzufrieden werden
 - Lösung:
-    - Auslagern der Authentifikation an Identity Providern wie zum Beispiel google, facebook, github...
-
+    - Auslagern der Authentifikation an Identity Providern, wie zum Beispiel google, facebook, github...
 - Vorteile:
     - Der Nutzer ist zufrieden, da er keinen neuen Account erstellen muss
-    - weniger Arbeit, da keine eigene Nutzerverwaltung erstellt werden muss
+    - Weniger Arbeit, da keine eigene Nutzerverwaltung erstellt werden muss
 - Probleme und Überlegungen:
-    - Bei mehreren externen Identifikationsdiensten muss herausgefunden werden, welcher der richtige Dienst für die von User angegebenen Daten
+    - Bei mehreren externen Identifikationsdiensten muss herausgefunden werden, welcher der richtige Dienst, für die vom User angegebenen Daten ist
 
 ---
 
