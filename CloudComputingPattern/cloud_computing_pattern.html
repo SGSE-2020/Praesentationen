@@ -32,8 +32,8 @@ Tim Steven Meier | FH Bielefeld
 2. Data Management
 3. Design und Implementation
 4. Messaging
-5. Management und Monitoring
-6. Ausfallsicherheit
+5. Ausfallsicherheit
+6. Management und Monitoring
 7. Security
 
 ---
@@ -44,7 +44,7 @@ class: center, middle
 # Availability und Performance
 
 
-- Bei der Availability wird gemessen, wie lange der Server oder System verfügbar ist
+- Bei der Availability wird gemessen, wie lange der Server oder das System verfügbar ist
 
 - Die Verfügbarkeit kann durch Systemfehler, hoher Nutzeranzahl und Angriffe beeinflusst werden
 
@@ -86,7 +86,7 @@ class: center, middle
 ### Throttling (Drosselung)
 - Kontext:
     - Die Anzahl an Requests an einen Service sind nicht konstant gleich, manchmal werden sie zu groß und der Service wird überlastet
-    - In einem solchen Fall wird der Service in der Regel hochgeskaliert, aber das benötigt Zeit, da die zusätzlichen Server erst hochfahren müssen
+    - In einem solchen Fall wird der Service in der Regel hochskaliert, aber das benötigt Zeit, da die zusätzlichen Server erst hochfahren müssen
 - Lösung:
     - In dem Zeitfenster zwischen der hohen Anzahl an Anfragen und dem Hochfahren zusätzlicher Server werden die Anfragen gedrosselt
     - Mehrere Möglichkeiten:
@@ -109,7 +109,7 @@ class: center, middle
 - Vorteile:
     - Es sind weniger Services nötig, da nicht eine Anzahl an Services benötigt wird, die mit dem Peak zurecht kommt, sondern mit dem durchschnittlichen Aufkommen
 - Probleme und Überlegungen:
-    - Wenn die Queue zu lang wird, es also ein langen Peak an Requests gibt, dann kann man die Anzahl an Services hochscalen
+    - Wenn die Queue zu lang wird, es also ein langen Peak an Requests gibt, dann kann man die Anzahl an Services hochskalieren
     - Queues sind eine einseitige Kommunikation und es gibt keine Response
 
 ---
@@ -122,7 +122,7 @@ class: center, middle
 ---
 # Data Management
 
-- Damit die Performance und Verfügbarkeit bei Operationen mit Daten wie beim Downloaden und Uploaden von Datenbank
+- Bei dem Data Management geht es darum die Performance und Verfügbarkeit bei Operationen mit Daten wie beim Downloaden und Uploaden von der Datenbank zu gewährleisten
 
 - Konsistenz der Daten ist wichtig, wenn die Datenbank mehrmals existiert
 ---
@@ -143,6 +143,49 @@ class: center, middle
             - Lang genug um nicht die gleichen Daten mehrmals aus dem Datenspeicher zu lesen
             - Kurz genug um keine veralteten Daten zu haben
 
+---
+
+### Static Content Hosting
+- Kontext:
+    - Webserver enthalten statische Inhalte, wie zum Beispiel Bilder, welche vom Client geladen werden müssen. Dies belastet den Webserver
+- Lösung:
+    - Ein Speicher für statische Inhalte kann die Requests übernehmen.
+- Vorteile:
+    - Die Kosten eines Speichers sind viel geringer als die für einen Server
+- Probleme und Überlegungen:
+    - Die statischen Daten können von dem Webserver nicht mehr bearbeitet werden
+    - Bei wenigen statischen Inhalten lohnt sich das Pattern nicht
+    - Es muss beachtet werden, dass nicht jeder Nutzer beliebige Daten aus dem Speicher downloaden kann; Abhilfe mit dem Valet Key Pattern
+
+
+---
+
+### Static Content Hosting
+
+.center[![static_content_hosting](./img/static_content_hosting.PNG)]
+
+---
+### Valet Key
+- Kontext:
+    - Häufig müssen große Dateien vom Server an den Client gesendet werden, oder andersherum
+    - Dabei wird der Webserver allerdings stark belastet
+    - Client uploadet/downloadet Daten zu einem Datastore
+    - Allerdings sind die Daten im Datastore nicht mehr sicher, da jeder Client auf diese zugreifen kann
+- Lösung:
+    - Client fragt Ressource beim Webserver an
+    - Server validiert die Anfrage und sendet einen Key und die Adresse der Ressource
+    - Client kann mit den Informationen die gewünschte Ressource vom Datastore bekommen
+- Vorteile:
+    - Performance und Stabilität des Webservers werden geschont
+- Probleme und Überlegungen:
+    - Der Key muss verschlüsselt an den Client gesendet werden
+    - Der Key sollte nur einen kurzen Zeitraum funktionieren und nur wenige Rechte(z.b Read/Write) geben
+    - Die Daten können nicht mehr verändert werden, bevor der Client sie herunterlädt
+
+---
+### Valet Key
+.center[![valet_key](./img/valet_key.PNG)]
+            
 ---
 ### Sharding
 
@@ -274,49 +317,6 @@ class: center, middle
     - Konsistenz zwischen Read und Write Model
     - Komplexere Applikation
 
-
----
-
-### Static Content Hosting
-- Kontext:
-    - Webserver enthalten statische Inhalte, wie zum Beispiel Bilder, welche vom Client geladen werden müssen. Dies belastet den Webserver
-- Lösung:
-    - Ein Speicher für statische Inhalte kann die Requests übernehmen.
-- Vorteile:
-    - Die Kosten eines Speichers sind viel geringer als die für einen Server
-- Probleme und Überlegungen:
-    - Die statischen Daten können von dem Webserver nicht mehr bearbeitet werden
-    - Bei wenigen statischen Inhalten lohnt sich das Pattern nicht
-    - Es muss beachtet werden, dass nicht jeder Nutzer beliebige Daten aus dem Speicher downloaden kann; Abhilfe mit dem Valet Key Pattern
-
-
----
-
-### Static Content Hosting
-
-.center[![static_content_hosting](./img/static_content_hosting.PNG)]
-
----
-### Valet Key
-- Kontext:
-    - Häufig müssen große Dateien vom Server an den Client gesendet werden, oder andersherum
-    - Dabei wird der Webserver allerdings stark belastet
-    - Client uploadet/downloadet Daten zu einem Datastore
-    - Allerdings sind die Daten im Datastore nicht mehr sicher, da jeder Client auf diese zugreifen kann
-- Lösung:
-    - Client fragt Ressource beim Webserver an
-    - Server validiert die Anfrage und sendet einen Key und die Adresse der Ressource
-    - Client kann mit den Informationen die gewünschte Ressource vom Datastore bekommen
-- Vorteile:
-    - Performance und Stabilität des Webservers werden geschont
-- Probleme und Überlegungen:
-    - Der Key muss verschlüsselt an den Client gesendet werden
-    - Der Key sollte nur einen kurzen Zeitraum funktionieren und nur wenige Rechte(z.b Read/Write) geben
-    - Die Daten können nicht mehr verändert werden, bevor der Client sie herunterlädt
-
----
-### Valet Key
-.center[![valet_key](./img/valet_key.PNG)]
 
 ---
 
@@ -483,30 +483,7 @@ class: center, middle
 - Probleme und Überlegungen:
     - Schwer zu implementieren
     - Viele Tests erforderlich
----
 
-### Priority Queue
-- Kontext:
-    - Für gewöhnlich werden Requests nacheinander abgearbeitet, zum Beispiel mit einer Queue
-    - Wenn es Kunden mit besonderem Status gibt, ist es nötig, diesen Priorität zu geben
-- Lösung:
-    - Man kann in der Queue den einzelnen Requests Prioritäten zuweisen und bei neuen Requests die Queue sortieren
-.center[![priority1](./img/priority1.PNG)]
-
----
-
-### Priority Queue
-- Alternativ kann man für jede Priorität eine eigene Queue einrichten.
-    - Jede Queue besitzt eigene Services, wobei die Queue mit der höchsten Priorität die höchste Rechenpower erhält
-    - Als Variation kann man mehrere Queues haben, bei denen die abarbeitenden Services zuerst die Queue mit der höchsten Priorität bedienen
-.center[![priority2](./img/priority2.PNG)]
----
-
-### Priority Queue 
-- Vorteile:
-    - Nutzer oder Tasks mit hoher Priorität werden schneller abgearbeitet
-- Probleme und Überlegungen:
-    - Mehrere Queues bedeuten potenziell mehr Wartungsbedarf
 ---
 ### Choreography
 - Kontext:
@@ -583,7 +560,30 @@ class: center, middle
     - Wie kategorisiert man die ankommenden Messages?
 
 
+---
 
+### Priority Queue
+- Kontext:
+    - Für gewöhnlich werden Requests nacheinander abgearbeitet, zum Beispiel mit einer Queue
+    - Wenn es Kunden mit besonderem Status gibt, ist es nötig, diesen Priorität zu geben
+- Lösung:
+    - Man kann in der Queue den einzelnen Requests Prioritäten zuweisen und bei neuen Requests die Queue sortieren
+.center[![priority1](./img/priority1.PNG)]
+
+---
+
+### Priority Queue
+- Alternativ kann man für jede Priorität eine eigene Queue einrichten.
+    - Jede Queue besitzt eigene Services, wobei die Queue mit der höchsten Priorität die höchste Rechenpower erhält
+    - Als Variation kann man mehrere Queues haben, bei denen die abarbeitenden Services zuerst die Queue mit der höchsten Priorität bedienen
+.center[![priority2](./img/priority2.PNG)]
+---
+
+### Priority Queue 
+- Vorteile:
+    - Nutzer oder Tasks mit hoher Priorität werden schneller abgearbeitet
+- Probleme und Überlegungen:
+    - Mehrere Queues bedeuten potenziell mehr Wartungsbedarf
 ---
 ### Publisher/Subscriber
 
