@@ -27,42 +27,40 @@
 		
 		# Inhalt
 		- Was ist eine Frontend Architektur
-		
-		- Micro Frontend
-		- Reactive
-		
-			- Reactive Programming
-			- Functional reactive Programming 
+			
+		- Reactive Programming		
+		- Functional Programming 
+		- Functional Reactive Programming 
 	
 		- Verschiedene Architekturen		
 			- Redux
 			- MobX
 			- Vuex
-			- Model View Update
-			- SAM
 			- Model View Intent
-			- Vergleich
-			- Vor- und Nachteile 
+			- SAM
+			- Model View Update
+			
+		- Architekturen im Vergleich
 			
 		---
 		# Was ist eine Frontend Architektur
 		- Kollektion von Tools und Prozessen 
-			- zur Verbesserung von Frontend Code
-			- für einen effizienten Arbeitsablauf
+			- Zur Verbesserung von Frontend Code
+			- Für einen effizienten Arbeitsablauf
 			
-		- häufig unterschätzt! ->  „Das Frontend kloppen wir am Ende einfach irgendwie drauf.“
+		- Häufig unterschätzt! ->  „Das Frontend kloppen wir am Ende einfach irgendwie drauf.“
 		
-		- moderne Frontend-Systeme haben einen enormen Funktionsumfang
+		- Moderne Frontend-Systeme haben einen enormen Funktionsumfang
 		
-		- hohe Anforderungen:
+		- Hohe Anforderungen:
 			- Skalier- und Wiederverwendbarkeit
 			- Bedienkomfort
 			- Unterschiedliche Auflösungen
-			- schnelle/flüssige Darstellung
-			- asynchrone Kommunikation
+			- Schnelle/flüssige Darstellung
+			- Asynchrone Kommunikation
 			- ... und viele mehr
 			
-		- schon kleine Programmfehler führen zu Benutzerfrustration		
+		- Schon kleine Programmfehler führen zu Benutzerfrustration		
 		
 		<!--
 		Frontend Architektur
@@ -73,22 +71,22 @@
 		# Reactive Programming
 		
 		- Reactive Programming ist ein Programmierparadigma (Programmierstil), dass sich bei
-		der Datenverarbeitung an Datenflüsse orientiert. Dabei werden Änderungen in den
-		Datenflüssen automatischen propagiert.
+		der Datenverarbeitung an Datenflüssen orientiert. Dabei werden Änderungen in den
+		Datenflüssen automatisch propagiert.
 		
 		- Observer-Pattern
-			- Ermöglicht ein System ohne einen Zustand auszukommen.
+			- Ermöglicht einem System ohne einen Zustand auszukommen.
 			
 		- Soviel Asynchronität wie möglich.
 		
 		- Event-driven
 		
-		- beliebten Bibliotheken, die die reaktiven Programmiertechniken auf der JVM unterstützen:
+		- Beliebte Bibliotheken, die die reaktiven Programmiertechniken auf der JVM unterstützen:
 			- Akka Streams, Ratpack, Reactor, RxJava, and Vert.x	
 		---
 		# Reactive Programming
 		
-		- Die Funktionen und der auszuführende Code werden Entkoppelt, was dazu führt, dass die
+		- Die Funktionen und der auszuführende Code werden entkoppelt, was dazu führt, dass die
 		Betriebssystemebene weniger Kontextwechsel durchführen muss und eine bessere
 		Performance erreicht wird.
 		
@@ -96,13 +94,13 @@
 		erhöhten Schwierigkeitsgrad beim Lesen und Schreiben des Codes.
 		
 		- Warum Reactive Programming?
-			- Der Anwendner erwartet eine im schnelle Reaktionszeit und 100%ige Verfügbarkeit von unserer Website
-			- Mit Reactive Programming kann man schnell und Resourcen sparend interagieren.
-			- bessere Aufteilung beim Programmieren
+			- Der Anwender erwartet eine schnelle Reaktionszeit und 100%ige Verfügbarkeit von unserer Website
+			- Mit Reactive Programming kann man schnell und ressourcensparend interagieren
+			- Bessere Aufteilung beim Programmieren
 			
 		- Nachteile?
-			- speicherintensiv durch viele Datenströme
-			- Denkweise beim programmieren ändern.
+			- Speicherintensiv durch viele Datenströme
+			- Denkweise beim Programmieren ändern
 			
 		---
 		# Reactive System
@@ -110,8 +108,8 @@
 		<img style="width:60%;display: block;margin-left: auto;margin-right: auto;" src="img/reactiveSystems.png">
 		
 		- Responsive
-			- Das System reagiert nur, wenn Angefragt und rechtzeitig.
-			- schnelle und konsistente Reaktionszeiten.
+			- Das System reagiert nur, wenn es angefragt wird
+			- Schnelle und konsistente Reaktionszeiten
 			
 		- Resilient
 			- Das System bleibt reaktionsfähig, trotz eines Fehlers.
@@ -121,44 +119,44 @@
 		<img style="width:60%;display: block;margin-left: auto;margin-right: auto;" src="img/reactiveSystems.png">
 		
 		- Elastic
-			- bleibt bei wechselnder Arbeitsbelastung reaktionsfähig.
+			- Bleibt bei wechselnder Arbeitsbelastung reaktionsfähig
 			- Vorraussetztung: Kein Flaschenhals bei den Komponenten
 		
 		- Message Driven
-			- asynchrones message-passing
+			- Asynchrones message-passing
 			- Die "Grenze" der Komponenten, um eine lose Kopplung und die Isolation zu gewährleisten.
-			- Non-Blocking Kommunikation ermöglicht es, Resourcen nur frei zugeben, wenn die  Komponente aktive ist. 
+			- Non-Blocking Kommunikation ermöglicht es, Ressourcen nur freizugeben, wenn die  Komponente aktiv ist.
 		---
-		# Event-driven vs. message-driven
+		# Event-driven vs. Message-driven
 		
 		- Unterschiede
-			- Nachrichten sind grundsätlich an wen gerichtet und Ereignisse nicht.
-			-> Nachrichten haben ein klares Ziel und Ereignisse sind Fakten, die andere Beobachten können.
+			- Nachrichten sind grundsätzlich an wen gerichtet und Ereignisse nicht.
+			-> Nachrichten haben ein klares Ziel und Ereignisse sind Fakten, die andere beobachten können
 		
-			- Belastbarkeit ist schwerer zu erreichen durch die kurzlebigkeit der Ereignisverbrauchsketten 
+			- Belastbarkeit ist durch die Kurzlebigkeit der Ereignisverbrauchsketten schwerer zu erreichen
 			
-			- Nachrichten werden hauptsächlich im Netzwerk verteilt und Ereignisse Lokal
+			- Nachrichten werden hauptsächlich im Netzwerk verteilt wohin gegen Ereignisse lokal
 			
-			- message-driven ist aufwändiger zu Programmieren als event-driven
+			- Message-driven ist aufwändiger zu Programmieren als Event-driven
 			
 		- Wann benutze ich was?
 			- Event-driven wird benutzt um Fakten(Ereignisse) darzustellen.
 			- Message-driven wird als starkes Kommunikationswerkzeug gebraucht.
 		
 		---
-		# Functional programming
-		- Ein Programmierstil der sich auf Funktionen Fokussiert
+		# Functional Programming
+		- Ein Programmierstil der sich auf Funktionen fokussiert
 		
 		<img style="width:50%;display: block;margin-left: auto;margin-right: auto;" src="img/pureFunction.png">
 		
-		- pure functions
-			- ohne SIDE Effect
-			- immutable Inputs
-			- müssen einen Rückgabewert haben, da sie sonst nichts tun würden.
+		- Pure Functions
+			- Ohne SIDE Effect
+			- Immutable Inputs
+			- Müssen einen Rückgabewert haben, da sie sonst nichts tun würden.
 			- Input Datentyp = Output Datentyp
 		
 		---
-		# Functional programming
+		# Functional Programming
 		
 		- Der Zustand der Anwendung fließt durch die Funktionen.
 		- Bei der objektorientierten Programmierung wird der Zustand der Anwendung normalerweise gemeinsam genutzt.
@@ -168,13 +166,13 @@
 		<img style="width:80%;display: block;margin-left: auto;margin-right: auto;" src="img/high_order.png">
 		
 		---
-		# Functional reactive programming (FRP)
-		- Kombination aus functional programming und reactive programming
+		# Functional Reactive Programming (FRP)
+		- Kombination aus Functional Programming und Reactive Programming
 		
-		- Warum reactive programming?
-			- asynchrone Datenströme -> schnelle Reaktionszeit
+		- Warum Reactive Programming?
+			- Asynchrone Datenströme -> schnelle Reaktionszeit
 			
-		- Warum functional programming?
+		- Warum Functional Programming?
 			- Erhöhte Abstraktionsebene
 			- Bietet Funktionen zum Kombinieren, Erstellen, Zuordnen und Filtern beliebiger Datenströme
 			
@@ -184,15 +182,15 @@
 		# Redux
 		<img style="float: right;" src="img/redux.png">
 		- Predictable-State-Container
-			- Eine Bibliothek, um sein Anwendungszustand zu managen
+			- Eine Bibliothek, um seinen Anwendungszustand zu managen
 
 		Benutzt zwei Pattern:
 		- Command Query Responsibility Segregation (CQRS)
-			- States können nur durch Commands erfolgen. 
-			- Die Commands werden am Store dispatched
+			- States können nur durch Befehle erfolgen
+			- Die Befehle werden am Store dispatched
 			
 		- Event Sourcing
-			- Abfolge von Commands die jeder Zeit abgespielt werden kann.
+			- Abfolge von Befehle die zu jeder Zeit abgespielt werden kann
 				
 		---
 		# Redux
@@ -205,7 +203,7 @@
 			- Benötigt ein Attribute "type" zur Identifizierung der Action.
 		- Dispatch
 			- Sendet die Action an den Store.
-			- Die einzige Möglichkeit ein Zustandswechsel auszulösen.
+			- Die einzige Möglichkeit einen Zustandswechsel auszulösen.
 		- Reducer
 			- Gibt als Reaktion auf gesendete Actions den neuen Zustand der Anwendung zurück.
 	
@@ -213,12 +211,12 @@
 		# Redux
 		3 Prinzipien:
 		- Single source of truth
-			- Globale State im Store als Objektbaum
+			- Global State im Store als Objektbaum
 			
 		- State is read-only
-			- NUR die Actions können einen State ändern.
+			- NUR die Actions können einen State verändern.
 		
-		- Changes are made with pure functions
+		- Changes are made with Pure Functions
 			- Reducer sind pure functions
 			- Input: Vorheriger Zustand und die Aktion
 			- Output: Nächster Zustand
@@ -232,7 +230,7 @@
 			
 		- Nachteile
 			- Hoher Programmieraufwand
-			- mittelhoher Prozessaufwand, da die Reducer durchgelaufen werden.
+			- mittelhoher Prozessaufwand, da die Reducer durchlaufen.
 			
 		---
 		# MobX
@@ -242,9 +240,9 @@
 			- MobX bietet Mechanismen zum Speichern und Aktualisieren von Zuständen
 			
 		Vorteile:
-		- wenig Code
-		- einfach zu lernen
-		- Objektorientierte programmierung kann auch verwendet werden
+		- Wenig Code
+		- Einfach zu lernen
+		- Objektorientierte Programmierung kann auch verwendet werden
 		
 		Nachteile:
 		- Zu viel Freiheit 
@@ -254,46 +252,46 @@
 		<img style="width:100%;display: block;margin-left: auto;margin-right: auto; float: right;" src="img/mobx.png">
 		
 		- Action
-			- wird von Events aufgerufen
-			- nur Action kann den State beeinflussen
+			- Wird von Events aufgerufen
+			- Nur eine Action kann den State beeinflussen
 		- State	
 			- Observable
-			- keine Redundanz 
-			- keine abgeleiteten Daten
+			- Keine Redundanz 
+			- Keine abgeleiteten Daten
 		- Computed values
 			- Werte vom State
-			- über pure functions
+			- Über Pure Functions
 		- Reactions
 			- Updatet die UI
 		---
 		# Vuex
+		Inspiriert von Redux
+		
 		<img style="width: 20%; float: right;" src="img/vuex_logo.png">
 		- Zustandsmanagement Pattern mit Bibiliothek für Vue.js
 		- Einen Zustandsbaum
 		- Event-driven
-		Insperiert von Redux
 		
 		Wann benutzt man es?
-		- Bei mittelgroß bis großen Anwendungen
-		- Für eine besseres Zusandshändling außerhalb von Vue Komponenten 
+		- Bei mittelgroßen bis großen Anwendungen
+		- Für ein besseres Zustandhandling außerhalb von Vue Komponenten 
 		
 		---
 		# Vuex
 		- State
 			- Zustand der Anwendung
 		- View
-			- Visuelles Template für die Komponente
 			- Vue Komponente
-			- mehrere Views können durch einen State verändert werden.		
+			- Mehrere Views können durch einen State verändert werden.		
 		- Action
-			- führ eine Mutation aus
+			- Führt eine Mutation aus
 		- Mutation
-			- wie verändert sich der Zustand
-			
+			- Wie sich der Zustand verändert
+			- Event
 		<img style="width:55%;display: block;margin-left: auto;margin-right: auto;" src="img/vuex.png">
 		---
 		# Model View Intent
-		- Entwurfsmuster für reactive und functional programming
+		- Entwurfsmuster für Reactive und Functional Programming
 		
 		- Kommt aus dem Bereich Android Programmierung
 		
@@ -302,7 +300,7 @@
 		<img style="width:50%;display: block;margin-left: auto;margin-right: auto; float: right;" src="img/MVC.png">
 		
 		<br />
-		Controller von MVC passt nicht zur reaktiven Programmierung
+		Controller von MVC passt nicht zur Reaktive Programming
 		- Der Controller manipuliert die View
 		---
 		# Model View Intent
@@ -314,26 +312,26 @@
 		---
 		# Model View Intent
 		Wie setzt man nun diesen Kreislauf zusammen?
-		- Kettenfunktionen mit functional programming:
+		- Kettenfunktionen mit Functional Programming:
 		<img style="width:60%;display: block;margin-left: auto;margin-right: auto;" src="img/modelviewintent.png">
 		
-		- mit reactive programming
+		- Mit Reactive Programming
 		<img style="width:50%;display: block;margin-left: auto;margin-right: auto;" src="img/modelviewintent-ablauf.png">
 		
-		Die View generiert "Events" (Observed Pattern) und übergibt diese intent().
+		Die View generiert "Events" (Observed Pattern) und übergibt diese der Funktion intent().
 		
 		---
 		# Model View Intent
 		- intent() 
-			- nimmt die Eingaben des Benutzers entgegen (bspw. Klick auf UI-Element)
-			- transformiert die Eingabe zu etwas das für die Funktion model() verständlich ist
-			- bspw. Das einfache setzen eines Strings im Model, es könnte aber auch die Transformation in etwas komplexeres wie eine Datenstruktur für Aktionen oder Befehle sein.
+			- Nimmt die Eingaben des Benutzers entgegen (bspw. Klick auf UI-Element)
+			- Transformiert die Eingabe zu etwas, dass für die Funktion model() verständlich ist
+			- Bspw. Das einfache Setzen eines Strings im Model, es könnte aber auch die Transformation in etwas komplexeres wie eine Datenstruktur für Aktionen oder Befehle sein.
 		-  model() 
-			- nimmt Ausgabe von intent entgegen um das Modell zu manipulieren
-			- die Ausgabe dieser Funktion ist ein neues Modell
-			- wir wollen unveränderlichkeit und daher nicht das bestehende Modell bearbeiten
+			- Nimmt Ausgabe von intent entgegen um das Modell zu manipulieren
+			- Die Ausgabe dieser Funktion ist ein neues Modell
+			- Wir wollen Unveränderlichkeit und daher nicht das bestehende Modell bearbeiten
 		- view()
-			- nimmt das Modell der model() Funktion entgegen und zeigt diese an.
+			- Nimmt das Modell der model() Funktion entgegen und zeigt diese an.
 		
 		---
 		# Model View Intent
@@ -343,13 +341,15 @@
 
 		Nachteile:
 		- Lange Lernkurve
-		- In unserem workflow existieren zwei Modelle --> das welches die View anzeigt und das welches wir bauen in model()
+		- In unserem Workflow existieren zwei Modelle
+			- Die angezeigte View
+			- View in der Funktion model()
 	
 		---
 		# SAM - State-Action-Model
 		Konzepte von React
 		- Event-driven
-		- reactive programming
+		- Reactive Programming
 		
 		Basiert auf TLA+:
 		- TLA+ ist eine formale Spezifikationssprache 
@@ -365,20 +365,20 @@
 		# SAM - State-Action-Model
 		Aufbau:
 		- Action
-			- werden von Events ausgelöst
-			- mutiert Model
+			- Werden von Events ausgelöst
+			- Mutiert Model
 		- Model
-			- beihaltet die Logik des Programmes
+			- Beinhaltet die Logik des Programmes
 			- Berechnet den nächsten Zustand
 			- "Lernt" den neuen Zustand
 		- State
-			- berechnet den nächsten Altionen
+			- Berechnet die nächsten Aktionen
 		- View
 			- Zeigt den aktuellen Zustand an
 		
-		Gute Implemtierung:
-		- unidirektionalen Datenfluss
-		- ein einziger Zustandsbaum
+		Gute Implementierung:
+		- Unidirektionalen Datenfluss
+		- Ein einziger Zustandsbaum
 		- pure functions
 		---
 		# SAM - State-Action-Model
@@ -391,47 +391,50 @@
 		---
 		
 		# Model View Update
-		Auch genannt ELM Architektur
+		- Auch genannt ELM Architektur
+		- ELM Programmiersprache	
 		
-		ELM Programmiersprache	
-		
-		Für Intaktive Programme, wie Webapplikationen und Spiele		
+		- Für Interaktive Programme, wie Webapplikationen und Spiele		
 		
 		Vorteile:
-		- einfach und simpel umzusetzen
-		- hohe Kapselung und modularität der Komponenten
-		- hohe Einsetztbarkeit
+		- Einfach und simpel umzusetzen
+		- Hohe Kapselung und Modularität der Komponenten
+		- Hohe Einsetzbarkeit
 		
 		Nachteil:
-		- schlechte Dokumentation
+		- Schlechte Dokumentation
 		
-		Besteht im wesentlichen aus 3 Komponenten 
+		Besteht im wesentlichen aus drei Komponenten 
 		---
 		# Model View Update
 		- Modell
-			- repräsentiert den Zustand der Anwendung (Daten in der Anwendung)
-			- mit dem Typ alias definiert (Reference auf Record)
+			- Repräsentiert den Zustand der Anwendung (Daten in der Anwendung)
+			- Mit dem Typ alias definiert (Reference auf Record)
 		- View
 			- Funktionen um Modell in Ausgabe umzuwandeln (also bspw. Modell in HTML Code)
 		- Update
-			- handelt Interaktionen und verändert das Modell
-			- nur Update darf Daten des Modells verändern
+			- Handelt Interaktionen und verändert das Modell
+			- Nur Update darf Daten des Modells verändern
 			- Input: Nachricht was verändert werden soll
 			- Output: verändertes Modell
-		(-Runtime
-			- explizit für Elm
-			- verkettet die 3 oberen Elemente)
+		- (Runtime
+			- Explizit für Elm
+			- Verkettet die 3 oberen Elemente)
 			
 		---
 		# Model View Update
 		Ablauf:
 		- Endlosschleife
-		- initales Modell wird in View gegeben, dieser generiert den Inhalt welcher dem Benutzer angezeigt wird
-		- Benutzer interagiert mit Inhalt, die daraus resultierende Änderung am Modell wird durch die Update funktion erledigt
-		- nach durchführung Update Funktion wird wieder view aufgerufen der eine neue Ansicht erzeugt
+		- Das Modell wird in View gegeben, dieses generiert den Inhalt, welcher dem Benutzer angezeigt wird
+		- Benutzer interagiert mit Inhalt, die daraus resultierende Änderung am Modell wird durch die Update Funktion erledigt
+		- Nach Durchführung der Update Funktion wird wieder View aufgerufen, die eine neue Ansicht erzeugt
 		
 		<img style="width:50%;display: block;margin-left: auto;margin-right: auto;" src="img/elm-architecture.png">
+		---
+		# Architekturen im Vergleich
 		
+		<img style="width:80%;display: block;margin-left: auto;margin-right: auto;" src="img/vergleich.png">
+		 
 		---
 		### Quellen zum:
 		
@@ -439,8 +442,8 @@
 		<br /><a href="https://vuex.vuejs.org/">[2] Vuex<a>
 		<br /><a href="https://mobx.js.org/">[3] MobX<a>
 		<br /><a id="vier" href="https://www.reactivemanifesto.org/">[4] Reactive Systems<a>
-		<br /><a id="vier" href="https://www.reactivemanifesto.org/">[5] Functional reactive programming<a>
-		<br /><a id="vier" href="https://www.it-economics.de/software-architektur/2019-06/functional-reactive-programming-frp-mehr-als-nur-datenstroeme-und-lambdas-1">[6] Functional reactive programming (2)<a>
+		<br /><a id="vier" href="https://www.reactivemanifesto.org/">[5] Functional Reactive Programming<a>
+		<br /><a id="vier" href="https://www.it-economics.de/software-architektur/2019-06/functional-reactive-programming-frp-mehr-als-nur-datenstroeme-und-lambdas-1">[6] Functional Reactive Programming (2)<a>
 		<br /><a id="vier" href="https://dennisreimann.de/articles/elm-architecture-overview.html">[7] Elm Architektur<a>
 		<br /><a id="vier" href="https://guide.elm-lang.org/architecture/">[8] Elm Architektur (2)<a>
 		<br /><a id="vier" href="http://sam.js.org/">[9] SAM <a>
