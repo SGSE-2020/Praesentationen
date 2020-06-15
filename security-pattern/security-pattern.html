@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Security Pattern</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="style/style.css">
+  </head>
+  <body>
+    <textarea id="source">
+
+background-image: url(img/schloss.png)
+
+## Spezielle Gebiete des Software Engineering
+
+## Security Pattern
+
+Alexander Bergmann
+
+.footnote[FH Bielefeld - Master of Science Informatik]
+
+<!--
+######################################################################
+######################################################################
+-->
+
+---
+layout: false
+
+.left-column[
+  ## Inhalt
+]
+.right-column[
+
+1. Einleitung
+	- Geschichte: Pattern Language
+
+2. Security Pattern
+	- Taxonomien
+	- Template
+	- Vorteile
+3. Security im Software Engineering
+	- Beispiele für Security Pattern
+
+4. Cloud Security
+	- Cloud Service Pattern
+	- Authentifikation und Autorisierung
+]
+
+<!--
+######################################################################
+######################################################################
+-->
+
+---
+layout: false
+
+.left-column[
+  ## Einleitung
+]
+.right-column[
+## Pattern (Muster)
+- **Pattern** bieten Lösungsmuster für immer wiederkehrende Probleme
+
+- Ein **Rezept** oder ein **Algorithmus** sind dabei keine Pattern im Sinne einer Mustersprach
+
+.footnote[Quelle: [1]]
+]
+
+<!--
+######################################################################
+######################################################################
+-->
+
+---
+layout: false
+
+.left-column[
+  ## Einleitung
+  ### Geschichte
+]
+.right-column[
+
+```Java
+[...] Each pattern describes a problem that occurs over and 
+over again in our environment, and then describes the 
+core solution to that problem, in such a way that you can 
+use the solution a million times over, 
+without ever doing it the same way twice. 
+
+- Christopher Alexander
+```
+- Christopher Alexander's Buch *A Pattern Language* (1977) gilt als Startpunkt für die Verwendung einer Mustersprache
+
+- Architektur-Professor in Barkley
+
+- Er endeckte immer wiederkehrende Muster in seinen Entwürfen, definierte das Problem, das sie lösen, und beschrieb die Lösung, die sie bieten
+
+- Durch die Anwendung seiner Muster sorgt für Genauigkeit und Konszistenz in seinen Entwürfen
+
+.footnote[Quelle: [2], [3]]
+]
+
+<!--
+######################################################################
+######################################################################
+-->
+
+---
+layout: false
+
+.left-column[
+  ## Einleitung
+  ### Geschichte
+]
+.right-column[
+**1977** - A Pattern Language - Christopher Alexander
+
+**1978** - Model View Controller - Trygve Reenskaug
+
+...
+
+**1994** - Design Patterns - Gang of Four (GoF)
+
+	- Creational Patterns (Erstellen von Objekten) 
+	  - Singleton, Factory Method, ...
+	- Structural Patterns (Beziehungen zwischen Objekten)
+	  - Adapter, Bridge, Proxy, ...
+	- Behavioral Patterns (Definitionen wie Obejkte interagieren)
+	  - Itarator, Observer, Vistor, ...
+	- Anti-Pattern
+...
+
+**1997** - Security Patterns - Yoder & Barclaw 
+
+...
+
+**2006** - Mehrere Bücher - Eduardo Fernandez-Buglioni
+	- z. B. Quelle: [7]
+]
+
+<!--
+######################################################################
+########################### Security Pattern #########################
+######################################################################
+-->
+
+---
+layout: false
+
+.left-column[
+  ## Security Pattern
+  ### Taxonomien
+]
+.right-column[
+### GoF - Kategorien
+- Creational Patterns 
+- Structural Patterns
+- Behavioral Patterns
+
+### Allgemein
+- Design (Security by Design)
+- Architechture (Security Architechture)
+- Analysis (Security Analysis + Pentesting)
+- Organisation 
+- Kommunikation (Communication Encryption)
+- Managment
+- Security
+- Attack 
+]
+
+<!--
+######################################################################
+######################################################################
+-->
+
+---
+layout: false
+
+.left-column[
+  ## Security Pattern
+  ### Taxonomien
+]
+.right-column[
+### Development
+- Security Pattern for Requirement Phase
+- Security Pattern for Design Phase
+- Security Pattern for Implemention Phase
+]
+
+<!--
+######################################################################
+######################################################################
+-->
+
+---
+layout: false
+
+.left-column[
+  ## Security Pattern
+  ### Taxonomien
+  ### Template
+
+]
+.right-column[
+
+Kernelemente
+
+- Name          
+- Problem
+- Context
+- Solution
+]
+
+
+<!--
+######################################################################
+######################################################################
+-->
+
+---
+layout: false
+
+.left-column[
+  ## Security Pattern
+  ### Taxonomien
+  ### Template
+
+]
+.right-column[
+
+| Cononical | GoF                                       |
+| :------------------ |:-------------------------------------------------- |
+| Name           | Name, Classification                           |
+| Aliases            | Also Known As                                      |
+| Problem        | Intent                                             |
+| Context            | Applicability                                      |
+| Forces         | Motivation                                         |
+| Solution       | Structure, Implementation, Participants,            |
+|                    | Collaborations, Behavior, Constraints |
+| Resulting Context  | Consequences                                       |
+| Retionale          | -                                                  |
+| Known Uses         | Known Uses                                         |
+| Related Patterns   | Related Patterns                                   |
+| Sketch             | -                                                  |
+]
+
+
+<!--
+######################################################################
+######################################################################
+-->
+
+---
+layout: false
+
+.left-column[
+  ## Security Pattern
+  ### Taxonomien
+  ### Template
+
+]
+.right-column[
+- Name
+	- Selbsterklärend und intuitiv
+- Problem
+	- Beschreibt wo für da Pattern verwendet wird
+	- (Sicherheits-) Probleme die durch die Anwendug gelöst werden können
+- Also Known As
+	- Synonyme für dieses Pattern
+	- Verweise auf andere Templates oder Bezeichnugen des Patterns
+- Motivation
+	- Enthält die Grundidee, optional unterstützt durch ein Beispiel
+- Context
+	- Beschreibt den Kontext unter dem das Pattern verwendet werden kann 
+]
+
+
+<!--
+######################################################################
+######################################################################
+-->
+
+---
+layout: false
+
+.left-column[
+  ## Security Pattern
+  ### Taxonomien
+  ### Template
+
+]
+.right-column[
+- Solution
+
+	- Structure
+		- Überblick der statischen Komponenten (z. B. mit UML-Diagrammen)
+	- Participants
+		- Klassen oder Objekte (aus Strukturabschnitt)
+	- Collaboration
+		- Interaktion zwischen Klassen oder Objekte 
+	- Behavior
+		- Darstellung der dynamischen Aspekte dieses Musters (z. B. UML- Zustands- und Sequenzdiagramme)
+	- Constraints
+		- Einschränkungen die bei der Implementierung des Musters jederzeit erfüllt sein müssen
+		- Availability, Authenticity, Confidentiality, Integrity, ...
+	- Implementation / Sample Code / Examples
+		- Hilfestellungen oder Beispiele für die Umsetzung des Musters
+
+]
+
+
+<!--
+######################################################################
+######################################################################
+-->
+
+---
+layout: false
+
+.left-column[
+  ## Security Pattern
+  ### Taxonomien
+  ### Template
+
+]
+.right-column[
+- Consequences
+	- Welche Nebenwirkungen ergeben sich aus der Anwendung des Musters?
+- Know Uses
+	- Welche Systeme haben dieses Muster in der Vergangenheit umgesetzt?
+- Related Patterns
+	- Gibt es andere Sicherheitsmuster, die mit diesem Muster verwendet werden können? 
+	- Ist dieses Muster Teil eines Security-Pattern-Systems?
+]
+
+
+<!--
+######################################################################
+######################################################################
+-->
+
+---
+layout: false
+
+.left-column[
+  ## Security Pattern
+  ### Taxonomien
+  ### Template
+
+]
+.right-column[
+- Supported Principales
+	- Zehn Prinzipien von Viega's and McGraw's 
+	- Zusätzlich guter Überblick
+	- ermöglicht es Muster besser miteinander zu vergleichen.
+
+.image-100[![prinzipien](img/prinzipien.png)]
+
+.footnote[Quelle: [4]]
+]
+
+<!--
+######################################################################
+######################################################################
+-->
+
+---
+layout: false
+
+.left-column[
+  ## Security Pattern
+  ### Taxonomien
+  ### Template
+  ### Vorteile
+]
+.right-column[
+
+- Die Pattern wurden meist schon mehrfach erfolgreich angewendet
+
+- Die Vor- und Nachteile der Verwendung eines Musters sind im Voraus bekannt 
+
+- Die Verwendung von Muster legt ein Vokabulars fest, dass die Kommunikation ziwschen verscheiden Stakeholdern erleichtert
+
+- Die Muster fangen die Erfahrungen von Experten über gute oder bewährte Praktiken ein und dokumentieren diese Weisheiten in einem leicht verständlichen Format
+
+.footnote[Quelle: [4]]
+]
+
+<!--
+######################################################################
+######################################################################
+-->
+
+---
+layout: false
+
+.left-column[
+  ## Security im Software Engineering
+]
+.right-column[
+
+```Java
+If it’s provably secure, it probably isn’t.
+
+– LARS KNUDSEN
+```
+]
+
+
+<!--
+######################################################################
+######################################################################
+-->
+
+---
+layout: false
+
+.left-column[
+  ## Security im Software Engineering
+]
+.right-column[
+
+```Java
+If it’s provably secure, it probably isn’t.
+
+– LARS KNUDSEN
+```
+
+**Beispiel:**
+
+`Alice authenticates herself to Bob`
+]
+
+<!--
+######################################################################
+######################################################################
+-->
+
+---
+layout: false
+
+.left-column[
+  ## Security im Software Engineering
+]
+.right-column[
+
+```Java
+If it’s provably secure, it probably isn’t.
+
+– LARS KNUDSEN
+```
+
+**Beispiel:**
+
+`Alice authenticates herself to Bob`
+
+- Ist gemeint das Alice Bob beweist das ihr Name wirklich Alice ist, oder ist sie vielleicht Charlie?
+
+- Ist gemeint das Alice eine menschliche Person ist, oder ist Alice vielleicht eine SmartCard, die so tut, als ob sie Alice wäre?
+
+.footnote[Quelle: [5]]
+]
+
+<!--
+######################################################################
+############### Security im Software Engineering #####################
+######################################################################
+-->
+
+---
+layout: false
+
+.left-column[
+  ## Security im Software Engineering
+]
+.right-column[
+
+### Beispiele
+
+- Authorization Pattern
+
+- Roles (RBAC) Pattern
+
+- Authenticator Pattern
+
+.footnote[Quelle: [6]]
+]
+
+<!--
+######################################################################
+######################################################################
+-->
+
+---
+layout: false
+
+.left-column[
+  ## Security im Software Engineering
+  ### Authorization Pattern
+]
+.right-column[
+**Context**
+
+- Rechnerische Umgebung mit aktive Entitäten, die Ressourcen anfordern, deren Zugriff kontrolliert werden muss
+
+**Problem**
+
+- Wie man zulässige Arten von Zugriffen (Berechtigungen) durch aktive Recheneinheiten (Subjekte) auf passive Ressourcen (Schutzobjekte) beschreibt
+
+**Motivation**
+
+- Die Berechtigungsstruktur muss unabhängig von der Art der Ressourcen sein und in einheitlicher Weise beschreiben
+
+- Einige der Ermächtigungen können von ihren Inhabern an andere Subjekte delegiert werden
+]
+
+<!--
+######################################################################
+######################################################################
+-->
+
+---
+layout: false
+
+.left-column[
+  ## Security im Software Engineering
+  ### Authorization Pattern
+]
+.right-column[
+**Solution**
+
+- Elemente einer Berechtigungsregel als Klassen und Assoziationen darstellen
+
+- Klasse: **Subject** 
+
+- Klasse: **ProtectionObject**
+
+- Assoziationsklasse: **Right**
+	- Enthält ein Prädikat (Berechtigung) und ein Kopierkennzeichen (Recht übertragen)
+
+- Methode: **operationcheck_rights** (Gültigkeit einer Anforderung prüfen)
+]
+
+
+<!--
+######################################################################
+######################################################################
+-->
+
+---
+layout: false
+
+.left-column[
+  ## Security im Software Engineering
+  ### Authorization Pattern
+]
+.right-column[
+**Example**
+
+.image-100[![prinzipien](img/Authtorization_uml.png)]
+.image-100[![prinzipien](img/Authtorization_sequenz.png)]
+]
+
+<!--
+######################################################################
+######################################################################
+-->
+
+---
+layout: false
+
+.left-column[
+  ## Security im Software Engineering
+  ### Authorization Pattern
+]
+.right-column[
+**Consequences**
+
+- Subjekte 
+	- ausführende Prozesse, Benutzer, Rollen, Benutzergruppen
+
+- Schutzobjekte 
+	- Transaktionen, Speicherbereiche, E/A-Geräte, Dateien oder andere OS-Ressourcen sein
+
+- Zugriffsarten
+	- Lesen, Schreiben, Ausführen oder Methoden in übergeordneten Objekten
+
+- Die Prädikate 
+	- Allgemeine Darstellung aller Bedingungen, die die Anwendung einer Regel einschränken können
+
+- Das Kopierkennzeichen
+	- Steuert die Übertragung von Rechten
+]
+
+<!--
+######################################################################
+######################################################################
+-->
+
+---
+layout: false
+
+.left-column[
+  ## Security im Software Engineering
+  ### Authorization Pattern
+]
+.right-column[
+**Know uses**
+
+- Dieses Modell entspricht den Komponenten der Zugriffsmatrix
+- Grundlage für die Zugangskontrollsysteme (Unix, Windows, Oracle , ...)
+
+**Related Pattern**
+
+- Das RBAC-Pattern ist z. B. eine Spezialisierung dieses Musters und dient der Zugriffskontrolle auf Dateien in Betriebssystemen
+
+- Referenz Monitor Pattern
+]
+
+<!--
+######################################################################
+######################################################################
+-->
+
+---
+layout: false
+
+.left-column[
+  ## Security im Software Engineering
+  ### Authorization Pattern
+  ### Roles (RBAC) Pattern
+]
+.right-column[
+**Context**
+
+- Die meisten Institutionen haben eine Vielzahl von Aufgaben, die unterschiedliche Fähigkeiten und Verantwortlichkeiten erfordern 
+
+- Aus Sicherheitsgründen sollten die Benutzer Rechte auf der Grundlage ihrer beruflichen Funktionen erhalten (Need-to-know-Prinzip)
+
+- Berufliche Funktionen können als Rollen interpretiert werden
+
+**Problem**
+
+- Wie man Benutzern entsprechend ihrer Rolle in einer Institution Rechte zuweist
+]
+
+<!--
+######################################################################
+######################################################################
+-->
+
+---
+layout: false
+
+.left-column[
+  ## Security im Software Engineering
+  ### Authorization Pattern
+  ### Roles (RBAC) Pattern
+]
+.right-column[
+**Motivation**
+
+- Zugriffsrechte für Mitglieder gemäß der Need-to-know-Politik definieren (Institution)
+
+- Mögliche Vererbung von Rechten, durch hierarchische Rollen
+
+- Rollen für Benutzer oder Benutzergruppen zugewiesen
+
+**Solution**
+
+- Erweiterung des Authorization Pattern
+- Rollen als Subjekte interpretieren
+
+- Klassen: **User** und **Role** beschreiben die registrierten Benutzer 
+
+- Assoziationsklasse: **Right** definiert die Zugriffsarten, zu deren Anwendung auf das **ProtectionObject** ein Benutzer innerhalb einer Rolle berechtigt ist  
+
+]
+
+<!--
+######################################################################
+######################################################################
+-->
+
+---
+layout: false
+
+.left-column[
+  ## Security im Software Engineering
+  ### Authorization Pattern
+  ### Roles (RBAC) Pattern
+]
+.right-column[
+**Example**
+
+.image-100[![prinzipien](img/RBAC_1.png)]
+.image-100[![prinzipien](img/RBAC_2.png)]
+]
+
+<!--
+######################################################################
+######################################################################
+-->
+
+---
+layout: false
+
+.left-column[
+  ## Security im Software Engineering
+  ### Authorization Pattern
+  ### Roles (RBAC) Pattern
+]
+.right-column[
+
+**Consequences**
+
+- Es ermöglicht die Komplexität der Sicherheit zu reduzieren, es gibt viel mehr Benutzer als Rollen
+
+- Anzahl der Berechtigungsregeln wird reduziert 
+
+- Zusätzliche konzeptionelle Komplexität (neues Rollenkonzept, Zuweisungen an mehrere Rollen,...)
+
+**Know uses**
+
+- RBAC ist in einer Vielzahl kommerzieller Systeme implementiert
+
+**Related Pattern**
+
+- Das Muster in Beispiel umfasst das Authoristation Pattern, Abstract Session und das Composite Pattern.
+]
+
+<!--
+######################################################################
+######################################################################
+-->
+
+---
+layout: false
+.left-column[
+  ## Security im Software Engineering
+  ### Authorization Pattern
+  ### Roles (RBAC) Pattern
+  ### Authenticator Pattern
+]
+.right-column[
+**Context**
+
+- Computer Systeme enthalten oft Ressourcen die wertvolle Informationen eines Unternehmens enthalten 
+
+- Es sollen nur Subjekte Zugang zu diesen Informationen erhalten, die berechtigt sind bestimmte Ressourcen abzurufen 
+
+**Problem**
+ 
+- Ein böswilliger Angreifer könnte versuchen, sich als legitimer Benutzer auszugeben
+
+- Wie kann überprüft werden, ob ein Benutzer, der auf das System zugreifen will, legitim ist?
+]
+
+<!--
+######################################################################
+######################################################################
+-->
+
+---
+layout: false
+.left-column[
+  ## Security im Software Engineering
+  ### Authorization Pattern
+  ### Roles (RBAC) Pattern
+  ### Authenticator Pattern
+]
+.right-column[
+**Solution**
+
+- Verwenden eines einzigen Zugangspunkt, um die Interaktionen eines Subjekts mit dem System zu empfangen
+
+- Anwenden eines Protokolls, um die Identität des Subjekts zu überprüfen
+
+**Example**
+
+.image-100[![prinzipien](img/Authenticator_pattern_uml.png)]
+]
+
+
+<!--
+######################################################################
+######################################################################
+-->
+
+---
+layout: false
+.left-column[
+  ## Security im Software Engineering
+  ### Authorization Pattern
+  ### Roles (RBAC) Pattern
+  ### Authenticator Pattern
+]
+.right-column[
+**Known Uses**
+
+- SAML, OAuth2 (Assertations, Access-Tokens)
+- Kerberos (Tickets)
+
+**Related Pattern**
+
+- Single Sign on (SSO) ist ein Prozess, bei dem ein Subjekt seine Identität verifiziert, und das Ergebnis dieser Verifizierung kann über mehrere Domänen und für eine bestimmte Zeitspanne verwendet werden
+
+- Das Ergebnis der Authentisierung ist ein Authentisierungstoken, mit dem alle zukünftigen Zugriffe des Benutzers qualifiziert werden können
+]
+
+
+<!--
+######################################################################
+######################################################################
+-->
+
+---
+### Zusammenfassung
+
+.image-100[![prinzipien](img/AAI.png)]
+
+.footnote[Quelle: [11]]
+ 
+
+<!--
+######################################################################
+############################# Cloud Security #########################
+######################################################################
+-->
+
+---
+layout: false
+
+.left-column[
+  ## Cloud Security
+]
+.right-column[
+
+- Der Begriff Cloud verschleiert jegliche darunter liegende Komplexität
+
+.image-100[![prinzipien](img/abb1_security_nadine_schoene.png)]
+
+.footnote[Quelle: [12]]
+]
+
+<!--
+######################################################################
+######################################################################
+-->
+
+---
+layout: false
+
+.left-column[
+  ## Cloud Security
+]
+.right-column[
+### Cloud Service Pattern
+
+- IaaS Pattern
+- PaaS Pattern
+- SaaS Pattern
+
+### Authentication and Authorization Protocols
+
+- OAuth2
+- OIDC/JWT
+
+.footnote[Quelle: [9], [12], [13]]
+]
+
+<!--
+######################################################################
+######################################################################
+-->
+
+---
+layout: false
+
+.left-column[
+  ## Cloud Security
+  ### IaaS Pattern
+]
+.right-column[
+
+- Die Lösung für dieses Problem ist eine Struktur die aus vielen Servern, Storage und Netzwerken besteht
+
+- Diese Struktur kann von mehreren Benutzern gemeinsam genutzt werden und ist über das Internet zugänglich 
+
+- IaaS basiert auf Virtualisierungstechnologien und schafft einheitliche Ressourcen, die von verschiedenen Anwendungen gemeinsam genutzt werden können
+
+]
+
+<!--
+######################################################################
+######################################################################
+-->
+
+---
+layout: false
+
+.left-column[
+  ## Cloud Security
+  ### IaaS Pattern
+]
+.right-column[
+**Example**
+.image-100[![prinzipien](img/IaaS_Classdiagram.png)]
+
+]
+
+<!--
+######################################################################
+######################################################################
+-->
+
+---
+layout: false
+
+.left-column[
+  ## Cloud Security
+  ### IaaS Pattern
+  ### PaaS Pattern
+]
+.right-column[
+- PaaS bietet virtuelle Ausführungsumgebungen 
+
+- Hier können Tools und Bibliotheken für die Anwendungsentwicklung gemeinsam in der Cloud genutzt werden 
+
+- PaaS verwendet IaaS als Basisschicht (Server, Speicher und Netzwerk) und verbirgt die Komplexität und Verwaltung der darunter liegenden Infrastruktur
+
+]
+
+<!--
+######################################################################
+######################################################################
+-->
+
+---
+layout: false
+
+.left-column[
+  ## Cloud Security
+  ### IaaS Pattern
+  ### PaaS Pattern
+]
+.right-column[
+**Example**
+.image-100[![prinzipien](img/PaaS_Classdiagram.png)]
+
+]
+
+<!--
+######################################################################
+######################################################################
+-->
+
+---
+layout: false
+
+.left-column[
+  ## Cloud Security
+  ### IaaS Pattern
+  ### PaaS Pattern
+  ### SaaS Pattern
+]
+.right-column[
+- SaaS-Anwendungen werden als Service für Benutzer in der Regel über das Internet mittels Webbrowser oder APIs bereitgestellt
+
+- SaaS in der Cloud ermöglicht es den Nutzern auf Abruf Anwendungen zu nutzen, bei denen sowohl die Berechnung als auch die Speicherung in der Cloud gehostet werden, ohne dass sie Software auf ihren lokalen Rechnern installieren müssen. 
+
+- SaaS wird oft mit PaaS- oder IaaS-Angeboten realisiert
+
+]
+
+<!--
+######################################################################
+######################################################################
+-->
+
+---
+layout: false
+
+.left-column[
+  ## Cloud Security
+  ### IaaS Pattern
+  ### PaaS Pattern
+  ### SaaS Pattern
+]
+.right-column[
+
+**Example**
+.image-100[![prinzipien](img/SaaS_Classdiagram.png)]
+
+]
+
+<!--
+######################################################################
+######################################################################
+-->
+
+---
+layout: false
+
+.left-column[
+  ## Cloud Security
+  ### Authentication and Authorization Protocols
+]
+.right-column[
+
+- Ein Kernthema der Cloud Security ist die Untersuchung von Sicherheitsprotokollen
+
+- Protokolle spezifizieren die Schritte und Prinzipien, um Vertrauensbeziehungen aufzubauen.
+
+]
+
+<!--
+######################################################################
+######################################################################
+-->
+
+---
+## Cloud Security - Authentication and Authorization Protocols
+.image-110[![prinzipien](img/ApiSecurityPattern.png)]
+
+.footnote[Quelle: [9]]
+
+<!--
+######################################################################
+######################################################################
+-->
+
+---
+## Cloud Security - OAuth2
+
+.image-110[![prinzipien](img/OAuth2_bsp.png)]
+
+.footnote[Quelle: [13]]
+
+<!--
+######################################################################
+######################################################################
+-->
+
+---
+layout: false
+
+.left-column[
+  ## Cloud Security
+  ### OAuth2
+  ### OIDC/JWT
+]
+.right-column[
+
+- OpenID Connect erweitert OAuth2 um die Möglichkeit den User mit einem *ID Token* zu Authentifizieren.
+
+- Das *ID Token* ist ein JSON WEB Token (JWT)
+
+- Mit *Access Token* und *ID Token* enthält die Anfrage die Identität sowie die Berechtigung des Users
+
+- Damit lassen sich Single-Sign-On Mechanismen (SSO) umsetzen
+
+.footnote[Quelle: [13]]
+]
+
+<!--
+######################################################################
+######################################################################
+-->
+
+---
+layout: false
+
+.left-column[
+  ## Cloud Security
+  ### OAuth2
+  ### OIDC/JWT
+  ### Weitere
+]
+.right-column[
+- Kerberos
+- SAML2
+]
+
+<!--
+######################################################################
+######################################################################
+-->
+---
+.left-column[
+  ## Quellen
+]
+.right-column[
+- [1] - [Wikipedia - Pattern Language](https://en.wikipedia.org/wiki/Pattern_language)
+- [2] - [OSA - IT Security Patterns](https://www.opensecurityarchitecture.org/cms/definitions/security_patterns)
+- [3] - [Dissertation Bunke - Uni Bremen, (Kapitel 2.5)](http://www.informatik.uni-bremen.de/~sohr/papers/DissertationBunke.pdf)
+- [4] - [Security Patterns, R.Wassermann u. B.H,C Cheng, MSU](https://www.cse.msu.edu/~cse870/Materials/security-patterns.pdf)
+- [5] - [Security Engineering](https://www.cl.cam.ac.uk/~rja14/book.html)
+- [6] - [Understanding Security with Patterns, Eduardo Fernandez-Buglioni](https://hillside.net/plop/plop2001/accepted_submissions/PLoP2001/ebfernandezandrpan0/PLoP2001_ebfernandezandrpan0_1.pdf)
+- [7] - [Security Pattern in Practice, Eduardo Fernandez-Buglioni ](https://ebookcentral.proquest.com/lib/fhbielefeld/detail.action?docID=1245159)
+- [8] - [Security Engineering — Third Edition](https://www.cl.cam.ac.uk/~rja14/book.html)
+- [9] - [API Security](https://medium.com/solutions-architecture-patterns/api-security-pattern-8967c58bb386)
+- [10] - [Security Pattern Catalog](https://people.cs.kuleuven.be/~koen.yskout/icse15/catalog.pdf)
+- [11] - [Authentication and Authorisation Infrastructures, R. Erber, C. Schläger, G. Pernul](https://core.ac.uk/download/pdf/11536504.pdf)
+- [12] - [Informatik Aktuell Artikel, Cloud Security Grundlagen](https://www.informatik-aktuell.de/betrieb/sicherheit/cloud-security-grundlagen.html?utm_source=CleverReach&utm_medium=email&utm_campaign=Newsletter+2020%2F9&utm_content=Mailing_7525364)
+- [13] - [OAuth2 in Bildern](https://www.predic8.de/oauth2-beispiel.htm)
+]
+
+---
+class: center, middle
+# Fragen?
+
+
+
+    </textarea>
+    <script src="https://remarkjs.com/downloads/remark-latest.min.js">
+    </script>
+    <script>
+      var slideshow = remark.create();
+    </script>
+  </body>
+</html>
