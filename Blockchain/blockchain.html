@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+
+<html>
+    <title> Blockchain </title>
+  <head>
+    <style type="text/css">
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubunut:Mono:400,700,400italic);
+
+      body { font-family: 'Droid Serif';}
+      h1 h2 h3 {          
+          font-family: 'Yanone Kaffeesatz';
+          font-weight: normal;
+        
+      }
+      .remark-code, .remark-inline-code {font-family: 'Ubuntu Mono';}
+    </style>
+  </head>
+  <body>
+     <textarea id="source">
+    class: center, middle
+      #Blockchain        
+       *Jendrik Müller*
+
+    ---
+
+        # Fahrplan
+          1. Einleitung
+          
+          2. Funktionsweise der Blockchain
+          
+    	  3. Smart Contracts
+    	  
+    	  4. Existierende Blockchain Plattformen
+    	  
+          5. Variationen der Blockchain
+          
+          6. Blockchain in der Software Architektur 
+    ---
+
+        #Einleitung
+      - Ursprünglich zur Erstellung eines unabhängigen Zahlungssystems
+      - Austausch von Daten ohne vertrauenswürdige Dritte Partei
+      - Die übertragenen Daten sollen nicht manipuliert und verändert werden können
+      - Dies geschieht unter Verwendung bereits bekannter Technologien
+      - Blockchain dient der Speicherung der Daten
+      
+    ---
+    	#Abgrenzung des Begriffes
+    - **Ledger**
+    	- Transaktionverzeichnis/Kontenbuch, in dem alle Transaktionen aufgeführt werden
+    - **Distributed Ledger**
+    	- Ledger die an mehrere Rechner verteilt wird
+    	- Es können dabei nur Transaktionen hinzugefügt werden
+    - **Blockchain**
+    	- Distributed Ledger, die aus verknüpften Blöcken besteht
+    	- Jeder Block beinhaltet einen Satz Transaktionen
+    - **Datenbank**
+    	- Meist Client-Server Aufbau
+    	- Daten in der Regel veränderbar 
+   
+
+        
+    ---
+    #Quellen
+    - [1] [Blockchain -  Grundlagen, Anwendungsszenarien und Nutzungspotenziale](https://link.springer.com/book/10.1007/978-3-658-28006-2)
+    - [2] [Blockchain und maschinelles Lernen - Wie das maschinelle Lernen und die Distributed-Ledger-Technologie voneinander profitieren](https://link.springer.com/book/10.1007/978-3-662-60408-3)
+    - [3] [Architecture for Blockchain Applications](https://link.springer.com/book/10.1007/978-3-030-03035-3)
+    - [4] [Die Vorteile der Blockchain-Technologie](https://t3n.de/news/blockchain-statt-datenbank-diese-1063641)
+    - [5] [Bitcoin: A Peer-to-Peer Electronic Cash System](https://bitcoin.org/bitcoin.pdf)
+    - [6] https://github.com/bitcoin/bitcoin
+    - [7] https://innovationsblog.dzbank.de/2017/07/03/bitcoin-in-zahlen-daten-und-fakten
+    - [8] https://ethereum.org/de/
+    - [9] https://www.hyperledger.org/use/fabric
+    - [10] https://www.informatik-aktuell.de/betrieb/virtualisierung/eine-blockchain-anwendung-mit-hyperledger-fabric-und-composer.html
+    - [11] https://solidity.readthedocs.io/en/v0.6.10/introduction-to-smart-contracts.html
+    - [12] https://www.heise.de/newsticker/meldung/Gods-Unchained-Eigene-Waehrung-und-Hype-um-digitale-Spielkarten-4469685.html
+    - [13] https://decentraland.org/
+    - [14] https://jaxenter.de/blockchain/blockchain-covid-19-corona-lieferketten-93881
+    
+
+
+    ---
+    class: center, middle
+      # Fragen?
+         
+
+    </textarea>
+     <script src="https://remarkjs.com/downloads/remark-latest.min.js">
+    </script>
+    <script>
+       var slideshow = remark.create();
+    </script>
+  </body>
+</html>
