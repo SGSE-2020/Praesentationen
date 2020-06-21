@@ -37,31 +37,275 @@
           5. Variationen der Blockchain
           
           6. Blockchain in der Software Architektur 
+          
+          7. Anwendungsfälle
     ---
 
         #Einleitung
+        
       - Ursprünglich zur Erstellung eines unabhängigen Zahlungssystems
+      
       - Austausch von Daten ohne vertrauenswürdige Dritte Partei
+      
       - Die übertragenen Daten sollen nicht manipuliert und verändert werden können
+      
       - Dies geschieht unter Verwendung bereits bekannter Technologien
+      
       - Blockchain dient der Speicherung der Daten
       
     ---
     	#Abgrenzung des Begriffes
+    	
     - **Ledger**
-    	- Transaktionverzeichnis/Kontenbuch, in dem alle Transaktionen aufgeführt werden
+    
+    	- Transaktionsverzeichnis/Kontenbuch, in dem alle Transaktionen aufgeführt werden
+    	
     - **Distributed Ledger**
+    
     	- Ledger die an mehrere Rechner verteilt wird
+    	
     	- Es können dabei nur Transaktionen hinzugefügt werden
+    	
     - **Blockchain**
+    
     	- Distributed Ledger, die aus verknüpften Blöcken besteht
+    	
     	- Jeder Block beinhaltet einen Satz Transaktionen
+    	
     - **Datenbank**
+    
     	- Meist Client-Server Aufbau
+    	
     	- Daten in der Regel veränderbar 
    
-
+    ---
+	   #Grundlegende Technologien
+	   
+    - zugrundeliegende Technologien bereits gut erforscht
+    
+    - Neuerung besteht darin, wie diese Verwendet werden
+    
+    - Die Technologien stammen aus der Informatik beziehungsweise Kryptographie
+    
+        - Hash-Funktionen
         
+        - Kryptographische Puzzle
+        
+        - Hash-Bäume
+        
+        - Digitale Signaturen
+        
+    ---
+    #Hash-Funktionen
+    
+    - Bilden eine Eingabemenge beliebiger Größe auf einen Zielbereich fixer Größe ab
+    
+    - verschiedene Eingabewerte sollen dabei möglichst unterschiedliche Zielwerte haben
+    
+        - Zielbereich muss gut ausgenutzt werden
+        
+    - der generierte Zielwert (Hash) kann zur Überprüfung der Unversehrtheit eines Dokumentes dienen
+    
+    - bei Blockchains kryptische Hashwerte an die sich folgende Anforderungen stellen:
+    
+        - starke Kollisionsresistenz
+        
+        - praktisch unmöglich von Zielwert auf Eingabewert zu schließen
+        
+        - unmöglich durch Variation des Eingabewertes einen bestimmten Zielwert zu erzeugen
+    ---
+    #Beispiel Hashwerte
+    
+    <img src="./img/hashwerte_bsp.png" width="700" height="300" />
+    ---
+    #Kryptographische Puzzle
+    
+    - verwenden kryptische Hash-Funktionen
+    
+    - Ziel ist es Eingabewert zu variieren, sodass Zielwert in bestimmten Bereich liegt
+    
+    - Bsp: Variiere "A bezahlt B 2 Bitcoin. & X" sodass SHA-256-Hash-Wert mit 0 beginnt
+    
+    - <img src="./img/kryptische_puzzle.png" width="700" height="300" /> **Beispiel Variationen**
+    ---
+    #Anwendungsfall der Kryptischen Puzzle
+    
+    - ermöglichen zufällige Auswahl eines Teilnehmers in einem Netzwerk
+    
+    - zentrale Stelle ist dabei nicht notwendig
+    
+    - Puzzle wird im Netzwerk veröffentlich und Teilnehmer versuchen es gleichzeitig zu lösen
+    
+    - der Teilnehmer der das Puzzle löst wird ausgewählt
+    
+    - da Teilnehmer nur mögliche Lösungen durchprobieren können Auswahl zufällig
+    
+    ---
+    #Hash-Bäume
+    
+    <img src="./img/Hash-Baum.png" width="700" height="400" />
+    ---
+    #Digitale Signaturen
+    
+    - basieren auf asymmetrischen Verschlüsselungsverfahren
+    
+    - Kommunikationspartner besitzen privaten und öffentlichen Schlüssel
+    
+    	- öffentlicher Schlüssel für jeden einsehbar
+    	
+    	- privater Schlüssel geheim und lokal gespeichert
+    	
+    - Mit einem Schlüssel verschlüsselte Nachricht kann mit dem gegenstück entschlüsselt werden
+    
+    - <img src="./img/Digitale_Signaturen.png" width="600" height="200" /> **Erstellung einer Signatur für die Nachricht von Alice**
+    ---
+    #Was ist ein Coin?
+    
+    <img src="./img/transaktionen.png" width="700" height="400" />
+    ---
+    #Funktionsweise der Blockchain
+    
+    - Kernstück der Blockchain ist ein "Block" als Datenstruktur
+    
+    - Speichert Transaktionen
+    
+    - mehrere Transaktionen werden in einem Block gespeichert
+    
+    - Block mit Vorgänger Verknüpft
+    
+    - Generierung neuer Blöcke geschiet in bestimmten Abständen
+    
+    ---
+    #Aufbau der Blockchain
+    
+    <img src="./img/Blockchain_Aufbau.png" width="700" height="450" />
+
+    ---
+    #Ablauf im Netzwerk
+    
+    1. Neue Transaktionen werden an alle Transaktioenen übertragen
+    
+    2. Jeder Knoten kombiniert die Transaktionen zu einen neuen Block
+    
+    3. Jeder Knoten sucht nach einer Lösung für das kryptographische Puzzle
+    
+    4. Wenn ein Block eine Lösung gefunden hat überträgt er diese an alle anderen Knoten
+    
+    5. Knoten akzeptiren einen Block, wenn alle Transaktionen valide und keine doppelte Ausgabe vorliegt
+    
+    6. Knoten dürcken die Akzeptanz eines Blockes aus, indem sie an dem nächsten Block weiterarbeiten und den Hash des akzeptirten Blockes als Hash für den vorgänger Knoten verwenden.
+
+    ---
+    #Smart Contracts
+    
+    - neben Transaktionen lassen sich weitere Daten auf der Blockchain speichern
+    
+    - Smart Contracts sind Programm die als Daten in der Blockchain
+    
+    - Können durch Transaktionen auf der Blockchain ausgeführt werden
+    
+    - Smart Contracts können sich gegenseitig aufrufen
+    
+    - können Daten Speichern und verändern, die Teil der Blockchain sind
+    
+    - Deterministisch und immutable nachdem sie veröffentlicht wurden
+    
+    - genaue Definition varieret zwischen verschiedenen Plattformen
+    
+    ---
+    #Bitcoin
+    
+    - Konzept erstmals 2008 in dem Paper "Bitcoin: A Peer-to-Peer Electronic Cash System" vorgestellt
+    
+    - Paper wurde unter dem Pseudonym Satoshi Nakamoto veröffentlicht
+    
+    - erster Anwendungsfall der Blockchain
+    
+    - Beweis für Machbarkeit einer elektronischen Währung ohne vertrauenswürdige Partei
+    
+    - Open-Source Projekt
+    
+    - neue Blöcke werden alle 10 Minuten erstellt
+    
+    - Blockgröße auf 1MB festgelegt
+    
+    - Smart Contracts auf Transaktionen der Währung beschränkt
+    
+    ---
+    #Facebook Libra
+    
+    - von Facebook entwickelte Kryptowährung
+    
+    - Prototyp Open Source
+    
+    - Ziel ist Erstellung eines Globalen Zahlungssystems:
+    
+         - Skalierbar
+         
+         - Sicher
+         
+         - schnelle Abwicklung von Transaktionen
+         
+         - stabil gegenüber Kursschwankungen
+         
+    - Smart Contracts können mit der dafür entwickelten Programmiersprache Move erstellt werden
+    ---
+    #Hyperledger Fabric
+    
+    - Distributed Ledger Software
+    
+    - dient zum Entwickeln von dezentralen Anwendungen mit modularen Aufbau
+    
+    - Open Source
+    
+    - Grundlage von der Linux Foundation
+    
+    - IBM und Intel tragen zur Entwicklung bei
+    
+    - Blockchain ist privat
+    
+    - Teilnehmer müssen über einen membership service provide autorisiert werden
+    
+    - Teilnehmer haben bekannte Identitäten
+    
+    - öffentliche Schlüssel als Zertifikate, die mit Person/Organisation/etc kombiniert werden
+    
+    
+    
+    ---
+    # Hyperledger Fabric
+    
+    - Smart Contracts werden als Docker Container erstellt
+    
+    - Entwicklung der Smart Contracts (genannt Chaincode) in Programmiersprachen wie Go und Java
+    
+    <img src="./img/hyperledger.png" width="700" height="425" />
+    ---
+    #Ethereum
+    ---
+    #Smart Contracts in Ethereum
+    ---
+    #Beispiel Anwendungen in Ethereum
+    ---
+    #Dezentralisierung
+    ---
+    #Ledger Struktur
+    ---
+    #Consensus Protokoll
+    ---
+    #Block Konfiguration
+    ---
+    #Anonymität
+    ---
+    #Anreize
+    ---
+    #Blockchain in der Softwarearchitektur
+    ---
+    #Design Prozess Blockchain basierter Anwendungen
+    ---
+    #Supply Chain
+    ---
+    #Maschine Learning
     ---
     #Quellen
     - [1] [Blockchain -  Grundlagen, Anwendungsszenarien und Nutzungspotenziale](https://link.springer.com/book/10.1007/978-3-658-28006-2)
@@ -78,6 +322,7 @@
     - [12] https://www.heise.de/newsticker/meldung/Gods-Unchained-Eigene-Waehrung-und-Hype-um-digitale-Spielkarten-4469685.html
     - [13] https://decentraland.org/
     - [14] https://jaxenter.de/blockchain/blockchain-covid-19-corona-lieferketten-93881
+    - [15] https://blog.codecentric.de/en/2018/04/blockchain-application-fabric-composer/
     
 
 
