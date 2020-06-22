@@ -32,9 +32,9 @@
           
     	  3. Smart Contracts
     	  
-    	  4. Existierende Blockchain Plattformen
+    	  4. Variationen der Blockchain
     	  
-          5. Variationen der Blockchain
+    	  5. Existierende Blockchain Plattformen
           
           6. Blockchain in der Software Architektur 
           
@@ -191,11 +191,20 @@
     
     4. Wenn ein Block eine Lösung gefunden hat überträgt er diese an alle anderen Knoten
     
-    5. Knoten akzeptiren einen Block, wenn alle Transaktionen valide und keine doppelte Ausgabe vorliegt
+    5. Knoten akzeptieren einen Block, wenn alle Transaktionen valide und keine doppelte Ausgabe vorliegt
     
     6. Knoten dürcken die Akzeptanz eines Blockes aus, indem sie an dem nächsten Block weiterarbeiten und den Hash des akzeptirten Blockes als Hash für den vorgänger Knoten verwenden.
-
     ---
+    #Wallet
+    
+    - digitale Geldbörse
+    
+    - besitzen eindeutige ID
+    
+    - dient dem speichern mehrerer privater Schlüssel
+    
+    ---
+    
     #Smart Contracts
     
     - neben Transaktionen lassen sich weitere Daten auf der Blockchain speichern
@@ -211,7 +220,94 @@
     - Deterministisch und immutable nachdem sie veröffentlicht wurden
     
     - genaue Definition varieret zwischen verschiedenen Plattformen
+    ---
     
+    class: center, middle
+      #Variationen der Blockchain und Distributed Ledger Technologie
+    ---
+    #Dezentralisierung
+    
+    <img src="./img/dezentralisierung.png" width="700" height="300" />
+    ---
+    #Ledger Struktur
+    
+    - Aufbau der Ledger kann unterschiedlich gestaltet sein
+    
+         - als Baums verknüpften Blöcken (Blockchain)
+         
+             - unterschiedliche Zweige stellen alternative Historien dar
+             
+         - directed acrylic graph
+         
+         	- ermöglichen Direkte kommunikation zwischen Knoten
+         	
+         <img src="./img/dag.png" width="700" height="250" />
+    ---
+    #Ledger Struktur
+    
+    <img src="./img/ledger_struktur.png" width="700" height="250" />
+    ---
+    #Consensus Protokoll
+    
+    - Problem: 
+    	- zwei Knoten erstellen gleichzeitig einen neuen Block
+    	- neue Blöcke kommen in unterschiedlicher Reihenfolge bei anderen Knoten an
+    	
+    - Consensus Protokoll regelt die Entscheidung, welcher Block weiterverwendet werden soll
+    
+    - Nakamoto Protokoll:
+    
+        - Knoten arbeiten an Block weiter, den sie zuerst bekommen haben
+        - anderer Block wird ebenfalls abgespeichert
+        - sobald eine Blockkette länger wird, wird die andere verworfen
+        
+    - proof-of-stake:
+
+        - Ersteller des Blockes wird anhand seiner Anteile an der nativen Währung des Systems ausgewählt
+    ---
+    #Block Konfiguration
+    
+    - Anzahl/Komplexität der Transaktionen innerhalb eines Blockes
+    
+    - Wirkt sich aus auf:
+    
+          - Zeit zwischen Erstellungen von neuen Blöcken
+    
+          - Verarbeitungsgeschwindigkeit von Transaktionen
+          
+          - Geschwindigkeit der Replikation
+          
+    - Extrembeispiel: kein Limit für die Größe eines Blockes
+         - System könnte mit Transaktionen geflutet werden
+         - menge der Transaktionen schwerer zu verarbeiten
+    ---
+    #Anonymität
+    
+    - unterschiedliche grade der Anonymität
+    
+    - Identitäten sind bekannt vs anonymisiert
+    
+    - bei öffentlichen Transaktionen können immernoch Rückschlüsse auf Sender und Empfänger gezogen werden
+    
+    - zero-knowgledge Blockchains
+          - Transaktionsmenge, Sender und Empfänger verschlüsselt
+          
+    
+    <img src="./img/privacy.png" width="700" height="250" />
+    ---
+    #Anreize
+    
+    - unterschiedliche Anreize dem Netzwerk beizutreten
+    
+    - vor allem Bestandteil bei Blockchains mit eigenen Kryptowährungen
+    
+    - finanzielle Belohnungen für erledigen von Aufgaben
+    
+         - erstellen neuer Blöcke
+         - ausführen von Smart-Contracts
+         - validieren von Transaktionen
+    
+    - finanzielle Belohnungen können Transaktionskosten oder neue Coins sein
     ---
     #Bitcoin
     
@@ -231,6 +327,19 @@
     
     - Smart Contracts auf Transaktionen der Währung beschränkt
     
+    ---
+    #Bitcoin-Mining
+    
+    - erste Transaktion in einem Block ist speziell
+    	beginn eines neuen Coins
+    
+    - neuer Coin wird dem Ersteller des Blockes zugeschrieben
+    
+    - Bestand der Bitcoins ist auf 20 Millionen beschränkt
+    
+    - Belohnung für Bitcoin Mining verringert sich und soll inal aus den Transaktionskosten bestehen
+    
+    - soll Anreiz bieten mit dem Netzwerk zusammen statt gegen das Netzwerk zu arbeiten
     ---
     #Facebook Libra
     
@@ -282,30 +391,133 @@
     <img src="./img/hyperledger.png" width="700" height="425" />
     ---
     #Ethereum
+    
+    - Open-Source Platform zum Erstellen dezentraler Anwendungen
+    
+    - mit Schwerpunkt auf die Verwendung von Smart-Contracts entwickelt
+    
+    - beinhaltet native Kryptowährung  namens Ether
+    
+    - neue Blöcke werden alle 13-15 Sekunden generiert
+        - dadurch häufiger kollision verschiedener Blöcke
+    ---
+    GHOST Protokoll
+    
+    - Ethereum verwendet modifizierte Version des Greedy Heaviest Observed Subtree (GHOST) Protokolls
+    
+    <img src="./img/ethreum_uncle.png" width="700" height="425" />
     ---
     #Smart Contracts in Ethereum
+    
+    - werden in dafür erstellter Sprache Solidity erstellt
+    
+    <img src="./img/solidity.png" width="700" height="300" />
     ---
     #Beispiel Anwendungen in Ethereum
+    
+    - Gods Unchained
+    
+        - digitales Sammelkartenspiel ähnlich Hearthstone und Magic
+        - Karten können für echtes Geld verkauft werden
+        - der Besitz und das Übertragen einer Karte wird mir der Blockchain überwacht (on-chain)
+        - eigentliches Spiel seperat von der Blockchain gespeichert (off-chain)
+        
+    - Dezentraland
+        - dezentrale virtuelle Welt
+        - Spieler können über Smart-Contracts Funktionsweise der Welt beeinflussen
+    
     ---
-    #Dezentralisierung
+    class: center, middle
+      #Blockchain in der Softwarearchitektur
     ---
-    #Ledger Struktur
+    #Blockchain als Komponente
+    
+    - Blockchain kann als einzelne Komponente einer Software betrachtet werden
+    
+    - es muss dabei entschieden werden, welche Funktionen von der Blockchain abgedeckt werden soll
+    
+    - wichtige welche Daten auf der Chain gespeichert werden sollen und welche nicht
+    
+    - Blockchain kann unterschiedlich eingesetzt werden
+       - Speicherkomponente
+       - Rechenkomponente
+       - Kommunikationskomponente
+    
     ---
-    #Consensus Protokoll
-    ---
-    #Block Konfiguration
-    ---
-    #Anonymität
-    ---
-    #Anreize
-    ---
-    #Blockchain in der Softwarearchitektur
+    #Brauche ich eine Blockchain?
+    <img src="./img/design.png" width="600" height="400" />
     ---
     #Design Prozess Blockchain basierter Anwendungen
+    <img src="./img/design_blockchain.png" width="600" height="400" />
+    ---
+    class: center, middle
+      #Anwendungsfälle
     ---
     #Supply Chain
+    
+    **Situation**
+    - Supply chains sind wichtig für den Transport von Waren
+    
+    - Austausch von Informationen kann so wichtig sein wie die der Ware sein
+    
+    - mehrere Parteien sind an eine Supply chain beteiligt
+    
+    - bei Nahrung erhöht Information, wo Nahrung erstellt und wie sie Transportiert wurde Lebensmittelsicherheit
+    
+    - aktuelle Pandemie zeigt Notwendigkeit für belastbare Lieferketten
+    
+         - transparenz
+         
+         - automatisierung
+         
+    ---
+    #Supply Chain
+    
+    **Blockchain Lösung**
+    
+    - Teilnehmer der Supply chain kommunizieren über die Blockchain
+    
+    - dies geschiet durch Aufrufen von Smart-Contracts
+    
+          - weisen Nachrichten, die an der falschen Stelle im Prozess stehen
+          
+          - Nachrichten werden nur von dazu berechtigten Teilnehmern akzeptiert
+          
+    - vorher definierte Bedingungen können direkt in Smart Contracts implementiert werden
+    
+    - aktuell Erstellung einer Blockchain Lösung von IBM mithilfe von Hyperledger Fabric
     ---
     #Maschine Learning
+    
+    - Blockchain als Basis für Austausch von Methadaten
+    
+    - eigentliche Dateien werden lokal gespeichert
+    
+    - solche Datenplatformen spielen bei maschinellem Lernen wichtige Rolle
+    
+    - Gerade in Branchen wo zugriff auf lokale Dateien für Dritte schwierig ist wichtig (z.B. Medizin)
+    
+    - Bisher dezentrale Verfügbarkeit von Daten durch folgende Dinge erschwert
+    
+         - fehlende Austauschmechanismen
+         - Mangelnde Sicherheit und Schutz der Privatsphäre
+         - Mangelnde Datenintegrität
+         - Dateneigentum
+         - Hohe Kosten für die zentrale Datenspeicherung
+         
+    ---
+    #Maschine Leraning
+    
+    - verwenden der Blockchain-Technologie zur Authentifizierung und Datenzugriffssteuerung
+    
+    - schafft zentrale überwachte Datenplattform
+    
+    - bietet zudem Verarbeitungs- und Analysedienste 
+    
+    - jede Nutzung und Zugriff auf Daten wird in der Blockchain dokumentiert
+    
+    - erstellen eines Marktplatzes für den Austausch von Daten und ML-Modellen
+    
     ---
     #Quellen
     - [1] [Blockchain -  Grundlagen, Anwendungsszenarien und Nutzungspotenziale](https://link.springer.com/book/10.1007/978-3-658-28006-2)
@@ -320,9 +532,15 @@
     - [10] https://www.informatik-aktuell.de/betrieb/virtualisierung/eine-blockchain-anwendung-mit-hyperledger-fabric-und-composer.html
     - [11] https://solidity.readthedocs.io/en/v0.6.10/introduction-to-smart-contracts.html
     - [12] https://www.heise.de/newsticker/meldung/Gods-Unchained-Eigene-Waehrung-und-Hype-um-digitale-Spielkarten-4469685.html
+    
+    ---
+    #Quellen
     - [13] https://decentraland.org/
     - [14] https://jaxenter.de/blockchain/blockchain-covid-19-corona-lieferketten-93881
     - [15] https://blog.codecentric.de/en/2018/04/blockchain-application-fabric-composer/
+    - [16] https://www.ico.li/de/dag-vs-blockchain-de/
+    - [17] https://blog.daglabs.com/an-introduction-to-the-blockdag-paradigm-50027f44facb
+    - [18] https://z.cash/technology/
     
 
 
