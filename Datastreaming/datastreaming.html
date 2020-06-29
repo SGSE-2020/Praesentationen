@@ -51,8 +51,8 @@ class: center, middle
 	2. Kern APIs
 	3. Streaming Architektur
 	4. Use Cases
-	5. Kafka und Microservics
-	6. Abgenzung zu anderer Big Data Science Software
+	5. Kafka und Microservices
+	6. Abgrenzung zu anderer Big Data Science Software
 	7. Anwendungen On Top von Kafka
 8. Quellen
 
@@ -68,12 +68,13 @@ class: center, middle
 
 .center[.image-70[![realtime](img/all_streaming.png)]]
 
+
 ---
 
 # Was ist Data Streaming?
 
 
-.center[![datastreaming](img/datastreaming.png)]
+.center[![datastreaming](img/datastreaming.png)][1]
 
 ---
 
@@ -99,7 +100,7 @@ class: center, middle
 
 .center[.image-50[![simultan](img/simultan_1.png)]]
 
-* Ereignisse die Gleichzeitig passieren werden mit geringem Zeitversatz verarbeitet
+* Ereignisse die gleichzeitig passieren werden mit geringem Zeitversatz verarbeitet
 
 ---
 
@@ -117,7 +118,7 @@ class: center, middle
 
 .center[.image-50[![realtime](img/realtime.png)]]
 
-* Durch die geringe Größer eines Datensatzes ist das Fehlen eines einzelnen nicht so gravierent
+* Durch die geringe Größe eines Datensatzes ist das Fehlen eines einzelnen nicht so gravierend
 
 ---
 
@@ -125,7 +126,7 @@ class: center, middle
 
 .center[.image-50[![no_ending](img/no_ending.png)]]
 
-* Die Daten können kontinuierlich gereriert werden
+* Die Daten können kontinuierlich generiert werden
 
 	* z.B. bei einem Sensor wie einem Thermometer
 
@@ -138,9 +139,7 @@ class: center, middle
 
 ## Internet of Things
 
-.center[.image-50[![iot](img/iot.jpg)]]
-https://www.epharmainsider.com/wp-content/uploads/2017/01/Internet-of-Things.jpg
-
+.center[.image-50[![iot](img/iot.jpg)]][20]
 
 * Viele Sensoren, die permanent Daten aufzeichnen
 
@@ -152,27 +151,25 @@ https://www.epharmainsider.com/wp-content/uploads/2017/01/Internet-of-Things.jpg
 
 ## Finanzen
 
-.center[.image-50[![iot](img/boerse.png)]]
-https://kurse.boerse.ard.de/ard/46/chartNG.gfn?instrumentId=6763875&time=10000&chartType=8&subProperty=1&width=304&height=171
+.center[.image-50[![iot](img/boerse.png)]][21]
 
 * Tausende von sich ständig ändernden Informationen
 
 * Analisieren des Inputs
 
-* Echtzeit Value-at-Risk Berechnung zum Anpassen des Protfolios
+* Echtzeit Value-at-Risk Berechnung zum Anpassen des Portfolios
 
 ---
 
 ## Aktivitätsverfolgung
 
-.center[.image-50[![tracking](img/tracking.png)]]
-https://mk0edialog8gikef1uw6.kinstacdn.com/wp-content/uploads/201808-Clicktracking-f%C3%BCr-Iframes.png
+.center[.image-50[![tracking](img/tracking.png)]][22]
 
-* Aufzeichnen der Aktiviäten von Nutzern
+* Verfolgung der Aktiviäten von Nutzern
 
-* Analysieren des Nutzerverhalten und vergleichen mit ähnlchen Nutzern
+* Analysieren des Nutzerverhalten und vergleichen mit ähnlichen Nutzern
 
-* Empfehlungen ausprechen
+* Empfehlungen aussprechen
 
 ---
 
@@ -193,7 +190,7 @@ class: center, middle
 
 * Auf die Daten wird sequenziell zugegriffen (ggf. über ein Sliding Window)
 
-* Datenrate kann variieren was bei der Verarbeitung/Speicherung beachtet werden
+* Datenrate kann variieren was bei der Verarbeitung/Speicherung beachtet werden muss
 
 ---
 
@@ -210,7 +207,7 @@ class: center, middle
 
 * Ein Batch hat einen eindeutigen Start und Endpunkt
 
-* Es wird immer ein Batch aufeinmal verarbeitet
+* Es wird immer ein Batch auf einmal verarbeitet
 
 ---
 
@@ -249,11 +246,12 @@ class: center, middle
       <td class="tg-031e">Einfache Reaktionsfunktionen, Aggregate und gleitende Metriken.</td>
     </tr>
   </table>
+[2]
 
 ---
 
 class: center, middle
-# Dataspeicherung
+# Datenspeicherung
 
 ---
 
@@ -267,10 +265,10 @@ class: center, middle
 
 	* Aufnehmen von Daten mit einer hohen Datenrate 
 	* Aufnehmen von Daten  aus vielen verschieden Quellen
-	* Einfache Abfragen die Verständnis der
-	* optimiert für die Messung von Änderungen über die Zeit
-	* schnelles Zusammenfassen von vielen Daten des gleichen Typs
-	* schnelle Scannen der einzelnen Einträge
+	* Einfache Abfragen die Verständnis der Zeitreihendaten erleichtern
+	* Optimiert für die Messung von Änderungen über die Zeit
+	* Schnelles Zusammenfassen von vielen Daten des gleichen Typs
+	* Schnelle Scannen der einzelnen Einträge
 
 ---
 
@@ -284,7 +282,7 @@ class: center, middle
 
 * Niedrige Schreibgeschwindigkeit durch Datentransformationen
 
-* Geringere Flexibilität durch vorgegbenes Schema
+* Geringere Flexibilität durch vorgegebenes Schema
 
 ---
 
@@ -299,6 +297,8 @@ class: center, middle
 * Daten innerhalb des Data Lakes können aus unterschiedlichen Quellen kommen und unterschiedliche Typen besitzen
 
 * Erst beim Abrufen erfolgt ggf. Umstrukturierung
+
+* Sehr schnell und flexibel
 
 ---
 
@@ -315,7 +315,7 @@ class: center, middle
 4. Streaming Architektur
 5. Use Cases
 6. Kafka und Microservics
-7. Abgenzung zu anderer Big Data Science Software
+7. Abgrenzung zu anderer Big Data Science Software
 8. Anwendungen On Top von Kafka
 
 ---
@@ -337,7 +337,7 @@ class: center, middle
 
 * Wird am häufigsten für zwei Anwendungsgebiete eingesetzt
 
-	1. Als Datapipline die zuverlässig Daten zwischen Systemen in Echtzeit austauscht
+	1. Als Datapipline, die zuverlässig Daten zwischen Systemen in Echtzeit austauscht
 	2. Zum Transformieren und und reagieren auf Datenströme
 
 ---
@@ -359,7 +359,7 @@ class: center, middle
 
 * Kleines Datenpaket
 
-* Kleineste einheit eines Streams
+* Kleineste Einheit eines Streams
 
 * Größe liegt im KB Bereich
 
@@ -371,12 +371,12 @@ class: center, middle
 
 ![concepts](img/topic.png)
 
-* Kategorie unter der Ströme von Datensätzen veröffentlicht werden
+* Kategorie unter der die Ströme von Datensätzen veröffentlicht werden
 
 * Aufbau wie bei einer Log-Datei
 
 	* Eingehenden Datensätze gespeichert
-	* neue Daten kontinuierlich an das Ende der Sequenz angehängt
+	* Neue Daten kontinuierlich an das Ende der Sequenz angehängt
 	
 * Sequenz ist  dabei immutable
 
@@ -392,14 +392,14 @@ class: center, middle
 
 ![concepts](img/partitions.png)
 
-* Ein Topic besteht aus mehren Partitionen
+* Ein Topic besteht aus mehreren Partitionen
 
 * Jede Partition ist eine geordnete Sequenz von Datensätzen
 
 * Sind über das Cluster verteilt
 
-	* Erlaubt eine nahe zu unbegrenzten Menge an Datensätzen
-	* unterstützt parallelisierte Verarbeitung 
+	* Erlaubt eine nahezu unbegrenzte Menge an Datensätzen
+	* Unterstützt parallelisierte Verarbeitung 
 	
 * Offset ist einzigartig für eine Partition, nicht für ein Topic!
 
@@ -409,15 +409,15 @@ class: center, middle
 
 ![concepts](img/replicas.png)
 
-* Jede Partition besitzt mehrere Kopien für eine höherer Fehler Toleranz
+* Jede Partition besitzt mehrere Kopien für eine höherere Fehlertoleranz
 
 * Einen Server agiert als *Leader*
 
-	* verantwortlich für alle Lese- und Schreibzugriffe
+	* Verantwortlich für alle Lese- und Schreibzugriffe
 
 * Die anderen Server agieren als *Follower*
 
-	* kopieren den Leader
+	* Kopieren den Leader
 	
 * Für eine gleichmäßige Auslastung agiert ein Server als Leader für einzelne, wenige Partitionen und als Follower für die Anderen
 
@@ -440,7 +440,7 @@ class: center, middle
 
 * Liest die verschiedenen Datensätze einer Partition
 
-* Lesen Üblicherweise -aber nicht zwingend- in einer sequentiellen Reihenfolge
+* Lesen Üblicherweise -aber nicht zwingend- in einer sequenziellen Reihenfolge
 
 * Für jeden Consumer wird ein Offset gespeichert
 
@@ -461,7 +461,7 @@ class: center, middle
 	* Alle Consumer eines Topics haben die gleiche Gruppe: die Datensätze werden gleichmäßig aufgeteilt
 	* Alle Consumer eines Topics haben eine unterschiedliche Gruppe:ein Datensatz wird an jeden Consumer geschickt
 
-* Bei Topics mit mehrere Partitionen: Partitionen werden auf die Consumer aufgeteilt
+* Bei Topics mit mehreren Partitionen: Partitionen werden auf die Consumer aufgeteilt
 
 	* Ein Consumer immer die Datensätze von der gleichen Subgruppe an Partitionen
 
@@ -602,7 +602,7 @@ streams.start();
 
 ## Admin APIs
 
-* Erlaubt das verwalten und betrachten der verschiedenen Topics, Partitionen und Broker und anderer Kafka Objekte.
+* Erlaubt das Verwalten und Betrachten der verschiedenen Topics, Partitionen und Broker und anderer Kafka Objekte.
 
 ---
 
@@ -621,7 +621,7 @@ class: center, middle
 
 ![concepts](img/topologie.png)
 
-* Prozessor Topologie beschreibt die Logik der Stream Verarbeitungs Anwendung
+* Prozessor Topologie beschreibt die Logik der Stream Verarbeitungsanwendung
 
 * Konten: Einzelne Stream Processors
 
@@ -631,7 +631,7 @@ class: center, middle
 
 ---
 
-## Stream-Paritionierung und Tasks
+## Stream-Partitionierung und Tasks
 
 * Für die Verarbeitung der Daten werden diese wieder in Partitionen betrachtet
 
@@ -639,7 +639,7 @@ class: center, middle
 	
 	* Aufteilung der der Daten auf Stream Tasks
 	
-	* Aufteilung der Tasks auf Stream Partitonen
+	* Aufteilung der Tasks auf Stream Partitionen
 
 ---
 
@@ -647,9 +647,9 @@ class: center, middle
 
 * Aufteilung der Daten für die Tasks richtet sich nach der Aufteilung der Input Topics in Partitionen
 
-* Jedes Topic wird zu einer Liste an Partitionen (der verschieden Input Topics) zugewiesen
+* Jede Task wird zu einer Liste an Partitionen (der verschieden Input Topics) zugewiesen
 
-* Maximale Anzahl an Tasks gleich der maximale Partitionierung aller Input Topics
+* Maximale Anzahl an Tasks gleich der maximalen Anzahl an Partitionierung aller Input Topics
 
 ---
 
@@ -659,7 +659,7 @@ class: center, middle
 
 ---
 
-### Stream Paritionierung
+### Stream Partitionierung
 
 * Tasks werden für die Verarbeitung weiter aufgeteilt auf die verschiedenen Instanzen und Threads
 
@@ -671,7 +671,7 @@ class: center, middle
 
 ---
 
-### Stream Paritionierung
+### Stream Partitionierung
 
 .center[.image-60[![concepts](img/multi_threads.png)]]
 
@@ -706,12 +706,12 @@ class: center, middle
 
 * Vorteile Kafka:
 
-	* Kafka wesentlich Flexibler
+	* Kafka wesentlich flexibler
 	
 		* Ein Topic kann für Queue und Publish-Subscribe gleichzeitig dienen
 		* Aufteilung kann dynamisch wechseln
 		
-	* Datensätze in Form eine Logs gespeichert
+	* Datensätze in Form eines Logs gespeichert
 	
 		* Selbst bereits gelesen Einträge können nochmal gelesen werden
 	
@@ -723,15 +723,17 @@ class: center, middle
 
 * Jede Form einer Message Queue, die das Senden der Nachricht unabhängig von deren Lesen erlaubt kann theoretisch als Storage System betrachtet werden
 
-* Daten einer Topics werden auf die Disk geschrieben
+* Daten eines Topics werden auf die Disk geschrieben
 
-* Hohe Fehlertoleranz durch Kopien der Partitionenen
+* Hohe Fehlertoleranz durch Kopien der Partitionen
 
 * Kafka nutzt Speicherstruktur mit großer Skalierbarkeit
 
+* Daten werden gespeichert, unabhängig davon ob sie konsumiert wurden
+
 * Offset wird vom Consumer verwaltet
 
-	* Consumer kann jede belibige Stelle lesen
+	* Consumer kann jede beliebige Stelle lesen
 
 ---
 
@@ -765,9 +767,9 @@ class: center, middle
 	
 	* Zugriffsbeschränkung über Access Control List (Für Kommunikation und Speicher)
 	
-	* Ohne Einbinung eines weiteren Tools ist Streaming möglich
+	* Ohne Einbindung eines weiteren Tools ist Streaming möglich
 	
-	* Generierte Daten über Nutzeraktivitäten könnnen für komplexe Analysen genutzt werden um Komfort zu erhöhen
+	* Generierte Daten über Nutzeraktivitäten können für komplexe Analysen genutzt werden um Komfort zu erhöhen
 
 ---
 
@@ -788,9 +790,9 @@ class: center, middle
 
 * Daten zunächst in Minibatches gesammelt
 
-* Dann erst Verarbeitet
+* Anschließend erst verarbeitet
 
-* Output kein Datenstrom mehr sonder Batches
+* Output kein Datenstrom mehr, sondern Batches
 
 ---
 
@@ -843,7 +845,7 @@ class: center, middle
 
 * Ausführung wird dann von einem Backend 
 
-* Pipeline definiert die Schritte die zur Verarbeitung ausgeführt werden sollen unabhängig von der darunterliegenden Umsetzung
+* Pipeline definiert die Schritte, die zur Verarbeitung ausgeführt werden sollen unabhängig von der darunterliegenden Umsetzung
 
 * Beschränkter auf definierte Operationen
 
@@ -856,20 +858,20 @@ class: center, middle
 
 ## KSQL
 
-* Nutzt SQL Syntax
+* Nutzt SQL-Syntax
 
 * Kontinuierliche Anfrage auf die Daten eines Stream
 
 * Basiert auf der Kombination von zwei Konzepten, die auf die Kafka Topics angewandt werden
 
-	1. **Stream**: Eine unendliche Reihe von Daten, wobei eingetragene Daten imutable sind
-	2. **Table**: Eine Sicht auf ein Stream oder eine anderen Tabelle in Form einer Sammlung der sich ändernden Daten. Die Daten in einer Tabelle sind mutable, sodass sie für Transformationen genutzt werden können
+	1. **Stream**: Eine unendliche Reihe von Daten, wobei eingetragene Daten immutable sind
+	2. **Table**: Eine Sicht auf ein Stream oder eine andere Tabelle in Form einer Sammlung der sich ändernden Daten. Die Daten in einer Tabelle sind mutable, sodass sie für Transformationen genutzt werden können
 	
 * Use Cases:
 
 	1. Realtime monitoring bei gleichzeigt Analysen
-	2. Anomalie und Bedrohungs Erkennung
-	3. Online Data integration
+	2. Anomalie und Bedrohungserkennung
+	3. Online Data Integration
 
 ---
 
@@ -877,15 +879,15 @@ class: center, middle
 
 * System für die Datenserialisierung um den Austausch zwischen verschiedenen Systemen zu verbessern
 
-* Definiert Schematas vergleichbar zu JSON Format
+* Definiert Schemata vergleichbar zu JSON Format
 
 * Eigenschaften von Kafka ist, dass die Daten ein beliebiges Format haben
 
-* Grund trotzedem ein sinnvolles Schema zu verwenden
+* Gründe trotzdem  ein sinnvolles Schema zu verwenden
 
-	* **Robustheit**: Ohne Schema kann die Konsistenz und Strukturelle Korrektheit der Daten nicht sicher gestellt sein. 
+	* **Robustheit**: Ohne Schema kann die Konsistenz und Strukturelle Korrektheit der Daten nicht sichergestellt sein. 
 	* **Semantik**: Ohne Schema ist die Semantik eines Wertes nicht eindeutig definiert.
-	* **Kompatibilität**: Durch Avro wird die Kompatibilität mit einer breitem Reihe an anderen Systemen sicher gestellt.
+	* **Kompatibilität**: Durch Avro wird die Kompatibilität mit einer breiten Reihe an anderen Systemen sichergestellt.
 
 ---
 
@@ -918,7 +920,9 @@ class: center, middle
 17. [Apache Beam Overview](https://beam.apache.org/get-started/beam-overview/)
 18. [Introducing KSQL: Streaming SQL for Apache Kafka](https://www.confluent.io/blog/ksql-streaming-sql-for-apache-kafka/)
 19. [Why Avro for Kafka Data?](https://www.confluent.io/blog/avro-kafka-data/)
-
+20. [Internet-of-Things](https://www.epharmainsider.com/wp-content/uploads/2017/01/Internet-of-Things.jpg)
+21. [Finanzen](https://kurse.boerse.ard.de/ard/46/chartNG.gfn?instrumentId=6763875&time=10000&chartType=8&subProperty=1&width=304&height=171)
+22. [Aktivitäten Tracking](https://mk0edialog8gikef1uw6.kinstacdn.com/wp-content/uploads/201808-Clicktracking-f%C3%BCr-Iframes.png)
 
 
     </textarea>
