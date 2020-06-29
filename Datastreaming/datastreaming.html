@@ -14,6 +14,14 @@
         font-weight: normal;
       }
       .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+	  
+	  .image-50 img{
+		width: 50%;
+	  }
+	  
+	  .image-70 img{
+		width: 70%;
+	  }
     </style>
   </head>
   <body>
@@ -54,14 +62,19 @@ class: center, middle
 # Was ist Data Streaming?
 
 
-![netflix](img/netflix.png)
+.center[.image-70[![realtime](img/all_streaming.png)]]
 
 ---
 
 # Was ist Data Streaming?
 
 
-![datastreaming](img/datastreaming.png)
+.center[![datastreaming](img/datastreaming.png)]
+
+---
+
+class: center, middle
+# Warum Data Streaming?
 
 ---
 
@@ -69,9 +82,270 @@ class: center, middle
 
 
 * Simultane Verarbeitung
+
 * Echtzeitfähigkeit
+
 * Fehlertoleranz
+
 * Nicht endender Datenstrom
+
+---
+
+## Simultane Verarbeitung
+
+.center[.image-50[![simultan](img/simultan_1.png)]]
+
+* Ereignisse die Gleichzeitig passieren werden mit geringem Zeitversatz verarbeitet
+
+---
+
+## Echtzeitfähigkeit
+
+.center[.image-50[![realtime](img/realtime.png)]]
+
+* Kleine Datensätze (KB Bereich) können schnell verschickt werden
+
+* Die Verarbeitung einzelner Datensätze ist schneller
+
+---
+
+## Fehlertoleranz
+
+.center[.image-50[![realtime](img/realtime.png)]]
+
+* Durch die geringe Größer eines Datensatzes ist das Fehlen eines einzelnen nicht so gravierent
+
+---
+
+## Nicht endender Datenstrom
+
+.center[.image-50[![no_ending](img/no_ending.png)]]
+
+* Die Daten können kontinuierlich gereriert werden
+
+	* z.B. bei einem Sensor wie einem Thermometer
+
+---
+
+class: center, middle
+# Wo kommt Data Streaming zum Einsatz?
+
+---
+
+## Internet of Things
+
+.center[.image-50[![iot](img/iot.jpg)]]
+https://www.epharmainsider.com/wp-content/uploads/2017/01/Internet-of-Things.jpg
+
+
+* Viele Sensoren, die permanent Daten aufzeichnen
+
+* Analysieren des Inputs
+
+* Reaktion bei bestimmten Ereignissen
+
+---
+
+## Finanzen
+
+.center[.image-50[![iot](img/boerse.png)]]
+https://kurse.boerse.ard.de/ard/46/chartNG.gfn?instrumentId=6763875&time=10000&chartType=8&subProperty=1&width=304&height=171
+
+* Tausende von sich ständig ändernden Informationen
+
+* Analisieren des Inputs
+
+* Echtzeit Value-at-Risk Berechnung zum Anpassen des Protfolios
+
+---
+
+## Aktivitätsverfolgung
+
+.center[.image-50[![tracking](img/tracking.png)]]
+https://mk0edialog8gikef1uw6.kinstacdn.com/wp-content/uploads/201808-Clicktracking-f%C3%BCr-Iframes.png
+
+* Aufzeichnen der Aktiviäten von Nutzern
+
+* Analysieren des Nutzerverhalten und vergleichen mit ähnlchen Nutzern
+
+* Empfehlungen ausprechen
+
+---
+
+class: center, middle
+# Eigenschaften Data Streaming
+
+---
+
+# Eigenschaften Data Streaming
+
+* Ein Datenstrom kann mehrere unterschiedliche Quellen besitzen
+
+* Es herrscht ein kontinuierlicher Datenfluss
+
+* Der Datenfluss besteht aus kleinen Paketen im Kilobyte Bereich
+
+* Ende des Flusses muss während der Übertragung nicht bekannt sein, wie im Beispiel der kontinuierlich generierten Daten eines Sensors
+
+* Auf die Daten wird sequenziell zugegriffen (ggf. über ein Sliding Window)
+
+* Datenrate kann variieren was bei der Verarbeitung/Speicherung beachtet werden
+
+---
+
+class: center, middle
+# Stream- vs. Batch-Verarbeitung
+
+---
+
+## Batch-Verarbeitung
+
+.center[.image-50[![batches](img/simultan_2.png)]]
+
+* Daten werden zunächst als ein Batch gesammelt
+
+* Ein Batch hat einen eindeutigen Start und Endpunkt
+
+* Es wird immer ein Batch aufeinmal verarbeitet
+
+---
+
+# Stream- vs. Batch-Verarbeitung
+
+<style type="text/css">
+  .tg  {border-collapse:collapse;border-spacing:0;}
+  .tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+  .tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+  .tg .tg-q64d{background-color:#ffffff;color:#333333}
+  </style>
+  <table class="tg">
+    <tr>
+      <th class="tg-q64d"></th>
+      <th class="tg-q64d">Batch-Verarbeitung</th>
+      <th class="tg-q64d">Stream-Verarbeitung</th>
+    </tr>
+    <tr>
+      <td class="tg-031e">Datenumfang</td>
+      <td class="tg-031e">Abfragen oder Verarbeitung über alle oder die meisten Daten im Datensatz.</td>
+      <td class="tg-031e">Abfragen oder Verarbeitung über Daten in einem gleitenden Zeitfenster oder über die neuesten Datenaufzeichnungen.</td>
+    </tr>
+    <tr>
+      <td class="tg-031e">Datengröße</td>
+      <td class="tg-031e">Große Datenbündel.</td>
+      <td class="tg-031e">Individuelle Mikrobündel aus wenigen Aufzeichnungen.</td>
+    </tr>
+    <tr>
+      <td class="tg-031e">Performance</td>
+      <td class="tg-031e">Latenzen in Minuten zu Stunden.</td>
+      <td class="tg-031e">Erfordert Latenzen im Bereich von Sekunden oder Millisekunden.</td>
+    </tr>
+    <tr>
+      <td class="tg-031e">Analysen</td>
+      <td class="tg-031e">Komplexe Analysen. </td>
+      <td class="tg-031e">Einfache Reaktionsfunktionen, Aggregate und gleitende Metriken.</td>
+    </tr>
+  </table>
+
+---
+
+class: center, middle
+# Dataspeicherung
+
+---
+
+## Time Series Datenbanken
+
+* Kontinuierlich generierte Daten eines Streams besitzen oft eine Zeitachse
+
+* Time Series Datenbanken sind dafür ausgelegt Daten mit einem Timestamp zu speichern
+
+* Vorteile Time Series Datenbanken 
+
+	* Aufnehmen von Daten mit einer hohen Datenrate 
+	* Aufnehmen von Daten  aus vielen verschieden Quellen
+	* Einfache Abfragen die Verständnis der
+	* optimiert für die Messung von Änderungen über die Zeit
+	* schnelles Zusammenfassen von vielen Daten des gleichen Typs
+	* schnelle Scannen der einzelnen Einträge
+
+---
+
+## Data Warehouse
+
+* System zur Verwaltung der verteilten Speicherung von Daten
+
+* SQL Datenbanken die Daten in einer bestimmten Struktur erwarten
+
+* Erlauben das Speichern riesiger Datenmengen
+
+* Niedrige Schreibgeschwindigkeit durch Datentransformationen
+
+* Geringere Flexibilität durch vorgegbenes Schema
+
+---
+
+## Data Lakes
+
+* Zentraler Speicher für alle Daten
+
+* Für strukturierte oder und unstrukturierte Daten
+
+* Daten werden in ihrem Rohformat gespeichert
+
+* Daten innerhalb des Data Lakes können aus unterschiedlichen Quellen kommen und unterschiedliche Typen besitzen
+
+* Erst beim Abrufen erfolgt ggf. Umstrukturierung
+
+---
+
+class: center, middle
+# Kafka
+
+---
+
+# Kafka Gliederung
+
+1. Was ist Kafka?
+2. Hauptkonzepte
+3. Kern APIs
+4. Streaming Architektur
+5. Use Cases
+6. Kafka und Microservics
+7. Abgenzung zu anderer Big Data Science Software
+8. Anwendungen On Top von Kafka
+
+---
+
+class: center, middle
+# Was ist Kafka?
+
+---
+
+# Was ist Kafka?
+
+*Kafka ist eine verteilte Streaming Plattform*
+
+* Bietet drei Hauptfunktionen an
+
+	1. Einen *Publish und Subscribe* Mechanismus an einen Strom an Datensätzen (Stream of records), vergleichbar zu Messaging Systemen
+	2. Ein fehlertolerantes Speichern von Datenströmen (Streams)
+	3. Und das Verarbeiten von Streams sobald sie auftauchen
+
+* Wird am häufigsten für zwei Anwendungsgebiete eingesetzt
+
+	1. Als Datapipline die zuverlässig Daten zwischen Systemen in Echtzeit austauscht
+	2. Zum Transformieren und und reagieren auf Datenströme
+
+---
+
+class: center, middle
+# Hauptkonzepte
+
+---
+
+# Hauptkonzepte
+
+.center[![concepts](img/concepts.png)]
 
 ---
 
