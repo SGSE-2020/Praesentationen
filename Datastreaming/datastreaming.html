@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Datastreaming</title>
+    <meta charset="utf-8">
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body { font-family: 'Droid Serif'; }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+	  
+	  .image-50 img{
+		width: 50%;
+	  }
+	  
+	  .image-60 img{
+		width: 60%;
+	  }
+	  
+	  .image-70 img{
+		width: 70%;
+	  }
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+# Data Streaming
+*Malte Riechmann*
+
+---
+
+# Gliederung
+
+1. Was ist Data Streaming?
+2. Warum Data Streaming?
+3. Einsatzgebiete von Data Streaming
+4. Eigenschaften von Data Streaming
+5. Stream- vs. Batch-Verarbeitung
+6. Datenspeicherung
+7. Kafka
+	1. Hauptkonzepte
+	2. Kern APIs
+	3. Streaming Architektur
+	4. Use Cases
+	5. Kafka und Microservices
+	6. Abgrenzung zu anderer Big Data Science Software
+	7. Anwendungen On Top von Kafka
+8. Quellen
+
+---
+
+class: center, middle
+# Was ist Data Streaming?
+
+---
+
+# Was ist Data Streaming?
+
+
+.center[.image-70[![realtime](img/all_streaming.png)]]
+
+
+---
+
+# Was ist Data Streaming?
+
+
+.center[![datastreaming](img/datastreaming.png)][1]
+
+---
+
+class: center, middle
+# Warum Data Streaming?
+
+---
+
+# Warum Data Streaming?
+
+
+* Simultane Verarbeitung
+
+* Echtzeitfähigkeit
+
+* Fehlertoleranz
+
+* Nicht endender Datenstrom
+
+---
+
+## Simultane Verarbeitung
+
+.center[.image-50[![simultan](img/simultan_1.png)]]
+
+* Ereignisse die gleichzeitig passieren werden mit geringem Zeitversatz verarbeitet
+
+---
+
+## Echtzeitfähigkeit
+
+.center[.image-50[![realtime](img/realtime.png)]]
+
+* Kleine Datensätze (KB Bereich) können schnell verschickt werden
+
+* Die Verarbeitung einzelner Datensätze ist schneller
+
+---
+
+## Fehlertoleranz
+
+.center[.image-50[![realtime](img/realtime.png)]]
+
+* Durch die geringe Größe eines Datensatzes ist das Fehlen eines einzelnen nicht so gravierend
+
+---
+
+## Nicht endender Datenstrom
+
+.center[.image-50[![no_ending](img/no_ending.png)]]
+
+* Die Daten können kontinuierlich generiert werden
+
+	* z.B. bei einem Sensor wie einem Thermometer
+
+---
+
+class: center, middle
+# Wo kommt Data Streaming zum Einsatz?
+
+---
+
+## Internet of Things
+
+.center[.image-50[![iot](img/iot.jpg)]][20]
+
+* Viele Sensoren, die permanent Daten aufzeichnen
+
+* Analysieren des Inputs
+
+* Reaktion bei bestimmten Ereignissen
+
+---
+
+## Finanzen
+
+.center[.image-50[![iot](img/boerse.png)]][21]
+
+* Tausende von sich ständig ändernden Informationen
+
+* Analisieren des Inputs
+
+* Echtzeit Value-at-Risk Berechnung zum Anpassen des Portfolios
+
+---
+
+## Aktivitätsverfolgung
+
+.center[.image-50[![tracking](img/tracking.png)]][22]
+
+* Verfolgung der Aktiviäten von Nutzern
+
+* Analysieren des Nutzerverhalten und vergleichen mit ähnlichen Nutzern
+
+* Empfehlungen aussprechen
+
+---
+
+class: center, middle
+# Eigenschaften Data Streaming
+
+---
+
+# Eigenschaften Data Streaming
+
+* Ein Datenstrom kann mehrere unterschiedliche Quellen besitzen
+
+* Es herrscht ein kontinuierlicher Datenfluss
+
+* Der Datenfluss besteht aus kleinen Paketen im Kilobyte Bereich
+
+* Ende des Flusses muss während der Übertragung nicht bekannt sein, wie im Beispiel der kontinuierlich generierten Daten eines Sensors
+
+* Auf die Daten wird sequenziell zugegriffen (ggf. über ein Sliding Window)
+
+* Datenrate kann variieren was bei der Verarbeitung/Speicherung beachtet werden muss
+
+---
+
+class: center, middle
+# Stream- vs. Batch-Verarbeitung
+
+---
+
+## Batch-Verarbeitung
+
+.center[.image-50[![batches](img/simultan_2.png)]]
+
+* Daten werden zunächst als ein Batch gesammelt
+
+* Ein Batch hat einen eindeutigen Start und Endpunkt
+
+* Es wird immer ein Batch auf einmal verarbeitet
+
+---
+
+# Stream- vs. Batch-Verarbeitung
+
+<style type="text/css">
+  .tg  {border-collapse:collapse;border-spacing:0;}
+  .tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+  .tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+  .tg .tg-q64d{background-color:#ffffff;color:#333333}
+  </style>
+  <table class="tg">
+    <tr>
+      <th class="tg-q64d"></th>
+      <th class="tg-q64d">Batch-Verarbeitung</th>
+      <th class="tg-q64d">Stream-Verarbeitung</th>
+    </tr>
+    <tr>
+      <td class="tg-031e">Datenumfang</td>
+      <td class="tg-031e">Abfragen oder Verarbeitung über alle oder die meisten Daten im Datensatz.</td>
+      <td class="tg-031e">Abfragen oder Verarbeitung über Daten in einem gleitenden Zeitfenster oder über die neuesten Datenaufzeichnungen.</td>
+    </tr>
+    <tr>
+      <td class="tg-031e">Datengröße</td>
+      <td class="tg-031e">Große Datenbündel.</td>
+      <td class="tg-031e">Individuelle Mikrobündel aus wenigen Aufzeichnungen.</td>
+    </tr>
+    <tr>
+      <td class="tg-031e">Performance</td>
+      <td class="tg-031e">Latenzen in Minuten zu Stunden.</td>
+      <td class="tg-031e">Erfordert Latenzen im Bereich von Sekunden oder Millisekunden.</td>
+    </tr>
+    <tr>
+      <td class="tg-031e">Analysen</td>
+      <td class="tg-031e">Komplexe Analysen. </td>
+      <td class="tg-031e">Einfache Reaktionsfunktionen, Aggregate und gleitende Metriken.</td>
+    </tr>
+  </table>
+[2]
+
+---
+
+class: center, middle
+# Datenspeicherung
+
+---
+
+## Time Series Datenbanken
+
+* Kontinuierlich generierte Daten eines Streams besitzen oft eine Zeitachse
+
+* Time Series Datenbanken sind dafür ausgelegt Daten mit einem Timestamp zu speichern
+
+* Vorteile Time Series Datenbanken 
+
+	* Aufnehmen von Daten mit einer hohen Datenrate 
+	* Aufnehmen von Daten  aus vielen verschieden Quellen
+	* Einfache Abfragen die Verständnis der Zeitreihendaten erleichtern
+	* Optimiert für die Messung von Änderungen über die Zeit
+	* Schnelles Zusammenfassen von vielen Daten des gleichen Typs
+	* Schnelle Scannen der einzelnen Einträge
+
+---
+
+## Data Warehouse
+
+* System zur Verwaltung der verteilten Speicherung von Daten
+
+* SQL Datenbanken die Daten in einer bestimmten Struktur erwarten
+
+* Erlauben das Speichern riesiger Datenmengen
+
+* Niedrige Schreibgeschwindigkeit durch Datentransformationen
+
+* Geringere Flexibilität durch vorgegebenes Schema
+
+---
+
+## Data Lakes
+
+* Zentraler Speicher für alle Daten
+
+* Für strukturierte oder und unstrukturierte Daten
+
+* Daten werden in ihrem Rohformat gespeichert
+
+* Daten innerhalb des Data Lakes können aus unterschiedlichen Quellen kommen und unterschiedliche Typen besitzen
+
+* Erst beim Abrufen erfolgt ggf. Umstrukturierung
+
+* Sehr schnell und flexibel
+
+---
+
+class: center, middle
+# Kafka
+
+---
+
+# Kafka Gliederung
+
+1. Was ist Kafka?
+2. Hauptkonzepte
+3. Kern APIs
+4. Streaming Architektur
+5. Use Cases
+6. Kafka und Microservics
+7. Abgrenzung zu anderer Big Data Science Software
+8. Anwendungen On Top von Kafka
+
+---
+
+class: center, middle
+# Was ist Kafka?
+
+---
+
+# Was ist Kafka?
+
+*Kafka ist eine verteilte Streaming Plattform*
+
+* Bietet drei Hauptfunktionen an
+
+	1. Einen *Publish und Subscribe* Mechanismus an einen Strom an Datensätzen (Stream of records), vergleichbar zu Messaging Systemen
+	2. Ein fehlertolerantes Speichern von Datenströmen (Streams)
+	3. Und das Verarbeiten von Streams sobald sie auftauchen
+
+* Wird am häufigsten für zwei Anwendungsgebiete eingesetzt
+
+	1. Als Datapipline, die zuverlässig Daten zwischen Systemen in Echtzeit austauscht
+	2. Zum Transformieren und und reagieren auf Datenströme
+
+---
+
+class: center, middle
+# Hauptkonzepte
+
+---
+
+# Hauptkonzepte
+
+.center[![concepts](img/concepts.png)]
+
+---
+
+## Record
+
+![concepts](img/record.png)
+
+* Kleines Datenpaket
+
+* Kleineste Einheit eines Streams
+
+* Größe liegt im KB Bereich
+
+* Besteht aus Schlüssel-Werte-Paar und einem Timestamp
+
+---
+
+## Topics and Logs
+
+![concepts](img/topic.png)
+
+* Kategorie unter der die Ströme von Datensätzen veröffentlicht werden
+
+* Aufbau wie bei einer Log-Datei
+
+	* Eingehenden Datensätze gespeichert
+	* Neue Daten kontinuierlich an das Ende der Sequenz angehängt
+	
+* Sequenz ist  dabei immutable
+
+* Jeder Datensatz bekommt einen Offset zugewiesen
+
+* Daten gespeichert, unabhängig davon ob sie gelesen wurden oder nicht
+
+* Unterstützt Multi-Subscriber
+
+---
+
+## Partitions
+
+![concepts](img/partitions.png)
+
+* Ein Topic besteht aus mehreren Partitionen
+
+* Jede Partition ist eine geordnete Sequenz von Datensätzen
+
+* Sind über das Cluster verteilt
+
+	* Erlaubt eine nahezu unbegrenzte Menge an Datensätzen
+	* Unterstützt parallelisierte Verarbeitung 
+	
+* Offset ist einzigartig für eine Partition, nicht für ein Topic!
+
+---
+
+## Replicas
+
+![concepts](img/replicas.png)
+
+* Jede Partition besitzt mehrere Kopien für eine höherere Fehlertoleranz
+
+* Einen Server agiert als *Leader*
+
+	* Verantwortlich für alle Lese- und Schreibzugriffe
+
+* Die anderen Server agieren als *Follower*
+
+	* Kopieren den Leader
+	
+* Für eine gleichmäßige Auslastung agiert ein Server als Leader für einzelne, wenige Partitionen und als Follower für die Anderen
+
+---
+
+## Producer
+
+![concepts](img/producer.png)
+
+* Publishen Records an Topics ihrer Wahl
+
+* Verantwortlich dafür, welchen Datensatz er in welche Partition eines Topics schreibt
+
+	* Strategien sind z.B. Round-Robin oder semantische Aufteilung
+---
+
+## Consumer
+
+![concepts](img/consumer.png)
+
+* Liest die verschiedenen Datensätze einer Partition
+
+* Lesen Üblicherweise -aber nicht zwingend- in einer sequenziellen Reihenfolge
+
+* Für jeden Consumer wird ein Offset gespeichert
+
+* Kontrolle über dem Offset liegt dabei bei dem jeweiligen Consumer
+
+---
+
+## Consumer Groups
+
+![concepts](img/consumer_group.png)
+
+* Jeder Consumer ist einer Gruppe von Consumern zugeordnet
+
+* Ein Datensatz wird nur an eine Consumer innerhalb der Gruppe gesendet
+
+* Spezialfälle
+
+	* Alle Consumer eines Topics haben die gleiche Gruppe: die Datensätze werden gleichmäßig aufgeteilt
+	* Alle Consumer eines Topics haben eine unterschiedliche Gruppe:ein Datensatz wird an jeden Consumer geschickt
+
+* Bei Topics mit mehreren Partitionen: Partitionen werden auf die Consumer aufgeteilt
+
+	* Ein Consumer immer die Datensätze von der gleichen Subgruppe an Partitionen
+
+---
+
+## Consumer Groups
+
+.center[![concepts](img/concepts.png)]
+
+---
+
+## Broker
+
+![concepts](img/broker.png)
+
+* Der Broker ist ein Kafka Server
+
+* Verantwortlich für das verwalten und weiterleiten der eingehenden Datensätze
+
+* Partitionen eines Topics werden gleichmäßig auf alle verfügbaren Broker aufgeteilt
+
+---
+
+## Zookeeper
+
+* Verwaltet und koordiniert die verschiedenen Broker
+
+* Soll Producer uns Consumer darüber zu informieren, dass ein neuer Broker verfügbar ist bzw. dass ein Broker ausgefallen ist
+
+* Producer und Consumer nutzen diese Information, um ihrer Aufgaben über andere Broker zu koordinieren 
+
+---
+
+## Cluster
+
+.center[![concepts](img/concepts.png)]
+
+---
+
+class: center, middle
+# Kern APIs
+
+---
+
+## Producer APIs
+
+* Erlaubt es einer Applikation einen Datenstrom an ein oder mehr Topics zu veröffentlichen
+
+````java
+Properties props = new Properties();
+props.put("bootstrap.servers", "localhost:9092");
+props.put("acks", "all");
+props.put("key.serializer", 
+		  "org.apache.kafka.common.serialization.StringSerializer");
+props.put("value.serializer", 
+		  "org.apache.kafka.common.serialization.StringSerializer");
+
+Producer<String, String> producer = new KafkaProducer<>(props);
+for (int i = 0; i < 100; i++)
+     producer.send(new ProducerRecord<String, String>(
+		"my-topic", 
+		Integer.toString(i), 
+		Integer.toString(i)));
+
+producer.close();
+````
+
+---
+
+## Consumer APIs
+
+* Erlaubt es Applikationen ein oder mehrere Topics zu subscriben
+
+````java
+Properties props = new Properties();
+props.setProperty("bootstrap.servers", "localhost:9092");
+props.setProperty("group.id", "test");
+// ... some more settings ...
+props.setProperty("key.deserializer", 
+				  "org.apache.kafka.common.serialization.StringDeserializer");
+props.setProperty("value.deserializer", 
+				  "org.apache.kafka.common.serialization.StringDeserializer");
+
+KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props);
+consumer.subscribe(Arrays.asList("my-topic"));
+while (true) {
+    ConsumerRecords<String, String> records = 
+		consumer.poll(Duration.ofMillis(100));
+    for (ConsumerRecord<String, String> record : records)
+        System.out.printf(
+			"offset = %d, key = %s, value = %s%n", 
+			record.offset(), 
+			record.key(), 
+			record.value());
+}
+````
+
+---
+
+## Stream APIs
+
+* Erlaubt es einer Applikation als Stream Processor zu fungieren
+	1. Holt sich den Input eines Topics
+	2. Verarbeitet Datensätze
+	3. Schreibt Output in ein Topic
+	
+````java
+Properties props = new Properties();
+props.put(StreamsConfig.APPLICATION_ID_CONFIG,
+		  "my-stream-processing-application");
+props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, 
+		  "localhost:9092");
+props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, 
+		  Serdes.String().getClass());
+props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, 
+		  Serdes.String().getClass());
+
+StreamsBuilder builder = new StreamsBuilder();
+builder.<String, String>stream("my-topic")
+	.mapValues(value -> String.valueOf(value.length()))
+	.to("my-output-topic");
+
+KafkaStreams streams = new KafkaStreams(builder.build(), props);
+streams.start();
+````
+
+---
+
+## Connector APIs
+
+* Ermöglicht es wieder verwendbare Consumer und Publisher zu schreiben
+
+* Erlaubt es existierenden Applikationen oder Datensystemen sich mit Topics zu verbinden
+
+* Es gibt einige öffentlich Verfügbare für z.B. Datenbanken
+
+---
+
+## Admin APIs
+
+* Erlaubt das Verwalten und Betrachten der verschiedenen Topics, Partitionen und Broker und anderer Kafka Objekte.
+
+---
+
+class: center, middle
+# Streaming Architektur
+
+---
+
+# Streaming Architektur
+
+.center[.image-60[![concepts](img/streaming_processing.png)]]
+
+---
+
+## Prozessor Topologie
+
+![concepts](img/topologie.png)
+
+* Prozessor Topologie beschreibt die Logik der Stream Verarbeitungsanwendung
+
+* Konten: Einzelne Stream Processors
+
+* Kanten: Streams
+
+* Stellt eine Task dar
+
+---
+
+## Stream-Partitionierung und Tasks
+
+* Für die Verarbeitung der Daten werden diese wieder in Partitionen betrachtet
+
+* Zwei Aufteilungen:
+	
+	* Aufteilung der der Daten auf Stream Tasks
+	
+	* Aufteilung der Tasks auf Stream Partitionen
+
+---
+
+### Stream Tasks
+
+* Aufteilung der Daten für die Tasks richtet sich nach der Aufteilung der Input Topics in Partitionen
+
+* Jede Task wird zu einer Liste an Partitionen (der verschieden Input Topics) zugewiesen
+
+* Maximale Anzahl an Tasks gleich der maximalen Anzahl an Partitionierung aller Input Topics
+
+---
+
+### Stream Tasks
+
+.center[.image-60[![concepts](img/all_tasks.png)]]
+
+---
+
+### Stream Partitionierung
+
+* Tasks werden für die Verarbeitung weiter aufgeteilt auf die verschiedenen Instanzen und Threads
+
+* Für jede Instanz kann eine Anzahl an Threads konfiguriert werden
+
+* Innerhalb eines Threads können mehrere Tasks abgearbeitet werden
+
+* Aufteilung der Tasks an die Instanzen und Threads wird von Kafka
+
+---
+
+### Stream Partitionierung
+
+.center[.image-60[![concepts](img/multi_threads.png)]]
+
+---
+
+### Stream Paritionierung
+
+.center[.image-60[![concepts](img/muti_instances.png)]]
+
+---
+
+class: center, middle
+# Use Cases
+
+---
+
+## Messaging System
+
+* Messaging:
+
+	* Queues: werden von mehreren Consumern gelesen, wobei ein Datensatz ein einen Consumer geht
+	* Publish-Subscribe: Nachrichten an all Subscriber geschickt
+	
+* Kafka:
+	* Consumer Groups:
+		* Innerhalb einer Gruppe wie Message Queue
+		* Mit mehreren Gruppen wie Publish-Subscribe
+
+---
+
+## Messaging System
+
+* Vorteile Kafka:
+
+	* Kafka wesentlich flexibler
+	
+		* Ein Topic kann für Queue und Publish-Subscribe gleichzeitig dienen
+		* Aufteilung kann dynamisch wechseln
+		
+	* Datensätze in Form eines Logs gespeichert
+	
+		* Selbst bereits gelesen Einträge können nochmal gelesen werden
+	
+	* Striktere Reihenfolge vereinfacht Parallelisierung
+
+---
+
+## Storage System
+
+* Jede Form einer Message Queue, die das Senden der Nachricht unabhängig von deren Lesen erlaubt kann theoretisch als Storage System betrachtet werden
+
+* Daten eines Topics werden auf die Disk geschrieben
+
+* Hohe Fehlertoleranz durch Kopien der Partitionen
+
+* Kafka nutzt Speicherstruktur mit großer Skalierbarkeit
+
+* Daten werden gespeichert, unabhängig davon ob sie konsumiert wurden
+
+* Offset wird vom Consumer verwaltet
+
+	* Consumer kann jede beliebige Stelle lesen
+
+---
+
+## Stream Processing
+
+* Architektur sehr gut geeignet für ein Stream Processing in Echtzeit
+
+* Stream Processing:
+
+	* Kontinuierlicher Stream als Input
+	* Operation bzw. Transformationen auf den Daten
+	* Kontinuierlicher Strom an Daten als Output
+
+---
+
+class: center, middle
+# Kafka und Microservices
+
+---
+
+# Kafka und Microservices
+
+* Einfachster Fall: Kafka eins zu eins wie ein Messaging System benutzen
+	
+	* Vorteil der erhöhten Flexibilität von Kafka bleibt erhalten
+	* Kafka sorgt für automatisches Balancing
+	
+* Weitere Nutzungsmöglichkeiten
+
+	* Als gemeinsamer Speicher
+	
+	* Zugriffsbeschränkung über Access Control List (Für Kommunikation und Speicher)
+	
+	* Ohne Einbindung eines weiteren Tools ist Streaming möglich
+	
+	* Generierte Daten über Nutzeraktivitäten können für komplexe Analysen genutzt werden um Komfort zu erhöhen
+
+---
+
+class: center, middle
+# Abgrenzung zu anderer Big Data Science Software
+
+---
+
+## Apache Spark Streaming
+
+* basiert auf Apache Spark
+
+	* Engine für large-scale Datenverarbeitung über Batches
+	
+* Spark Streaming ist die Erweiterung für die Verarbeitung von Streams
+
+.center[.image-70[![streaming-flow](img/streaming-flow.png)]]
+
+* Daten zunächst in Minibatches gesammelt
+
+* Anschließend erst verarbeitet
+
+* Output kein Datenstrom mehr, sondern Batches
+
+---
+
+## Apache Hadoop
+
+* Dient der Koordinierung der Verteilten Verarbeitung von Datensätzen über ein Cluster
+
+* Soll Ausfälle erkennen und behandeln
+
+* Ziel: unabhängig von er Verfügbarkeit der einzelnen Hardware des Clusters trotzdem eine hohe Verfügbarkeit über das Cluster hinweg
+
+## Apache Flink
+
+* Für die verteilte Verarbeitung von Streams zur Statusberechnungen
+
+* Verarbeitung automatisch über das Cluster verteilt
+
+---
+
+## Apache Hive
+
+* Data Warehouse Software für große Datensätze
+
+* Neue Versionen von Hive zielen darauf ab die Verarbeitung von Streams zu unterstützen
+
+* Probleme:
+
+	* Höhere Datenrate der Streams
+	* Daten des Stream unterliegen einem ständigen Wechsel
+
+## Apache Cassandra
+
+* Verteilte Datenbank, designt für große Datenmengen
+
+* Basiert auf NoSQL
+
+* Kann besser mit unterschiedlichen Daten umgehen
+
+* Einfach skalierbar
+
+---
+
+## Apache Beam
+
+* Bietet die Möglichkeit parallele Datenverarbeitung Pipelines zu definieren
+
+* Für Batch und Stream Verarbeitung
+
+* Definiert nur die Aufgaben und Schritte
+
+* Ausführung wird dann von einem Backend 
+
+* Pipeline definiert die Schritte, die zur Verarbeitung ausgeführt werden sollen unabhängig von der darunterliegenden Umsetzung
+
+* Beschränkter auf definierte Operationen
+
+---
+
+class: center, middle
+# Anwendungen On Top von Kafka
+
+---
+
+## KSQL
+
+* Nutzt SQL-Syntax
+
+* Kontinuierliche Anfrage auf die Daten eines Stream
+
+* Basiert auf der Kombination von zwei Konzepten, die auf die Kafka Topics angewandt werden
+
+	1. **Stream**: Eine unendliche Reihe von Daten, wobei eingetragene Daten immutable sind
+	2. **Table**: Eine Sicht auf ein Stream oder eine andere Tabelle in Form einer Sammlung der sich ändernden Daten. Die Daten in einer Tabelle sind mutable, sodass sie für Transformationen genutzt werden können
+	
+* Use Cases:
+
+	1. Realtime monitoring bei gleichzeigt Analysen
+	2. Anomalie und Bedrohungserkennung
+	3. Online Data Integration
+
+---
+
+## Avro
+
+* System für die Datenserialisierung um den Austausch zwischen verschiedenen Systemen zu verbessern
+
+* Definiert Schemata vergleichbar zu JSON Format
+
+* Eigenschaften von Kafka ist, dass die Daten ein beliebiges Format haben
+
+* Gründe trotzdem  ein sinnvolles Schema zu verwenden
+
+	* **Robustheit**: Ohne Schema kann die Konsistenz und Strukturelle Korrektheit der Daten nicht sichergestellt sein. 
+	* **Semantik**: Ohne Schema ist die Semantik eines Wertes nicht eindeutig definiert.
+	* **Kompatibilität**: Durch Avro wird die Kompatibilität mit einer breiten Reihe an anderen Systemen sichergestellt.
+
+---
+
+class: center, middle
+
+# Danke fürs Zuhören
+
+# Habt ihr noch Fragen?
+
+---
+
+# Quellen
+
+1. [Analyzing Data Streams](https://www.ververica.com/blog/continuous-queries-on-dynamic-tables-analyzing-data-streams-with-sql)
+2. [Was sind Streaming-Daten?](https://aws.amazon.com/de/streaming-data/)
+3. [Kafka - Use cases](https://kafka.apache.org/uses)
+4. [Kafka - Introduction](https://kafka.apache.org/intro)
+5. [Streaming Data Tools & Techniques](https://developer.sh/posts/streaming-data-overview)
+6. [Time series database (TSDB) explained](https://www.influxdata.com/time-series-database/)
+7. [Modern Data Lakes Overview](https://developer.sh/posts/delta-lake-and-iceberg)
+8. [Kafka - Documentation](https://kafka.apache.org/documentation.html#producerapi)
+9. [Streams Architecture](https://docs.confluent.io/current/streams/architecture.html)
+10. [How Kafka Solves Comon Microservice Communication](https://dzone.com/articles/how-kafka-solves-common-microservice-communication)
+11. [Microservices and Kafka Part One](https://dzone.com/articles/microservices-and-kafka-part-one)
+12. [Spark Streaming Programming Guide](https://spark.apache.org/docs/latest/streaming-programming-guide.html)
+13. [Apache Hadoop](https://hadoop.apache.org/)
+14. [APACHE HIVE TM](https://hive.apache.org/)
+15. [Apache Cassandra](https://cassandra.apache.org/)
+16. [What is Apache Flink? — Architecture](https://flink.apache.org/flink-architecture.html)
+17. [Apache Beam Overview](https://beam.apache.org/get-started/beam-overview/)
+18. [Introducing KSQL: Streaming SQL for Apache Kafka](https://www.confluent.io/blog/ksql-streaming-sql-for-apache-kafka/)
+19. [Why Avro for Kafka Data?](https://www.confluent.io/blog/avro-kafka-data/)
+20. [Internet-of-Things](https://www.epharmainsider.com/wp-content/uploads/2017/01/Internet-of-Things.jpg)
+21. [Finanzen](https://kurse.boerse.ard.de/ard/46/chartNG.gfn?instrumentId=6763875&time=10000&chartType=8&subProperty=1&width=304&height=171)
+22. [Aktivitäten Tracking](https://mk0edialog8gikef1uw6.kinstacdn.com/wp-content/uploads/201808-Clicktracking-f%C3%BCr-Iframes.png)
+
+
+    </textarea>
+    <script src="https://remarkjs.com/downloads/remark-latest.min.js">
+    </script>
+    <script>
+      var slideshow = remark.create();
+    </script>
+  </body>
+</html>
